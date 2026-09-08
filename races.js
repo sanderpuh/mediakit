@@ -12,17 +12,18 @@
    ============================================================ */
 const RACES = [
   // ----- 2026 -----
-  { date: "2026-09-06", event: "NK Drone Racing 2026 Season end",   country: "DE", result: 3,    tq: false },
-  { date: "2026-09-05", event: "NK Drone Racing Finals",        country: "DE", result: 2,    tq: false },
+  { date: "2026-09-06", event: "NK Drone Racing 2026 Season end",   country: "NL", result: 3,    tq: false },
+  { date: "2026-09-05", event: "NK Drone Racing Finals",        country: "NL", result: 2,    tq: false },
   { date: "2026-06-13", event: "Belgian Champs F9U Heat 4",     country: "BE", result: 3,    tq: false },
   { date: "2026-03-14", event: "DDR Whoop Awakening",           country: "NL", result: 3, tq: false  },
   // ----- 2025 -----
   { date: "2025-12-13", event: "DDR Jingle Whoops",             country: "NL", result: 3, tq: true },
   { date: "2025-11-29", event: "DDR Neon Nights",               country: "NL", result: 2, tq: false },
-  { date: "2025-11-08", event: "Unmanned Valley DIY DAY",                          country: "NL", result: 2,    tq: false },
+  { date: "2025-11-08", event: "Unmanned Valley DIY DAY",       country: "NL", result: 2,    tq: false },
+  { date: "2025-10-04", event: "Belgian Navy Spec Race",        country: "BE", result: 1,    tq: true },
   { date: "2025-06-28", event: "BTMC Spec Race",                country: "BE", result: 1, tq: true },
   { date: "2025-02-22", event: "DDR Arabian Flights",           country: "NL", result: 3, tq: false },
-  { date: "2025-01-11", event: "DDR New Years Nitro",           country: "NL", result: 2,    tq: false },
+  { date: "2025-01-11", event: "DDR New Years Nitro",           country: "NL", result: 2, tq: false },
   // ----- 2024 -----
   { date: "2024-11-23", event: "DDR Fall Frenzy",               country: "NL", result: 2, tq: false },
   { date: "2024-08-31", event: "Race der Lage Landen Spec League",        country: "NL", result: 3, tq: true },
@@ -32,4 +33,6 @@ const RACES = [
   { date: "2024-01-06", event: "DDR New Years Race",            country: "NL", result: null,    tq: true },
   // ----- 2023 -----
   { date: "2023-12-09", event: "DDR Santas Fun Run",             country: "NL", result: 2,    tq: false },
+  { date: "2023-12-09", event: "Test P4",             country: "NL", result: 4,    tq: false },
+  { date: "2023-12-09", event: "Test null",             country: "NL", result: null,    tq: false },
 ];
