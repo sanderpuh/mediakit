@@ -60,10 +60,28 @@ a{color:inherit;text-decoration:none}
   border-bottom:3px solid var(--yellow);
 }
 .telemetry .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
-.t-item{display:flex;flex-direction:column;line-height:1.2}
-.t-label{font-family:var(--head);font-size:20px;color:var(--card);line-height:1.1;margin-right:8px;text-transform:uppercase}
-.t-value{font-family:var(--head);font-size:20px;color:var(--yellow);line-height:1.1}
+.t-item.t-lq-group{gap:3px}
+.t-therm{position:relative;display:inline-block;width:19px;height:26px;align-self:center}
+.t-therm::before{content:"";position:absolute;left:3px;top:0;width:5px;height:16px;border-radius:2.5px;background:var(--card);z-index:1}
+.t-therm::after{content:"";position:absolute;left:1px;bottom:0;width:9px;height:9px;border-radius:50%;background:var(--card);z-index:0}
+.t-therm .fill{position:absolute;left:3px;bottom:2px;width:5px;height:11px;border-radius:2.5px;background:var(--yellow);z-index:2}
+.t-therm .bulb{position:absolute;left:2.5px;bottom:1px;width:6px;height:6px;border-radius:50%;background:var(--yellow);z-index:3}
+.t-therm .ticks{position:absolute;left:9px;top:2.5px;height:15.5px;display:flex;flex-direction:column;justify-content:space-between}
+.t-therm .ticks span{display:block;width:4px;height:2px;background:var(--card);border-radius:1px;margin-left:-1px}
+.t-item.t-lq-group .t-lq{margin-left:0}
+.t-item{display:flex;flex-direction:row;align-items:baseline;line-height:1.2}
+.t-item.t-lq-item{margin-right:0}
+.t-label{font-family:var(--head);font-size:14px;color:var(--card);line-height:1.1;margin-right:6px;text-transform:uppercase}
+.t-value{font-family:var(--head);font-size:15px;color:var(--yellow);line-height:1.1}
 .t-item.pilot .t-label{margin-right:4px}
+.t-lq{display:inline-flex;align-items:flex-end;gap:2px;margin-left:6px}
+.t-lq span{width:3px;background:var(--card);border-radius:1px;display:inline-block}
+.t-lq span.on{background:var(--yellow)}
+.t-lq span:nth-child(1){height:6px}
+.t-lq span:nth-child(2){height:9px}
+.t-lq span:nth-child(3){height:12px}
+.t-lq span:nth-child(4){height:15px}
+.t-lq span:nth-child(5){height:18px}
 
 /* ============================= HERO ============================= */
 .hero{padding:84px 0 96px;border-bottom:4px solid var(--ink)}
@@ -73,7 +91,20 @@ a{color:inherit;text-decoration:none}
   font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
   border:1.5px solid var(--ink);padding:8px 16px;margin-bottom:26px;
 }
-.hero-kicker::before{content:"";width:8px;height:8px;background:var(--orange);border-radius:50%}
+.hero-kicker::before{
+  content:"REC ●";
+  color:var(--orange);
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.08em;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  -webkit-text-stroke: 0.6px var(--ink);
+  text-shadow: 
+    0 0 1px var(--ink),
+    0 0 0.5px var(--ink);
+}
 .hero h1{
   font-family:var(--head);font-size:clamp(3.4rem,10vw,6.6rem);line-height:.9;
   color:var(--ink);margin-bottom:8px;letter-spacing:.01em;
@@ -272,7 +303,8 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 }
 @media (max-width:520px){
   .telemetry .wrap{gap:10px 16px}
-  .t-value{font-size:17px}
+  .t-value{font-size:13px}
+  .t-label{font-size:12px}
   section{padding:58px 0}
   .podium-box{padding:30px 18px}
 }
@@ -289,10 +321,12 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 <div class="telemetry">
   <div class="wrap">
     <!-- EDIT: the 5 vital telemetry items -->
-    <span class="t-item pilot"><span class="t-label">Pilot</span> <span class="t-value">SANDERPUH</span></span>
-    <span class="t-item"><span class="t-label">Home base</span> <span class="t-value">Netherlands</span></span>
-    <span class="t-item"><span class="t-label">Active</span> <span class="t-value">2019 - present</span></span>
-    <span class="t-item"><span class="t-label">Status</span> <span class="t-value" id="t-status">Racing</span></span>
+    <span class="t-item t-therm-item"><span class="t-therm" title="Battery"><span class="fill"></span><span class="bulb"></span>
+        <span class="ticks"><span></span><span></span><span></span><span></span><span></span></span></span></span>
+    <span class="t-item pilot"><span class="t-label">Pilot:</span> <span class="t-value">SANDERPUH</span></span>
+    <span class="t-item"><span class="t-label">Home base:</span> <span class="t-value">Netherlands</span></span>
+    <span class="t-item"><span class="t-label">Status:</span> <span class="t-value" id="t-status">Racing</span></span>
+    <span class="t-item t-lq-group"><span class="t-lq" title="Link quality"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></span>
   </div>
 </div>
 
@@ -301,7 +335,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 <header class="hero">
   <div class="wrap">
     <div>
-      <span class="hero-kicker">Dutch FPV Racing Pilot · Engineer · Brand: PUH</span>
+      <span class="hero-kicker">Dutch FPV Racing Pilot · Mechanical Engineer</span>
       <h1><span class="sand">SANDER</span><span class="puh">PUH</span></h1>
       <p class="hero-tagline">Aggressive off the line.<br><span class="hl-y">Smooth, consistent, always hungry for one more lap.</span></p>
       <!-- EDIT: hero intro — 2–3 sentences for sponsors -->
