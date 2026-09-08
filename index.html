@@ -226,6 +226,19 @@ section{padding:76px 0}
 }
 .sp:hover{color:var(--ink);transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(35,16,0,.4)}
 
+/* ---------- PUH Brand Card ---------- */
+.puh-card{background:var(--ink);border-radius:18px;padding:38px 34px;margin-top:36px}
+.puh-card h3{font-family:var(--head);font-size:2.2rem;color:var(--yellow);margin:0 0 8px 0}
+.puh-desc{font-size:16.5px;line-height:1.6;color:#e8ddd2;max-width:720px;margin-bottom:28px}
+.puh-desc strong{color:#fff}
+.puh-products{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.puh-prod{background:rgba(255,255,255,.06);border:2px solid rgba(253,212,48,.55);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:6px}
+.puh-prod .p-name{font-family:var(--head);font-size:1.35rem;color:#fff}
+.puh-prod .p-spec{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--yellow)}
+.puh-prod p{font-size:14px;line-height:1.5;color:#cfc4b6;margin:4px 0 0 0}
+.puh-prod.puh-soon{border-style:dashed;background:rgba(255,255,255,.03)}
+.puh-prod.puh-soon .p-spec{color:var(--teal)}
+
 /* ============================= SOCIAL ============================= */
 .social-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 .soc{
@@ -280,14 +293,14 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 <header class="hero">
   <div class="wrap">
     <div>
-      <span class="hero-kicker">FPV Race Pilot · MultiGP · FAI F9U · DCL</span>
+      <span class="hero-kicker">Dutch FPV Racing Pilot · Engineer · Brand: PUH</span>
       <h1><span class="sand">SANDER</span><span class="puh">PUH</span></h1>
       <p class="hero-tagline">Some pilots race to win.<br><span class="hl-y">I race to make the air itself feel slow.</span></p>
       <!-- EDIT: hero intro — 2–3 sentences for sponsors -->
       <p class="hero-intro">
-        Six years in the air, 128 start gates, 14 countries. Podiums are the point, but the metric that
-        matters to the people who back me is simpler: <strong>I show up, I fly clean, and I make the team
-        that sponsors me look good doing it.</strong>
+        Dutch FPV racing pilot and engineer by trade, flying competitively since 2018. Combining technical
+        insight with race instinct — testing, refining, and racing 5&Prime; and 3.5&Prime; gear that delivers
+        consistent results, while designing pilot-first hardware through the <strong>PUH</strong> brand.
       </p>
       <div class="hero-cta">
         <a class="btn btn-y" href="#results">View race log</a>
@@ -297,11 +310,11 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     <div class="hero-visual">
       <!-- EDIT: replace with pilot's real photo or avatar -->
       <div class="emblem"><img src="SANDERPUH Avatar.png" alt="SANDERPUH avatar"></div>
-      <div class="hv-row"><span class="k">Class</span><span class="v">5&Prime; · 3&Prime; · Whoop</span></div>
-      <div class="hv-row"><span class="k">Radio link</span><span class="v t">ELRS / TBS</span></div>
-      <div class="hv-row"><span class="k">Top speed</span><span class="v">168 km/h</span></div>
-      <div class="hv-row"><span class="k">Home base</span><span class="v t">Amsterdam, NL</span></div>
-      <div class="hv-row"><span class="k">Team</span><span class="v">Independent</span></div>
+      <div class="hv-row"><span class="k">Discipline</span><span class="v">5&Prime; &amp; 3.5&Prime; Spec Racing</span></div>
+      <div class="hv-row"><span class="k">Hardware</span><span class="v t">HDZero · Foxeer · Gemfan</span></div>
+      <div class="hv-row"><span class="k">Recent form</span><span class="v">7 podiums / last 10 races</span></div>
+      <div class="hv-row"><span class="k">Home base</span><span class="v t">Netherlands</span></div>
+      <div class="hv-row"><span class="k">Brand</span><span class="v">PUH</span></div>
     </div>
   </div>
 </header>
@@ -350,17 +363,18 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
         <p>By <strong>2020</strong> I was lapping local pilots at the club field. My first National Series
           entry ended with a rookie title, and the pattern hasn't changed since:
           <span class="hl-y">show up, fly clean, take the box.</span></p>
-        <p>Today the calendar spans <span class="hl-t">four continents</span>, DCL and FAI campaigns, and a race
-          setup I build and maintain myself — airframe, stack, antennas, and all. The next chapter is
-          <strong>2027: a top-3 World Cup campaign</strong> with partners who get what consistency is worth.</p>
+        <p>Today my focus is high-level competitive racing on <strong>5&Prime; and 3.5&Prime; spec</strong>,
+          bringing technical discipline to every heat: clean lines, relentless reliability, and gear dialed to
+          the millisecond.</p>
       </div>
       <div class="fact-card">
         <h3>Beyond the track</h3>
-        <p>Off the track I work as a <strong>software engineer</strong> — the same hands that solder the
-          race stacks also write the timing tools our club races on.</p>
-        <p>Between races it's <strong>gravel rides through the dunes</strong>,
-          <strong>specialty coffee</strong> (the grinder matters), and
-          <strong>mentoring new pilots</strong> at the club field where this all started.</p>
+        <p>Off the track I am an <strong>engineer by trade</strong>. That engineering background shapes
+          how I approach FPV: diagnosing link health, optimizing airframes, and understanding failure modes
+          long before stepping onto the flight line.</p>
+        <p>Through my personal brand <strong>PUH</strong>, I translate racing insights directly into
+          products — designing tools, stick ends, and race frames built specifically for what competitive
+          pilots need.</p>
       </div>
     </div>
     </div>
@@ -409,32 +423,28 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     <div class="timeline">
       <!-- EDIT: timeline entries -->
       <div class="timeline-item">
-        <span class="year">2020</span>
-        <p>First race season — <strong>rookie title</strong>, National Series (NL).</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2021</span>
-        <p>First national podium — <strong>2nd at National Series Round 5</strong>.</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2022</span>
-        <p>First international win — <span class="hl-y">Euro GQ, Prague, P1</span>. National Series runner-up.</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2023</span>
-        <p>First FAI F9U Open podium (<span class="hl-y">Vienna, P3</span>); 3rd at National Championship.</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2024</span>
-        <p>Best season yet — <strong>9 podiums, 3 wins, P3 at MultiGP International</strong> (Las Vegas).</p>
+        <span class="year">2026</span>
+        <p><strong>3rd place</strong> in the Dutch Championship season.</p>
       </div>
       <div class="timeline-item">
         <span class="year">2025</span>
-        <p><span class="hl-y">FAI F9U World Cup runner-up</span> — 6 podiums, including a win in Barcelona.</p>
+        <p><strong>First time on the top spot</strong> of the podium.</p>
       </div>
       <div class="timeline-item">
-        <span class="year">2026</span>
-        <p>Season in progress — <strong>4 podiums, 2 wins, currently P3 in the DCL Global Series</strong>.</p>
+        <span class="year">2024</span>
+        <p>Release of the <strong>DRIPPUH frame</strong> and <span class="hl-y">an instant podium</span> at the first race with the new frame.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="year">2023</span>
+        <p><strong>Development start</strong> of the 5&Prime; racing frame.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="year">2020</span>
+        <p><strong>First international drone race</strong> and <strong>first brand collaboration</strong>.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="year">2019</span>
+        <p><strong>First race.</strong></p>
       </div>
     </div>
   </div>
@@ -462,48 +472,68 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 <section id="sponsors">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Sponsor <em>Brands</em></h2>
-      <p class="sec-sub">Proud to fly with partners who make my equipment as fast as my lines.</p>
+      <h2>Brand <em>Affiliations</em></h2>
+      <p class="sec-sub">Equipment and industry partners trusted in the air and on the bench.</p>
     </div>
     <div class="sponsor-strip">
-      <!-- EDIT: replace text wordmarks with <img> logos when ready -->
-      <span class="sp">VOLT-LINK</span>
-      <span class="sp">TURBINE</span>
-      <span class="sp">PROPWORX</span>
-      <span class="sp">HEXAPACK</span>
-      <span class="sp">AERODYNE</span>
+      <span class="sp">PUH</span>
+      <span class="sp">DRONESHOP</span>
+      <span class="sp">GEMFAN</span>
+      <span class="sp">FOXEER</span>
+      <span class="sp">HDZERO</span>
+    </div>
+    <!-- PUH Brand Highlight Card -->
+    <div class="puh-card">
+      <h3>PUH — Built for Racers</h3>
+      <p class="puh-desc">
+        Born out of competitive racing and an engineer's compulsion to solve real trackside problems.
+        PUH designs, tests, and produces purpose-built hardware for the FPV community.
+      </p>
+      <div class="puh-products">
+        <div class="puh-prod">
+          <span class="p-name">DRIPPUH</span>
+          <span class="p-spec">5&Prime; Racing Frame</span>
+          <p>Dedicated race-bred geometry engineered for stiffness, low drag, and fast component swaps.</p>
+        </div>
+        <div class="puh-prod">
+          <span class="p-name">Prop Poppuh</span>
+          <span class="p-spec">Whoop Prop Removal Tool</span>
+          <p>Precision tool designed to safely pop micro whoop props without bending motor shafts.</p>
+        </div>
+        <div class="puh-prod">
+          <span class="p-name">Grippuh</span>
+          <span class="p-spec">Transmitter Stick Ends</span>
+          <p>Machined high-traction stick ends crafted for pinch and thumb pilots demanding positive grip.</p>
+        </div>
+        <div class="puh-prod puh-soon">
+          <span class="p-name">3.5&Prime; Spec Frame</span>
+          <span class="p-spec">In Development</span>
+          <p>Upcoming frame tailored for emerging international 3.5&Prime; spec racing series.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============================= SOCIAL ============================= -->
+<!-- ============================= CONTACT / CHANNELS ============================= -->
 <section id="contact" style="padding-top:0">
   <div class="wrap" style="text-align:center">
     <div class="sec-head">
-      <h2>Follow the <em>Feed</em></h2>
-      <p class="sec-sub" style="margin-left:auto;margin-right:auto">Race-day POVs, build logs, and the occasional crash reel.</p>
+      <h2>Pilot <em>Channels &amp; Contact</em></h2>
+      <p class="sec-sub" style="margin-left:auto;margin-right:auto">Reach out for pilot profile inquiries, race invitations, or technical collaboration.</p>
     </div>
     <div class="social-row">
-      <!-- EDIT: replace "#" with real profile URLs -->
-      <a class="soc" href="#">
+      <a class="soc" href="https://www.youtube.com/@SanderPuhFPV" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
-        <span class="soc-name">YouTube</span>
+        <span class="soc-name">YouTube · SanderPuhFPV</span>
       </a>
-      <a class="soc" href="#">
+      <a class="soc" href="https://www.instagram.com/sanderpuhfpv" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2a3.8 3.8 0 0 1-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.8 3.8 0 0 1-1.4-.9c-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.6A6.2 6.2 0 1 0 18.2 12 6.2 6.2 0 0 0 12 5.8zm0 10.2A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.4-11.8a1.4 1.4 0 1 0 1.4 1.4 1.4 1.4 0 0 0-1.4-1.4z"/></svg>
-        <span class="soc-name">Instagram</span>
+        <span class="soc-name">Instagram · @sanderpuhfpv</span>
       </a>
-      <a class="soc" href="#">
-        <svg viewBox="0 0 24 24"><path d="M19.6 5.8a5.6 5.6 0 0 1-3.3-3.5A5.7 5.7 0 0 1 16 .1h-3.7v14.5a3.5 3.5 0 1 1-2.5-3.4V7.4a7.2 7.2 0 1 0 6.2 7.2V8.9a9 9 0 0 0 4.8 1.4V6.6a5.6 5.6 0 0 1-1.2-.8z"/></svg>
-        <span class="soc-name">TikTok</span>
-      </a>
-      <a class="soc" href="#">
-        <svg viewBox="0 0 24 24"><path d="M18.9 1.2h3.7l-8.1 9.3L24 22.8h-7.5l-5.9-7.7-6.7 7.7H.2l8.7-9.9L0 1.2h7.7l5.3 7 5.9-7zm-1.3 19.4h2L6.6 3.3h-2.2l13.2 17.3z"/></svg>
-        <span class="soc-name">X / Twitter</span>
-      </a>
-      <a class="soc" href="#">
-        <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.2a18.2 18.2 0 0 0-5.5 0L8.6 3a19.8 19.8 0 0 0-4.9 1.5A20.3 20.3 0 0 0 .1 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1a12.7 12.7 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4a12.7 12.7 0 0 1-2 1l1.2 2.1a19.9 19.9 0 0 0 6.1-3A20.2 20.2 0 0 0 20.3 4.4zM8 15.3c-1.2 0-2.1-1.1-2.1-2.4S6.8 10.5 8 10.5s2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4zm8 0c-1.2 0-2.1-1.1-2.1-2.4s.9-2.4 2.1-2.4 2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4z"/></svg>
-        <span class="soc-name">Discord</span>
+      <a class="soc" href="mailto:sanderputtenstein1@gmail.com">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <span class="soc-name">sanderputtenstein1@gmail.com</span>
       </a>
     </div>
   </div>
@@ -539,7 +569,9 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   function render(year){
     var races = byYear[year].slice().sort(function(a,b){ return a.date < b.date ? 1 : -1; });
 
-    tbody.innerHTML = races.map(function(r){
+    var shown = races.filter(function(r){ return (r.result && r.result <= 3) || r.tq; });
+
+    tbody.innerHTML = shown.map(function(r){
       var dt = new Date(r.date + "T00:00:00");
       var monthYear = MONTHS[dt.getMonth()] + " " + dt.getFullYear();
 
@@ -555,12 +587,13 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
              '<td><span class="res-wrap">' + (badges || '&mdash;') + "</span></td></tr>";
     }).join("");
 
-    var podiums = races.filter(function(r){ return r.result; }).length;
-    var wins = races.filter(function(r){ return r.result === 1; }).length;
-    note.textContent = year + " — " + races.length + " result" + (races.length === 1 ? "" : "s") +
+    var podiums = shown.filter(function(r){ return r.result && r.result <= 3; }).length;
+    var wins = shown.filter(function(r){ return r.result === 1; }).length;
+    var tqs = shown.filter(function(r){ return r.tq; }).length;
+    note.textContent = year + " — " + shown.length + " result" + (shown.length === 1 ? "" : "s") +
       " shown · " + podiums + " podium" + (podiums === 1 ? "" : "s") +
-      " · " + wins + " win" + (wins === 1 ? "" : "s") +
-      " · " + races.filter(function(r){ return r.tq; }).length + " TQ";
+      (wins ? " · " + wins + " win" + (wins === 1 ? "" : "s") : "") +
+      (tqs ? " · " + tqs + " TQ" : "");
 
     document.querySelectorAll("#year-chips .chip").forEach(function(c){
       c.classList.toggle("active", c.dataset.year === year);
