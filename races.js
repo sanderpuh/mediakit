@@ -31,5 +31,5 @@ const RACES = [
   { date: "2024-04-06", event: "DDR LEDs Spring",               country: "NL", result: 2, tq: false  },
   { date: "2024-01-06", event: "DDR New Years Race",            country: "NL", result: null,    tq: true },
   // ----- 2023 -----
-  { date: "2023-12-9", event: "DDR Santas Fun Run",             country: "NL", result: 2,    tq: false },
+  { date: "2023-12-09", event: "DDR Santas Fun Run",             country: "NL", result: 2,    tq: false },
 ];
