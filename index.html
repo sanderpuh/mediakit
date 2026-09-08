@@ -8,7 +8,8 @@
 <meta name="theme-color" content="#7fb7be">
 <meta name="description" content="SANDERPUH — FPV drone racing pilot. Race log, results, and story.">
 <title>SANDERPUH — FPV Race Pilot</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23231000'/%3E%3Cpath d='M14 32h10l4-8 6 18 6-10h10' stroke='%23fcdb2c' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='54' cy='52' r='4' fill='%23e7860a'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
 <style>
 /* ============================================================
    SANDERPUH — FPV RACING SITE  (v5)
@@ -107,7 +108,7 @@ a{color:inherit;text-decoration:none}
   border:4px solid var(--yellow);overflow:hidden;background:var(--card2);
   display:flex;align-items:center;justify-content:center;
 }
-.hero-visual .emblem img{width:100%;height:100%;object-fit:cover}
+.hero-visual .emblem img{width:100%;height:100%;object-fit:cover;object-position:center top}
 .hero-visual .hv-row{
   display:flex;justify-content:space-between;align-items:baseline;
   padding:9px 0;border-bottom:1px solid var(--border);font-size:15.5px;
@@ -127,10 +128,10 @@ a{color:inherit;text-decoration:none}
   transition:transform .2s,box-shadow .2s;
 }
 .metric:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 rgba(35,16,0,.35)}
-.metric .m-label{font-size:12.5px;letter-spacing:.12em;color:var(--muted2);text-transform:uppercase;margin-bottom:10px}
-.metric .m-value{font-family:var(--head);font-size:3.2rem;line-height:1;color:var(--ink)}
-.metric .m-value .u{font-size:1.15rem;color:var(--teal-deep);margin-left:4px}
-.metric .m-note{font-size:13px;color:var(--muted);margin-top:8px}
+.metric .m-label{font-size:12.5px;letter-spacing:.12em;color:var(--muted2);text-transform:uppercase;margin-top:10px}
+.metric .m-value{font-family:var(--head);font-size:3.2rem;line-height:1;color:var(--ink);text-align:left;padding-left:10px;border-bottom:none}
+.metric .m-value .u{font-size:1.15rem;color:var(--teal-deep);margin-left:14px}
+.metric .m-note{font-size:13px;color:var(--muted);margin-top:2px}
 .metric-link{display:block;color:inherit;text-decoration:none}
 .metric-link:hover .m-value{color:var(--teal-deep)}
 .metric.accent .m-value{color:var(--ink)}
@@ -315,8 +316,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
       </div>
     </div>
     <div class="hero-visual">
-      <!-- EDIT: replace with pilot's real photo or avatar -->
-      <div class="emblem"><img src="SANDERPUH Avatar.png" alt="SANDERPUH avatar"></div>
+      <div class="emblem"><img src="avatar.jpeg" alt="SANDERPUH avatar"></div>
       <div class="hv-row"><span class="k">Active</span><span class="v">2019 - present</span></div>
       <div class="hv-row"><span class="k">Status</span><span class="v t" id="hv-status">Racing</span></div>
       <div class="hv-row"><span class="k">Home base</span><span class="v t">Netherlands</span></div>
@@ -330,23 +330,23 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <!-- EDIT: dashboard metrics -->
     <div class="metric">
+      <div class="m-value" id="m-years">–</div>
       <div class="m-label">Years racing</div>
-      <div class="m-value" id="m-years">–<span class="u">yrs</span></div>
-      <div class="m-note">Since first race · Aug 2019</div>
+      <div class="m-note">Since first race in Aug 2019</div>
     </div>
     <a class="metric-link metric accent" href="#podiums" title="See podium breakdown">
-      <div class="m-label">Podium finishes</div>
       <div class="m-value" id="m-podiums">–</div>
-      <div class="m-note" id="m-podium-note">Logged podiums in the race log</div>
+      <div class="m-label">Podium finishes</div>
+      <div class="m-note" id="m-podium-note"></div>
     </a>
     <div class="metric">
-      <div class="m-label">Countries raced</div>
       <div class="m-value">9</div>
-      <div class="m-note">3 continents · Europe / North America / Africa</div>
+      <div class="m-label">Countries raced</div>
+      <div class="m-note">2 continents - Europe / North America</div>
     </div>
     <div class="metric">
-      <div class="m-label">Best season</div>
       <div class="m-value">P3<span class="u">2026</span></div>
+      <div class="m-label">Best season</div>
       <div class="m-note">Dutch Championship Drone Racing</div>
     </div>
   </div>
@@ -647,8 +647,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 
   document.getElementById("t-podiums").textContent = totalPods;
   document.getElementById("m-podiums").textContent = totalPods;
-  document.getElementById("m-podium-note").textContent =
-    totalPods + " logged in the race log · " + wins + " wins · " + silvers + " second · " + bronzes + " third";
 
   var mx = Math.max(wins, silvers, bronzes, 1);
   [["pb-1","pc-1",wins],["pb-2","pc-2",silvers],["pb-3","pc-3",bronzes]].forEach(function(bar){
