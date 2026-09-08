@@ -6,8 +6,8 @@
 <meta name="color-scheme" content="light">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#7fb7be">
-<meta name="description" content="SanderPuh - PUH - FPV Drone Racing Pilot. Race log, results, and story.">
-<title>SanderPuh - PUH - FPV Drone Racing Pilot</title>
+<meta name="description" content="SANDERPUH — FPV drone racing pilot. Race log, results, and story.">
+<title>SANDERPUH — FPV Race Pilot</title>
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <style>
@@ -381,9 +381,9 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
       <div class="m-note">2 continents - Europe / North America</div>
     </div>
     <div class="metric">
-      <div class="m-value">P3<span class="u">2026</span></div>
+      <div class="m-value">2026</div>
       <div class="m-label">Best season</div>
-      <div class="m-note">Dutch Championship Drone Racing</div>
+      <div class="m-note">P3 - Dutch Championship Drone Racing</div>
     </div>
   </div>
 </section>
@@ -545,7 +545,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
         </div>
         <div class="puh-prod">
           <span class="p-name">Prop Poppuh</span>
-          <span class="p-spec">Ultimate Micro Prop Extraction Buddy</span>
+          <span class="p-spec">Whoop Prop Removal Tool</span>
           <p>Precision tool designed to safely pop micro whoop props without bending motor shafts.</p>
           <a class="p-link" href="https://droneshop.nl/prop-poppuh" target="_blank" rel="noopener">Get it at Droneshop</a>
         </div>
@@ -635,7 +635,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
       var monthYear = MONTHS[dt.getMonth()] + " " + dt.getFullYear();
 
       var badges = "";
-      if (r.result) {
+      if (r.result && r.result <= 3) {
         var cls = r.result === 1 ? "r-1" : r.result === 2 ? "r-2" : "r-3";
         badges += '<span class="res ' + cls + '">' + ["","1st","2nd","3rd"][r.result] + "</span>";
       }
