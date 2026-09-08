@@ -6,12 +6,12 @@
 <meta name="color-scheme" content="light">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#7fb7be">
-<meta name="description" content="PUH — FPV drone racing pilot. Race log, results, and story.">
-<title>PUH — FPV Race Pilot</title>
+<meta name="description" content="SANDERPUH — FPV drone racing pilot. Race log, results, and story.">
+<title>SANDERPUH — FPV Race Pilot</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23231000'/%3E%3Cpath d='M14 32h10l4-8 6 18 6-10h10' stroke='%23fcdb2c' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='54' cy='52' r='4' fill='%23e7860a'/%3E%3C/svg%3E">
 <style>
 /* ============================================================
-   PUH — FPV RACING SITE  (v4 · sanderpuh palette)
+   SANDERPUH — FPV RACING SITE  (v5)
    Palette: #231000 (bg) · #7eb7be (teal) · #fcdb2c (yellow)
             #e7860a (orange) · #FFFFFF
    Headers: Pronave (self-hosted). Body: system font.
@@ -58,7 +58,7 @@ a{color:inherit;text-decoration:none}
   background:var(--ink);
   border-bottom:3px solid var(--yellow);
 }
-.telemetry .wrap{display:flex;align-items:center;gap:26px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.telemetry .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
 .t-item{display:flex;flex-direction:column;line-height:1.2}
 .t-label{font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
 .t-value{font-family:var(--head);font-size:20px;color:var(--yellow);line-height:1.1}
@@ -74,11 +74,11 @@ a{color:inherit;text-decoration:none}
 }
 .hero-kicker::before{content:"";width:8px;height:8px;background:var(--orange);border-radius:50%}
 .hero h1{
-  font-family:var(--head);font-size:clamp(4.2rem,11vw,7.4rem);line-height:.9;
+  font-family:var(--head);font-size:clamp(3.4rem,10vw,6.6rem);line-height:.9;
   color:var(--ink);margin-bottom:8px;letter-spacing:.01em;
-  text-shadow:3px 3px 0 rgba(255,255,255,.35);
 }
-.hero h1 span{color:var(--yellow);text-shadow:3px 3px 0 rgba(35,16,0,.25)}
+.hero h1 .puh{color:var(--yellow)}
+.hero h1 .sand{color:var(--ink)}
 .hero-tagline{
   font-family:var(--head);font-size:clamp(1.4rem,3vw,1.9rem);color:var(--ink);
   margin-bottom:24px;line-height:1.25;
@@ -93,18 +93,14 @@ a{color:inherit;text-decoration:none}
   transition:transform .15s,box-shadow .15s,background .15s;
 }
 .btn-y{background:var(--yellow);color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
-.btn-y:hover{background:var(--white);transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn-y:hover{background:var(--card);transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
 .btn-o{background:transparent;color:var(--ink);border:2px solid var(--ink)}
-.btn-o:hover{background:var(--ink);color:var(--yellow)}
+.btn-o:hover{background:var(--card2);transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
 /* hero side: emblem panel */
 .hero-visual{
   background:var(--card);border:2px solid var(--ink);
   box-shadow:8px 8px 0 rgba(35,16,0,.35);
   padding:34px 28px;position:relative;border-radius:18px;
-}
-.hero-visual::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:6px;
-  background:linear-gradient(90deg,var(--yellow) 0 33%,var(--orange) 33% 66%,var(--teal) 66% 100%);
 }
 .hero-visual .emblem{
   width:200px;height:200px;margin:8px auto 22px;border-radius:50%;
@@ -146,11 +142,7 @@ section{padding:76px 0}
   font-family:var(--head);font-size:clamp(2.2rem,5.5vw,3.2rem);line-height:1.05;
   color:var(--ink);
 }
-.sec-head h2 em{font-style:normal;color:var(--ink);border-bottom:5px solid var(--yellow);padding-bottom:2px}
-.sec-head .rule{
-  width:74px;height:5px;margin:16px 0 14px;
-  background:linear-gradient(90deg,var(--yellow) 0 40%,var(--orange) 40% 75%,var(--teal) 75% 100%);
-}
+.sec-head h2 em{font-style:normal;color:var(--ink)}
 .sec-sub{color:#3d2a18;max-width:680px;font-size:16.5px}
 
 /* ============================= STORY ============================= */
@@ -179,13 +171,13 @@ section{padding:76px 0}
 .podium-bars{display:flex;gap:30px;align-items:flex-end;height:210px}
 .pbar-col{display:flex;flex-direction:column;align-items:center;gap:10px;width:92px}
 .pbar{width:100%}
-.pbar.p1{background:var(--yellow)}
-.pbar.p2{background:var(--teal)}
-.pbar.p3{background:var(--orange)}
+.pbar.p1{background:#d4a017}
+.pbar.p2{background:#b8bcc0}
+.pbar.p3{background:#b06b3a}
 .pbar-count{font-family:var(--head);font-size:2.6rem;line-height:.9;color:var(--ink)}
 .pbar-label{font-size:13.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
 .podium-total{text-align:center}
-.podium-total .num{font-family:var(--head);font-size:6.5rem;line-height:.85;color:var(--ink);text-shadow:4px 4px 0 rgba(253,196,48,.9)}
+.podium-total .num{font-family:var(--head);font-size:6.5rem;line-height:.85;color:var(--ink)}
 .podium-total .label{font-size:14px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted2);font-weight:600;margin-top:6px}
 
 /* ============================= HIGHLIGHTS ============================= */
@@ -210,6 +202,7 @@ section{padding:76px 0}
 }
 .chip:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
 .chip.active{background:var(--yellow);box-shadow:4px 4px 0 var(--ink)}
+.chip.active:hover{background:var(--card)}
 .season-note{font-size:14px;color:var(--muted2);margin-bottom:16px}
 .log-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border:2px solid var(--ink);border-radius:14px;overflow:hidden}
 .log-table th{
@@ -225,6 +218,8 @@ section{padding:76px 0}
 .res.r-2{background:var(--teal-deep);color:#fff;border-radius:999px}
 .res.r-3{background:var(--orange);color:#fff;border-radius:999px}
 .res.other{color:var(--muted2);border:1.5px solid var(--ink);border-radius:999px}
+.res.tq{background:var(--orange);color:#fff;border-radius:999px}
+.res-wrap{display:inline-flex;gap:6px;flex-wrap:wrap}
 .q-tag{color:var(--teal-deep);font-weight:700;font-size:14px}
 
 /* ============================= SPONSORS ============================= */
@@ -235,17 +230,6 @@ section{padding:76px 0}
   transition:all .2s;
 }
 .sp:hover{color:var(--ink);transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(35,16,0,.4)}
-.cta-panel{
-  background:var(--ink);border-radius:20px;padding:46px 34px;text-align:center;
-  box-shadow:10px 10px 0 rgba(35,16,0,.35);
-  position:relative;overflow:hidden;
-}
-.cta-panel::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:6px;
-  background:linear-gradient(90deg,var(--yellow) 0 33%,var(--orange) 33% 66%,var(--teal) 66% 100%);
-}
-.cta-panel h3{font-family:var(--head);font-size:clamp(1.7rem,3.6vw,2.4rem);color:var(--white);margin-bottom:12px;line-height:1.2}
-.cta-panel p{color:#c9b39a;margin-bottom:28px;font-size:16.5px}
 
 /* ============================= SOCIAL ============================= */
 .social-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
@@ -289,7 +273,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 <div class="telemetry">
   <div class="wrap">
     <!-- EDIT: the 5 vital telemetry items -->
-    <span class="t-item pilot"><span class="t-label">Pilot</span><span class="t-value">PUH</span></span>
+    <span class="t-item pilot"><span class="t-label">Pilot</span><span class="t-value">SANDERPUH</span></span>
     <span class="t-item"><span class="t-label">Years</span><span class="t-value">6</span></span>
     <span class="t-item"><span class="t-label">Races</span><span class="t-value">128</span></span>
     <span class="t-item"><span class="t-label">Podiums</span><span class="t-value">61</span></span>
@@ -304,7 +288,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <div>
       <span class="hero-kicker">FPV Race Pilot · MultiGP · FAI F9U · DCL</span>
-      <h1>P<span>UH</span></h1>
+      <h1><span class="sand">SANDER</span><span class="puh">PUH</span></h1>
       <p class="hero-tagline">Some pilots race to win.<br><span class="hl-y">I race to make the air itself feel slow.</span></p>
       <!-- EDIT: hero intro — 2–3 sentences for sponsors -->
       <p class="hero-intro">
@@ -319,7 +303,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     </div>
     <div class="hero-visual">
       <!-- EDIT: replace with pilot's real photo or avatar -->
-      <div class="emblem"><img src="PUH Avatar.png" alt="PUH avatar"></div>
+      <div class="emblem"><img src="SANDERPUH Avatar.png" alt="SANDERPUH avatar"></div>
       <div class="hv-row"><span class="k">Class</span><span class="v">5&Prime; · 3&Prime; · Whoop</span></div>
       <div class="hv-row"><span class="k">Radio link</span><span class="v t">ELRS / TBS</span></div>
       <div class="hv-row"><span class="k">Top speed</span><span class="v">168 km/h</span></div>
@@ -376,7 +360,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <div class="sec-head">
       <h2>The <em>Story</em></h2>
-      <div class="rule"></div>
       <p class="sec-sub">From bedroom bench to international start gates.</p>
     </div>
     <div class="story-grid">
@@ -414,7 +397,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <div class="sec-head">
       <h2>Podium <em>Breakdown</em></h2>
-      <div class="rule"></div>
       <p class="sec-sub">61 podiums across 6 seasons — the middle step gets crowded, but the top one is the habit.</p>
     </div>
     <div class="podium-box">
@@ -449,7 +431,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <div class="sec-head">
       <h2>Career <em>Highlights</em></h2>
-      <div class="rule"></div>
       <p class="sec-sub">The climb, logged.</p>
     </div>
     <div class="timeline">
@@ -491,37 +472,15 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <div class="sec-head">
       <h2>Race <em>Log</em></h2>
-      <div class="rule"></div>
-      <p class="sec-sub">Podiums and top-5 qualifying positions only. Pick a season:</p>
+      <p class="sec-sub">Podium finishes and TQ badges only. Pick a season:</p>
     </div>
     <div class="chips" id="year-chips"></div>
     <p class="season-note" id="season-note"></p>
     <table class="log-table">
       <thead>
-        <tr><th>Date</th><th>Event</th><th>Class</th><th>Qual</th><th>Result</th></tr>
+        <tr><th>Date</th><th>Event</th><th>Result</th></tr>
       </thead>
-      <tbody id="log-body">
-        <!-- EDIT: add/remove rows. Show podiums (1st/2nd/3rd) or top-5 qualifying only.
-             data-year powers the filter. data-note shows the season summary line. -->
-        <tr data-year="2026" hidden><td>22 Aug 2026</td><td class="ev">DCL · Berlin Night Circuit<span class="flag">DE</span></td><td>5&Prime;</td><td><span class="q-tag">Q2</span></td><td><span class="res r-1">1st</span></td></tr>
-        <tr data-year="2026" hidden><td>19 Jul 2026</td><td class="ev">DCL · Osaka Skyline<span class="flag">JP</span></td><td>5&Prime;</td><td><span class="q-tag">Q1</span></td><td><span class="res r-2">2nd</span></td></tr>
-        <tr data-year="2026" hidden><td>14 Jun 2026</td><td class="ev">FAI F9U World Cup · Madrid<span class="flag">ES</span></td><td>5&Prime;</td><td><span class="q-tag">Q3</span></td><td><span class="res r-3">3rd</span></td></tr>
-        <tr data-year="2026" hidden><td>03 May 2026</td><td class="ev">MultiGP Qualifier · Austin<span class="flag">US</span></td><td>5&Prime;</td><td><span class="q-tag">Q5</span></td><td><span class="res other">4th</span></td></tr>
-        <tr data-year="2025" hidden><td>08 Nov 2025</td><td class="ev">FAI F9U World Cup Final · Cairo<span class="flag">EG</span></td><td>5&Prime;</td><td><span class="q-tag">Q1</span></td><td><span class="res r-2">2nd</span></td></tr>
-        <tr data-year="2025" hidden><td>21 Sep 2025</td><td class="ev">DCL · Barcelona<span class="flag">ES</span></td><td>5&Prime;</td><td><span class="q-tag">Q3</span></td><td><span class="res r-1">1st</span></td></tr>
-        <tr data-year="2025" hidden><td>10 Aug 2025</td><td class="ev">National Series Rd 4 · Eindhoven<span class="flag">NL</span></td><td>5&Prime;</td><td><span class="q-tag">Q2</span></td><td><span class="res r-2">2nd</span></td></tr>
-        <tr data-year="2025" hidden><td>28 Jun 2025</td><td class="ev">FAI World Cup Qualifier · Seoul<span class="flag">KR</span></td><td>5&Prime;</td><td><span class="q-tag">Q4</span></td><td><span class="res other">5th</span></td></tr>
-        <tr data-year="2025" hidden><td>13 Apr 2025</td><td class="ev">DCL · Dubai<span class="flag">AE</span></td><td>5&Prime;</td><td><span class="q-tag">Q2</span></td><td><span class="res r-1">1st</span></td></tr>
-        <tr data-year="2024" hidden><td>19 Oct 2024</td><td class="ev">MultiGP International · Las Vegas<span class="flag">US</span></td><td>5&Prime;</td><td><span class="q-tag">Q3</span></td><td><span class="res r-3">3rd</span></td></tr>
-        <tr data-year="2024" hidden><td>04 Aug 2024</td><td class="ev">National Series Rd 6 · Lille<span class="flag">FR</span></td><td>5&Prime;</td><td><span class="q-tag">Q1</span></td><td><span class="res r-1">1st</span></td></tr>
-        <tr data-year="2024" hidden><td>25 May 2024</td><td class="ev">FAI F9U Open · Vienna<span class="flag">AT</span></td><td>5&Prime;</td><td><span class="q-tag">Q5</span></td><td><span class="res other">5th</span></td></tr>
-        <tr data-year="2024" hidden><td>17 Mar 2024</td><td class="ev">DCL · Miami<span class="flag">US</span></td><td>5&Prime;</td><td><span class="q-tag">Q4</span></td><td><span class="res r-2">2nd</span></td></tr>
-        <tr data-year="2023" hidden><td>09 Sep 2023</td><td class="ev">National Championship<span class="flag">NL</span></td><td>5&Prime;</td><td><span class="q-tag">Q2</span></td><td><span class="res r-3">3rd</span></td></tr>
-        <tr data-year="2023" hidden><td>24 Jun 2023</td><td class="ev">Euro GQ · Prague<span class="flag">CZ</span></td><td>5&Prime;</td><td><span class="q-tag">Q3</span></td><td><span class="res r-1">1st</span></td></tr>
-        <tr data-year="2022" hidden><td>15 Oct 2022</td><td class="ev">National Series Rd 8<span class="flag">NL</span></td><td>5&Prime;</td><td><span class="q-tag">Q1</span></td><td><span class="res r-1">1st</span></td></tr>
-        <tr data-year="2021" hidden><td>21 Aug 2021</td><td class="ev">National Series Rd 5<span class="flag">NL</span></td><td>5&Prime;</td><td><span class="q-tag">Q3</span></td><td><span class="res r-2">2nd</span></td></tr>
-        <tr data-year="2020" hidden><td>12 Sep 2020</td><td class="ev">National Series Rd 3<span class="flag">NL</span></td><td>5&Prime;</td><td><span class="q-tag">Q4</span></td><td><span class="res r-3">3rd</span></td></tr>
-      </tbody>
+      <tbody id="log-body"></tbody>
     </table>
   </div>
 </section>
@@ -531,7 +490,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <div class="sec-head">
       <h2>Sponsor <em>Brands</em></h2>
-      <div class="rule"></div>
       <p class="sec-sub">Proud to fly with partners who make my equipment as fast as my lines.</p>
     </div>
     <div class="sponsor-strip">
@@ -542,12 +500,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
       <span class="sp">HEXAPACK</span>
       <span class="sp">AERODYNE</span>
     </div>
-    <div class="cta-panel">
-      <h3>Want a pilot who shows up, flies clean, and builds your brand into his story?</h3>
-      <p>Race schedules, media kits, and partnership decks available on request.</p>
-      <!-- EDIT: replace the email address -->
-      <a class="btn btn-y" href="mailto:pilot@nova-fpv.example">Get in touch</a>
-    </div>
   </div>
 </section>
 
@@ -556,7 +508,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap" style="text-align:center">
     <div class="sec-head">
       <h2>Follow the <em>Feed</em></h2>
-      <div class="rule" style="margin-left:auto;margin-right:auto"></div>
       <p class="sec-sub" style="margin-left:auto;margin-right:auto">Race-day POVs, build logs, and the occasional crash reel.</p>
     </div>
     <div class="social-row">
@@ -588,49 +539,71 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 
 <footer>
   <div class="wrap">
-    <p>© 2026 PUH FPV · Built with HTML5 — ready for GitHub Pages</p>
+    <p>© 2026 SANDERPUH FPV · Built with HTML5 — ready for GitHub Pages</p>
     <p class="edit-note">Placeholder pilot data — edit the &lt;!-- EDIT --&gt; comments in the HTML to personalize.</p>
   </div>
 </footer>
 
+<script src="races.js"></script>
 <script>
 (function(){
   "use strict";
 
-  /* ---------- Race log: year chips left→right, active year in table ---------- */
-  var rows = Array.prototype.slice.call(document.querySelectorAll("#log-body tr"));
-  var years = [];
-  rows.forEach(function(r){
-    var y = r.dataset.year;
-    if (y && years.indexOf(y) === -1) years.push(y);
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  /* Group races by year, newest first */
+  var byYear = {};
+  RACES.forEach(function(r){
+    var y = r.date.slice(0, 4);
+    (byYear[y] = byYear[y] || []).push(r);
   });
-  years.sort().reverse();
+  var years = Object.keys(byYear).sort().reverse();
 
   var chipsBox = document.getElementById("year-chips");
   var note = document.getElementById("season-note");
+  var tbody = document.getElementById("log-body");
 
-  function applyFilter(year){
-    rows.forEach(function(r){ r.hidden = (r.dataset.year !== year); });
+  function render(year){
+    var races = byYear[year].slice().sort(function(a,b){ return a.date < b.date ? 1 : -1; });
+
+    tbody.innerHTML = races.map(function(r){
+      var dt = new Date(r.date + "T00:00:00");
+      var monthYear = MONTHS[dt.getMonth()] + " " + dt.getFullYear();
+
+      var badges = "";
+      if (r.result) {
+        var cls = r.result === 1 ? "r-1" : r.result === 2 ? "r-2" : "r-3";
+        badges += '<span class="res ' + cls + '">' + ["","1st","2nd","3rd"][r.result] + "</span>";
+      }
+      if (r.tq) badges += '<span class="res tq">TQ</span>';
+
+      return "<tr><td>" + monthYear + "</td>" +
+             '<td class="ev">' + r.event + '<span class="flag">' + (r.country || "") + "</span></td>" +
+             '<td><span class="res-wrap">' + (badges || '&mdash;') + "</span></td></tr>";
+    }).join("");
+
+    var podiums = races.filter(function(r){ return r.result; }).length;
+    var wins = races.filter(function(r){ return r.result === 1; }).length;
+    note.textContent = year + " — " + races.length + " result" + (races.length === 1 ? "" : "s") +
+      " shown · " + podiums + " podium" + (podiums === 1 ? "" : "s") +
+      " · " + wins + " win" + (wins === 1 ? "" : "s") +
+      " · " + races.filter(function(r){ return r.tq; }).length + " TQ";
+
     document.querySelectorAll("#year-chips .chip").forEach(function(c){
       c.classList.toggle("active", c.dataset.year === year);
     });
-    var shown = rows.filter(function(r){ return !r.hidden; });
-    var podiums = shown.filter(function(r){ return r.querySelector(".res.r-1,.res.r-2,.res.r-3"); }).length;
-    var wins = shown.filter(function(r){ return r.querySelector(".res.r-1"); }).length;
-    note.textContent = year + " — " + shown.length + " result" + (shown.length === 1 ? "" : "s") +
-      " shown · " + podiums + " podium" + (podiums === 1 ? "" : "s") + " · " + wins + " win" + (wins === 1 ? "" : "s");
   }
 
   years.forEach(function(y, i){
     var b = document.createElement("button");
     b.type = "button";
-    b.className = "chip" + (i === 0 ? " active" : "");
+    b.className = "chip";
     b.dataset.year = y;
     b.textContent = y;
-    b.addEventListener("click", function(){ applyFilter(y); });
+    b.addEventListener("click", function(){ render(y); });
     chipsBox.appendChild(b);
   });
-  if (years.length) applyFilter(years[0]);
+  if (years.length) render(years[0]);
 })();
 </script>
 </body>
