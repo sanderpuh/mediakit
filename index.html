@@ -324,9 +324,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     <!-- EDIT: the 5 vital telemetry items -->
     <span class="t-item t-therm-item"><span class="t-therm" title="Battery"><span class="fill"></span><span class="bulb"></span>
         <span class="ticks"><span></span><span></span><span></span><span></span><span></span></span></span></span>
-    <span class="t-item pilot" data-drop="1"><span class="t-label">Pilot:</span> <span class="t-value">SANDERPUH</span></span>
-    <span class="t-item" data-drop="2"><span class="t-label">Home base:</span> <span class="t-value">Netherlands</span></span>
-    <span class="t-item" data-drop="3"><span class="t-label">Status:</span> <span class="t-value" id="t-status">Racing</span></span>
+    <span class="t-item" data-drop="1"><span class="t-label">Status:</span> <span class="t-value" id="t-status">Racing</span></span>
     <span class="t-item t-lq-group" data-keep="1"><span class="t-value" style="color:var(--yellow);font-weight:700;letter-spacing:.08em;margin-right:14px;font-size:11px">REC</span><span class="t-lq" title="Link quality"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></span>
   </div>
 </div>
@@ -691,12 +689,25 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 </script>
 <script>
   (function(){
-    var statuses = ["Racing", "Building", "Designing"];
+    var statuses = ["Racing", "Building", "Designing", "Training", "Sleeping", "Charging LiPos", "Soldering", "Rebuilding whoop", "Bench testing", "Buying props", "Searching for lost quad", "Watching race replays", "Ordering new motors", "Tuning PIDs"];
     var st = statuses[Math.floor(Math.random() * statuses.length)];
     var el = document.getElementById("hv-status");
     if (el) el.textContent = st;
     var tl = document.getElementById("t-status");
     if (tl) tl.textContent = st;
+  })();
+
+  // Randomize link quality bars: each of the 4 clusters gets 3-5 bars filled
+  (function(){
+    var groups = document.querySelectorAll(".telemetry .t-lq");
+    groups.forEach(function(g){
+      var bars = g.children;
+      var filled = 3 + Math.floor(Math.random() * 3); // 3, 4 or 5
+      for (var i = 0; i < bars.length; i++) {
+        if (i < filled) bars[i].className = "on";
+        else bars[i].className = "";
+      }
+    });
   })();
 
   // Telemetry: drop items when space runs out (Status first, then Home base, then Pilot)
