@@ -131,6 +131,8 @@ a{color:inherit;text-decoration:none}
 .metric .m-value{font-family:var(--head);font-size:3.2rem;line-height:1;color:var(--ink)}
 .metric .m-value .u{font-size:1.15rem;color:var(--teal-deep);margin-left:4px}
 .metric .m-note{font-size:13px;color:var(--muted);margin-top:8px}
+.metric-link{display:block;color:inherit;text-decoration:none}
+.metric-link:hover .m-value{color:var(--teal-deep)}
 .metric.accent .m-value{color:var(--ink)}
 .metric.accent{background:var(--yellow)}
 .metric.accent .m-label,.metric.accent .m-note{color:#5c4a10}
@@ -146,31 +148,24 @@ section{padding:76px 0}
 .sec-sub{color:#3d2a18;max-width:680px;font-size:16.5px}
 
 /* ============================= STORY ============================= */
-.story-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:30px;align-items:start}
+
+.story-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:30px;align-items:stretch}
 .story-card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:34px}
-.story-card h3{font-family:var(--head);font-size:1.9rem;color:var(--ink);margin-bottom:18px;border-bottom:4px solid var(--orange);display:inline-block;padding-bottom:2px}
-.story-card p{color:#3d2a18;margin-bottom:16px;font-size:16.5px}
+.story-card h3{font-family:var(--head);font-size:1.9rem;color:var(--ink);margin-bottom:18px}
+.story-card p,.fact-card p{color:#3d2a18;margin-bottom:16px;font-size:16.5px}
 .story-card p:last-child{margin-bottom:0}
 .story-card p strong{color:var(--ink)}
 .story-card p .hl-y{color:var(--orange);font-weight:700}
 .story-card p .hl-t{color:var(--teal-deep);font-weight:700}
-.fact-card{background:var(--ink);border:2px solid var(--ink);border-radius:18px;padding:30px}
-.fact-card h3{font-family:var(--head);font-size:1.9rem;color:var(--yellow);margin-bottom:18px}
-.fact-list{list-style:none}
-.fact-list li{
-  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
-  padding:11px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:15.5px;
-}
-.fact-list li:last-child{border-bottom:none}
-.fact-list .k{color:#c9b39a;text-transform:uppercase;font-size:12.5px;letter-spacing:.1em}
-.fact-list .v{color:var(--white);font-weight:600;text-align:right}
+.fact-card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:34px}
+.fact-card h3{font-family:var(--head);font-size:1.9rem;color:var(--ink);margin-bottom:18px}
 
 /* ============================= PODIUM ============================= */
 .podium{background:var(--card2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
 .podium-box{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 rgba(35,16,0,.25);padding:44px 34px;display:flex;gap:44px;flex-wrap:wrap;align-items:center;justify-content:center}
-.podium-bars{display:flex;gap:30px;align-items:flex-end;height:210px}
+.podium-bars{display:flex;gap:30px;align-items:flex-end}
 .pbar-col{display:flex;flex-direction:column;align-items:center;gap:10px;width:92px}
-.pbar{width:100%}
+.pbar{width:100%;height:0}
 .pbar.p1{background:#d4a017}
 .pbar.p2{background:#b8bcc0}
 .pbar.p3{background:#b06b3a}
@@ -218,7 +213,7 @@ section{padding:76px 0}
 .res.r-2{background:var(--teal-deep);color:#fff;border-radius:999px}
 .res.r-3{background:var(--orange);color:#fff;border-radius:999px}
 .res.other{color:var(--muted2);border:1.5px solid var(--ink);border-radius:999px}
-.res.tq{background:var(--orange);color:#fff;border-radius:999px}
+.res.tq{background:var(--card);color:var(--ink);border:2px solid var(--ink);border-radius:999px}
 .res-wrap{display:inline-flex;gap:6px;flex-wrap:wrap}
 .q-tag{color:var(--teal-deep);font-weight:700;font-size:14px}
 
@@ -320,11 +315,11 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
       <div class="m-value" id="m-years">–<span class="u">yrs</span></div>
       <div class="m-note">Since first race · Aug 2019</div>
     </div>
-    <div class="metric accent">
+    <a class="metric-link metric accent" href="#podiums" title="See podium breakdown">
       <div class="m-label">Podium finishes</div>
       <div class="m-value" id="m-podiums">–</div>
       <div class="m-note" id="m-podium-note">Logged podiums in the race log</div>
-    </div>
+    </a>
     <div class="metric">
       <div class="m-label">Countries raced</div>
       <div class="m-value">14</div>
@@ -360,19 +355,15 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
           <strong>2027: a top-3 World Cup campaign</strong> with partners who get what consistency is worth.</p>
       </div>
       <div class="fact-card">
-        <h3>Quick facts</h3>
-        <!-- EDIT: quick facts -->
-        <ul class="fact-list">
-          <li><span class="k">License</span><span class="v">FAI open class</span></li>
-          <li><span class="k">Final DNFs 25–26</span><span class="v">0</span></li>
-          <li><span class="k">Seasons</span><span class="v">7 (2020–2026)</span></li>
-          <li><span class="k">Continents</span><span class="v">4</span></li>
-          <li><span class="k">Builds own quads</span><span class="v">Yes — full stack</span></li>
-          <li><span class="k">Available for</span><span class="v">Sponsorships · demos · testing</span></li>
-        </ul>
+        <h3>Beyond the track</h3>
+        <p>Off the track I work as a <strong>software engineer</strong> — the same hands that solder the
+          race stacks also write the timing tools our club races on.</p>
+        <p>Between races it's <strong>gravel rides through the dunes</strong>,
+          <strong>specialty coffee</strong> (the grinder matters), and
+          <strong>mentoring new pilots</strong> at the club field where this all started.</p>
       </div>
     </div>
-  </div>
+    </div>
 </section>
 
 <!-- ============================= PODIUM ============================= -->
