@@ -274,11 +274,9 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <!-- EDIT: the 5 vital telemetry items -->
     <span class="t-item pilot"><span class="t-label">Pilot</span><span class="t-value">SANDERPUH</span></span>
-    <span class="t-item"><span class="t-label">Years</span><span class="t-value">6</span></span>
-    <span class="t-item"><span class="t-label">Races</span><span class="t-value">128</span></span>
-    <span class="t-item"><span class="t-label">Podiums</span><span class="t-value">61</span></span>
-    <span class="t-item"><span class="t-label">Wins</span><span class="t-value">24</span></span>
-    <span class="t-item"><span class="t-label">Countries</span><span class="t-value">14</span></span>
+    <span class="t-item"><span class="t-label">Years</span><span class="t-value" id="t-years">–</span></span>
+        <span class="t-item"><span class="t-label">Podiums</span><span class="t-value" id="t-podiums">–</span></span>
+        <span class="t-item"><span class="t-label">Countries</span><span class="t-value">14</span></span>
   </div>
 </div>
 
@@ -319,33 +317,18 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     <!-- EDIT: dashboard metrics -->
     <div class="metric">
       <div class="m-label">Years racing</div>
-      <div class="m-value">6<span class="u">yrs</span></div>
-      <div class="m-note">Since first National Series entry · 2020</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Races entered</div>
-      <div class="m-value">128</div>
-      <div class="m-note">DCL · FAI · MultiGP · national series</div>
+      <div class="m-value" id="m-years">–<span class="u">yrs</span></div>
+      <div class="m-note">Since first race · Aug 2019</div>
     </div>
     <div class="metric accent">
       <div class="m-label">Podium finishes</div>
-      <div class="m-value">61<span class="u">· 47%</span></div>
-      <div class="m-note">Of finals entered, finish on the box</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Wins</div>
-      <div class="m-value">24</div>
-      <div class="m-note">9 international · 15 national</div>
+      <div class="m-value" id="m-podiums">–</div>
+      <div class="m-note" id="m-podium-note">Logged podiums in the race log</div>
     </div>
     <div class="metric">
       <div class="m-label">Countries raced</div>
       <div class="m-value">14</div>
       <div class="m-note">4 continents · EU / NA / Asia / Africa</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Top-5 qualifying</div>
-      <div class="m-value">89<span class="u">· 70%</span></div>
-      <div class="m-note">Of qualifying sessions, inside top 5</div>
     </div>
     <div class="metric">
       <div class="m-label">Best season</div>
@@ -397,29 +380,28 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   <div class="wrap">
     <div class="sec-head">
       <h2>Podium <em>Breakdown</em></h2>
-      <p class="sec-sub">61 podiums across 6 seasons — the middle step gets crowded, but the top one is the habit.</p>
+      <p class="sec-sub">Calculated live from the race log — the middle step gets crowded, but the top one is the habit.</p>
     </div>
     <div class="podium-box">
       <div class="podium-bars">
-        <!-- EDIT: bar heights match the counts -->
         <div class="pbar-col">
-          <div class="pbar p1" style="height:128px"></div>
-          <span class="pbar-count">24</span>
+          <div class="pbar p1" id="pb-1"></div>
+          <span class="pbar-count" id="pc-1">0</span>
           <span class="pbar-label">1st · wins</span>
         </div>
         <div class="pbar-col">
-          <div class="pbar p2" style="height:112px"></div>
-          <span class="pbar-count">21</span>
+          <div class="pbar p2" id="pb-2"></div>
+          <span class="pbar-count" id="pc-2">0</span>
           <span class="pbar-label">2nd</span>
         </div>
         <div class="pbar-col">
-          <div class="pbar p3" style="height:86px"></div>
-          <span class="pbar-count">16</span>
+          <div class="pbar p3" id="pb-3"></div>
+          <span class="pbar-count" id="pc-3">0</span>
           <span class="pbar-label">3rd</span>
         </div>
       </div>
       <div class="podium-total">
-        <div class="num">61</div>
+        <div class="num" id="pb-total">0</div>
         <div class="label">Total podiums</div>
       </div>
     </div>
@@ -603,6 +585,31 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     b.addEventListener("click", function(){ render(y); });
     chipsBox.appendChild(b);
   });
+  /* ---------- Global stats: years racing + podium breakdown ---------- */
+  var now = new Date();
+  var firstRace = new Date("2019-08-01T00:00:00");
+  var yearsRacing = Math.max(1, now.getFullYear() - firstRace.getFullYear() +
+    (now.getMonth() < firstRace.getMonth() ? -1 : 0));
+  document.getElementById("t-years").textContent = yearsRacing;
+  document.getElementById("m-years").innerHTML = yearsRacing + '<span class="u">yrs</span>';
+
+  var wins = RACES.filter(function(r){ return r.result === 1; }).length;
+  var silvers = RACES.filter(function(r){ return r.result === 2; }).length;
+  var bronzes = RACES.filter(function(r){ return r.result === 3; }).length;
+  var totalPods = wins + silvers + bronzes;
+
+  document.getElementById("t-podiums").textContent = totalPods;
+  document.getElementById("m-podiums").textContent = totalPods;
+  document.getElementById("m-podium-note").textContent =
+    totalPods + " logged in the race log · " + wins + " wins · " + silvers + " second · " + bronzes + " third";
+
+  var mx = Math.max(wins, silvers, bronzes, 1);
+  [["pb-1","pc-1",wins],["pb-2","pc-2",silvers],["pb-3","pc-3",bronzes]].forEach(function(bar){
+    document.getElementById(bar[0]).style.height = Math.round(bar[2] / mx * 190) + "px";
+    document.getElementById(bar[1]).textContent = bar[2];
+  });
+  document.getElementById("pb-total").textContent = totalPods;
+
   if (years.length) render(years[0]);
 })();
 </script>
