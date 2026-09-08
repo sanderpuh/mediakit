@@ -12,28 +12,24 @@
    ============================================================ */
 const RACES = [
   // ----- 2026 -----
-  { date: "2026-08-22", event: "DCL · Berlin Night Circuit",  country: "DE", result: 1,    tq: false },
-  { date: "2026-07-19", event: "DCL · Osaka Skyline",         country: "JP", result: 2,    tq: false },
-  { date: "2026-06-14", event: "FAI F9U World Cup · Madrid",  country: "ES", result: 3,    tq: false },
-  { date: "2026-05-03", event: "MultiGP Qualifier · Austin",  country: "US", result: null, tq: true  },
+  { date: "2026-09-05", event: "NK Drone Racing 2026 Season",   country: "DE", result: 3,    tq: false },
+  { date: "2026-09-05", event: "NK Drone Racing Finals",        country: "DE", result: 2,    tq: false },
+  { date: "2026-06-13", event: "Belgian Champs F9U Heat 4",     country: "BE", result: 3,    tq: false },
+  { date: "2026-03-14", event: "DDR Whoop Awakening",           country: "NL", result: 3, tq: false  },
   // ----- 2025 -----
-  { date: "2025-11-08", event: "FAI F9U World Cup Final · Cairo", country: "EG", result: 2, tq: false },
-  { date: "2025-09-21", event: "DCL · Barcelona",             country: "ES", result: 1,    tq: false },
-  { date: "2025-08-10", event: "National Series Rd 4 · Eindhoven", country: "NL", result: 2, tq: true },
-  { date: "2025-06-28", event: "FAI World Cup Qualifier · Seoul", country: "KR", result: null, tq: true },
-  { date: "2025-04-13", event: "DCL · Dubai",                 country: "AE", result: 1,    tq: false },
+  { date: "2025-12-13", event: "DDR Jingle Whoops",             country: "NL", result: 3, tq: true },
+  { date: "2025-11-29", event: "DDR Neon Nights",               country: "NL", result: 2, tq: false },
+  { date: "2025-11-08", event: "Unmanned Valley DIY DAY",                          country: "NL", result: 2,    tq: false },
+  { date: "2025-06-28", event: "BTMC Spec Race",                country: "BE", result: 1, tq: true },
+  { date: "2025-02-22", event: "DDR Arabian Flights",           country: "NL", result: 3, tq: false },
+  { date: "2025-01-11", event: "DDR New Years Nitro",           country: "NL", result: 2,    tq: false },
   // ----- 2024 -----
-  { date: "2024-10-19", event: "MultiGP International · Las Vegas", country: "US", result: 3, tq: false },
-  { date: "2024-08-04", event: "National Series Rd 6 · Lille", country: "FR", result: 1,   tq: false },
-  { date: "2024-05-25", event: "FAI F9U Open · Vienna",       country: "AT", result: null, tq: true  },
-  { date: "2024-03-17", event: "DCL · Miami",                 country: "US", result: 2,    tq: false },
+  { date: "2024-11-23", event: "DDR Fall Frenzy",               country: "NL", result: 2, tq: false },
+  { date: "2024-08-31", event: "Race der Lage Landen Spec League",        country: "NL", result: 3, tq: true },
+  { date: "2024-05-18", event: "Race der Lage Landen",          country: "NL", result: 2,   tq: false },
+  { date: "2024-04-20", event: "DDR The Last PropBender",       country: "NL", result: 2,   tq: false },
+  { date: "2024-04-06", event: "DDR LEDs Spring",               country: "NL", result: 2, tq: false  },
+  { date: "2024-01-06", event: "DDR New Years Race",            country: "NL", result: null,    tq: true },
   // ----- 2023 -----
-  { date: "2023-09-09", event: "National Championship",       country: "NL", result: 3,    tq: false },
-  { date: "2023-06-24", event: "Euro GQ · Prague",            country: "CZ", result: 1,    tq: true  },
-  // ----- 2022 -----
-  { date: "2022-10-15", event: "National Series Rd 8",        country: "NL", result: 1,    tq: false },
-  // ----- 2021 -----
-  { date: "2021-08-21", event: "National Series Rd 5",        country: "NL", result: 2,    tq: false },
-  // ----- 2020 -----
-  { date: "2020-09-12", event: "National Series Rd 3",        country: "NL", result: 3,    tq: false },
+  { date: "2023-12-9", event: "DDR Santas Fun Run",             country: "NL", result: 2,    tq: false },
 ];
