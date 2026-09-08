@@ -12,7 +12,7 @@
    ============================================================ */
 const RACES = [
   // ----- 2026 -----
-  { date: "2026-09-05", event: "NK Drone Racing 2026 Season",   country: "DE", result: 3,    tq: false },
+  { date: "2026-09-06", event: "NK Drone Racing 2026 Season end",   country: "DE", result: 3,    tq: false },
   { date: "2026-09-05", event: "NK Drone Racing Finals",        country: "DE", result: 2,    tq: false },
   { date: "2026-06-13", event: "Belgian Champs F9U Heat 4",     country: "BE", result: 3,    tq: false },
   { date: "2026-03-14", event: "DDR Whoop Awakening",           country: "NL", result: 3, tq: false  },
