@@ -194,7 +194,7 @@ section{padding:76px 0}
 .fact-card h3{font-family:var(--head);font-size:1.9rem;color:var(--ink);margin-bottom:18px}
 
 /* ============================= PODIUM ============================= */
-.podium{background:var(--card2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+#highlights{background:var(--card2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
 .podium-box{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 rgba(35,16,0,.25);padding:44px 34px;display:flex;gap:44px;flex-wrap:wrap;align-items:center;justify-content:center}
 .podium-bars{display:flex;gap:30px;align-items:flex-end}
 .pbar-col{display:flex;flex-direction:column;align-items:center;gap:10px;width:92px}
@@ -427,39 +427,6 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     </div>
 </section>
 
-<!-- ============================= PODIUM ============================= -->
-<section class="podium" id="podiums">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Podium <em>Breakdown</em></h2>
-      <p class="sec-sub">Every podium from the race log, split by finish - the habit speaks for itself.</p>
-    </div>
-    <div class="podium-box">
-      <div class="podium-bars">
-        <div class="pbar-col">
-          <div class="pbar p1" id="pb-1"></div>
-          <span class="pbar-count" id="pc-1">0</span>
-          <span class="pbar-label">1st · wins</span>
-        </div>
-        <div class="pbar-col">
-          <div class="pbar p2" id="pb-2"></div>
-          <span class="pbar-count" id="pc-2">0</span>
-          <span class="pbar-label">2nd</span>
-        </div>
-        <div class="pbar-col">
-          <div class="pbar p3" id="pb-3"></div>
-          <span class="pbar-count" id="pc-3">0</span>
-          <span class="pbar-label">3rd</span>
-        </div>
-      </div>
-      <div class="podium-total">
-        <div class="num" id="pb-total">0</div>
-        <div class="label">Total podiums</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============================= HIGHLIGHTS ============================= -->
 <section id="highlights">
   <div class="wrap">
@@ -490,9 +457,38 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
         <span class="year">2020</span>
         <p><strong>First international drone race</strong> and <strong>first brand collaboration</strong>.</p>
       </div>
-      <div class="timeline-item">
-        <span class="year">2019</span>
-        <p><strong>First race.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= PODIUM BREAKDOWN ============================= -->
+<section class="podium" id="podiums">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Podium <em>Breakdown</em></h2>
+      <p class="sec-sub">Every podium from the race log, split by finish - the habit speaks for itself.</p>
+    </div>
+    <div class="podium-box">
+      <div class="podium-bars">
+        <div class="pbar-col">
+          <div class="pbar p1" id="pb-1"></div>
+          <span class="pbar-count" id="pc-1">0</span>
+          <span class="pbar-label">1st · wins</span>
+        </div>
+        <div class="pbar-col">
+          <div class="pbar p2" id="pb-2"></div>
+          <span class="pbar-count" id="pc-2">0</span>
+          <span class="pbar-label">2nd</span>
+        </div>
+        <div class="pbar-col">
+          <div class="pbar p3" id="pb-3"></div>
+          <span class="pbar-count" id="pc-3">0</span>
+          <span class="pbar-label">3rd</span>
+        </div>
+      </div>
+      <div class="podium-total">
+        <div class="num" id="pb-total">0</div>
+        <div class="label">Total podiums</div>
       </div>
     </div>
   </div>
