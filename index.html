@@ -152,8 +152,8 @@ a{color:inherit;text-decoration:none}
 .hero-visual .hv-row .v.t{color:var(--teal-deep)}
 
 /* ============================= METRICS ============================= */
-.metrics{padding:70px 0 80px;background:var(--card2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
-.metrics .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.metrics{padding:70px 0 80px;background:var(--card2);border-top:2px solid var(--ink)}
+.metrics .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:-52px}
 .metric{
   background:var(--card);padding:26px 20px 22px;position:relative;
   border:2px solid var(--ink);border-radius:14px;
@@ -174,6 +174,8 @@ a{color:inherit;text-decoration:none}
 /* ============================= SECTIONS ============================= */
 section{padding:76px 0}
 .sec-head{margin-bottom:40px}
+.story-sec{background:var(--card2);border-bottom:2px solid var(--ink);padding-top:0}
+
 .sec-head h2{
   font-family:var(--head);font-size:clamp(2.2rem,5.5vw,3.2rem);line-height:1.05;
   color:var(--ink);
@@ -196,6 +198,7 @@ section{padding:76px 0}
 
 /* ============================= PODIUM ============================= */
 #highlights{background:var(--card2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+#podiums{background:transparent}
 .podium-box{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 rgba(35,16,0,.25);padding:44px 34px;display:flex;gap:44px;flex-wrap:wrap;align-items:center;justify-content:center}
 .podium-bars{display:flex;gap:30px;align-items:flex-end}
 .pbar-col{display:flex;flex-direction:column;align-items:center;gap:10px;width:92px}
@@ -222,7 +225,9 @@ section{padding:76px 0}
 .timeline-item p .hl-y{color:var(--orange);font-weight:700}
 
 /* ============================= RACE LOG ============================= */
-.racelog{background:var(--card2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.racelog{}
+.band{background:var(--card2);border-top:2px solid var(--ink);border-bottom:0}
+.band2{background:var(--card2)}
 .chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
 .chip{
   font-family:var(--head);font-size:1.2rem;letter-spacing:.03em;
@@ -361,7 +366,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 </header>
 
 <!-- ============================= METRICS ============================= -->
-<section class="metrics" id="metrics" style="padding-top:70px;border-top:2px solid var(--ink)">
+<section class="metrics" id="metrics" style="padding-top:16px;border-top:2px solid var(--ink)">
   <div class="wrap">
     <!-- EDIT: dashboard metrics -->
     <div class="metric">
@@ -387,12 +392,12 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
   </div>
 </section>
 
-<!-- ============================= STORY ============================= -->
-<section id="story">
-  <div class="wrap">
+<!-- ============================= MY STORY ============================= -->
+<section class="story-sec" id="story">
+  <div class="wrap story-wrap" style="padding-top:0">
     <div class="sec-head">
-      <h2>The <em>Story</em></h2>
-      <p class="sec-sub">A local race report in 2018 started it all - from first simulator flight to national podiums.</p>
+      <h2>My <em>Story</em></h2>
+      <p class="sec-sub">A local race report in 2018 started it all - from first simulator flight to international podiums.</p>
     </div>
     <div class="story-grid">
       <div class="story-card">
@@ -423,38 +428,9 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
         <p>Occasionally playing volleyball, running, enjoying good food and beautiful nature.</p>
       </div>
     </div>
-    </div>
-</section>
-
-<!-- ============================= HIGHLIGHTS ============================= -->
-<section id="highlights">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Career <em>Highlights</em></h2>
-      <p class="sec-sub">The climb, logged.</p>
-    </div>
-    <div class="timeline">
-      <!-- EDIT: timeline entries -->
-      <div class="timeline-item">
-        <span class="year">2026</span>
-        <p><strong>3rd place</strong> in the Dutch Championship season. Started a new, fast-growing
-          local drone racing community.</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2024</span>
-        <p>Release of the <strong>DRIPPUH frame</strong> and <span class="hl-y">an instant podium</span> at the first race with the new frame.</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2023</span>
-        <p><strong>Development start</strong> of the 5&Prime; racing frame.</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2020</span>
-        <p><strong>First international drone race</strong> and <strong>first brand collaboration</strong>.</p>
-      </div>
-    </div>
   </div>
 </section>
+
 
 <!-- ============================= PODIUM BREAKDOWN ============================= -->
 <section class="podium" id="podiums">
@@ -488,6 +464,35 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     </div>
   </div>
 </section>
+<!-- ============================= HIGHLIGHTS ============================= -->
+<section id="highlights">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Career <em>Highlights</em></h2>
+      <p class="sec-sub">The climb, logged.</p>
+    </div>
+    <div class="timeline">
+      <!-- EDIT: timeline entries -->
+      <div class="timeline-item">
+        <span class="year">2026</span>
+        <p><strong>3rd place</strong> in the Dutch Championship season. Started a new, fast-growing
+          local drone racing community.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="year">2024</span>
+        <p>Release of the <strong>DRIPPUH frame</strong> and <span class="hl-y">an instant podium</span> at the first race with the new frame.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="year">2023</span>
+        <p><strong>Development start</strong> of the 5&Prime; racing frame.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="year">2020</span>
+        <p><strong>First international drone race</strong> and <strong>first brand collaboration</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============================= RACE LOG ============================= -->
 <section class="racelog" id="results">
@@ -508,7 +513,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 </section>
 
 <!-- ============================= SPONSORS ============================= -->
-<section id="sponsors">
+<section id="sponsors" class="band">
   <div class="wrap">
     <div class="sec-head">
       <h2>Brand <em>Affiliations</em></h2>
@@ -563,7 +568,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 </section>
 
 <!-- ============================= CONTACT / CHANNELS ============================= -->
-<section id="contact" style="padding-top:0">
+<section id="contact" class="band2" style="padding-top:0">
   <div class="wrap" style="text-align:center">
     <div class="sec-head">
       <h2>Pilot <em>Channels &amp; Contact</em></h2>
