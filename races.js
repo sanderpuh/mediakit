@@ -42,4 +42,5 @@ const RACES = [
   { date: "2026-06-13", event: "Belgian Champs F9U Heat 4 Pampa",    country: "BE", result: 3,    tq: false },
   { date: "2026-09-05", event: "NK Drone Racing Finals",             country: "NL", result: 2,    tq: false },
   { date: "2026-09-06", event: "NK Drone Racing 2026 Season",        country: "NL", result: 3,    tq: false },
+  { date: "2026-09-13", event: "MultiGP European Championship E",    country: "DE", result: 1,    tq: false },
 ];
