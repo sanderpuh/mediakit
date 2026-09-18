@@ -101,6 +101,10 @@ a{color:inherit;text-decoration:none}
 .hero-intro{color:#3d2a18;max-width:560px;font-size:17.5px;margin-bottom:34px}
 .hero-intro strong{color:var(--ink)}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.cta-stack{width:fit-content;max-width:100%}
+.cta-stack .hub-row{width:100%}
+.hub-row{display:flex;gap:14px;margin-top:14px;width:0;min-width:100%}
+.btn-hub{width:100%;box-sizing:border-box}
 .btn{
   display:inline-block;font-family:var(--head);font-size:1.25rem;letter-spacing:.04em;
   padding:14px 38px;border-radius:999px;
@@ -108,7 +112,8 @@ a{color:inherit;text-decoration:none}
 }
 .btn-y{background:var(--yellow);color:var(--ink);border:2px solid var(--ink);box-shadow:4px 4px 0 rgba(35,16,0,.25)}
 /* Parts hub button — identical styling to the quick-links chips */
-.btn-hub{font-size:1.2rem;letter-spacing:.03em;padding:16px 26px;border:2px solid var(--ink);border-radius:999px;background:var(--card);box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+.btn-hub{font-size:1.2rem;letter-spacing:.03em;line-height:1.25;text-align:center;padding:12px 30px;border:2px solid var(--ink);border-radius:999px;background:var(--card);box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+.btn-hub .hub-sub{display:block;font-size:.85rem;font-family:var(--body);letter-spacing:0;color:#3d2a18;margin-top:2px}
 .btn-hub:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
 .btn-y:hover{background:var(--card);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
 .btn-o{background:var(--card);color:var(--ink);border:2px solid var(--ink);border-radius:999px;font-size:1.2rem;letter-spacing:.03em;padding:16px 26px;box-shadow:4px 4px 0 rgba(35,16,0,.25)}
@@ -340,10 +345,14 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
         simulator, to first build, to race winner. I race various classes from whoops to 7&Prime;, focusing on aggression off the line
         and consistency lap after lap, and design my own hardware under the <strong>PUH</strong> brand.
       </p>
-      <div class="hero-cta">
-        <a class="btn btn-y" href="#results">View race log</a>
-        <a class="btn btn-o" href="#contact">Get in touch</a>
-        <a class="btn btn-hub" href="/links"><strong>Parts hub</strong> - print files, frame &amp; gear</a>
+      <div class="cta-stack">
+        <div class="hero-cta">
+          <a class="btn btn-y" href="#results">View race log</a>
+          <a class="btn btn-o" href="#contact">Get in touch</a>
+        </div>
+        <div class="hub-row">
+          <a class="btn btn-hub" href="/links">Parts hub<br><span class="hub-sub">print files, frame &amp; gear</span></a>
+        </div>
       </div>
     </div>
     <div class="hero-visual">
@@ -689,7 +698,7 @@ function spEqual(){
   const w=Math.max(...btns.map(b=>b.getBoundingClientRect().width));
   btns.forEach(b=>b.style.minWidth=w+'px');
 }
-function runEqual(){spEqual();}
+  function runEqual(){spEqual();}
 runEqual();
 addEventListener('resize',runEqual);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(runEqual);
