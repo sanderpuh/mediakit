@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#7fb7be">
+<meta name="description" content="SANDERPUH links — 3D printed parts, print files, frame, gear and pilot channels.">
+<title>SanderPuh - Links</title>
+<link rel="icon" type="image/png" href="../icon.png">
+<link rel="apple-touch-icon" href="../icon.png">
+<style>
+
+/* ============================================================
+   SANDERPUH — FPV RACING SITE  (v5)
+   Palette: #231000 (bg) · #7eb7be (teal) · #fcdb2c (yellow)
+            #e7860a (orange) · #FFFFFF
+   Headers: Pronave (self-hosted). Body: system font.
+   No frameworks, no build. Edit at <!-- EDIT --> markers.
+   ============================================================ */
+@font-face{
+  font-family:'Pronave';
+  src:url('Pronave.ttf') format('truetype');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --bg:#7fb7be;            /* teal — as on linktr.ee/sanderpuh */
+  --teal:#7fb7be;
+  --teal-deep:#647577;
+  --yellow:#fdc430;        /* button yellow — as on linktr.ee/sanderpuh */
+  --yellow-deep:#e0b31c;
+  --orange:#e7860a;
+  --ink:#231000;           /* dark roast text — as on linktr.ee/sanderpuh */
+  --card:#eff0ec;          /* off-white panels */
+  --card2:#e0e2d9;
+  --muted:#54685e;
+  --muted2:#676b5f;
+  --border:rgba(35,16,0,.18);
+  --body:'-apple-system',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --head:'Pronave',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--yellow);color:#231000}
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+
+/* ============================= TELEMETRY BAR ============================= */
+.telemetry{
+  position:sticky;top:0;z-index:100;
+  background:var(--ink);
+  border-bottom:3px solid var(--yellow);
+}
+.telemetry .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:12px;padding-bottom:12px}
+.t-item.t-drop{display:none}
+.t-item.t-lq-group{gap:3px}
+.t-therm{position:relative;display:inline-block;width:19px;height:26px;align-self:center}
+.t-therm::before{content:"";position:absolute;left:3px;top:0;width:5px;height:20px;border-radius:2.5px;background:var(--card);z-index:1}
+.t-therm::after{content:"";position:absolute;left:1px;bottom:0;width:9px;height:9px;border-radius:50%;background:var(--card);z-index:0}
+.t-therm .fill{position:absolute;left:4px;bottom:4px;width:3px;border-radius:2px;background:var(--yellow);z-index:2}
+.t-therm .bulb{position:absolute;left:2.5px;bottom:1px;width:6px;height:6px;border-radius:50%;background:var(--yellow);z-index:3}
+.t-therm .ticks{position:absolute;left:9px;top:2.5px;height:15.5px;display:flex;flex-direction:column;justify-content:space-between}
+.t-therm .ticks span{display:block;width:4px;height:2px;background:var(--card);border-radius:1px;margin-left:-1px}
+.t-item.t-lq-group .t-lq{margin-left:0}
+.t-item{display:flex;flex-direction:row;align-items:baseline;line-height:1.2}
+.t-item.t-lq-item{margin-right:0}
+.t-label{font-family:var(--head);font-size:14px;color:var(--card);line-height:1.1;margin-right:6px;text-transform:uppercase}
+.t-value{font-family:var(--head);font-size:15px;color:var(--yellow);line-height:1.1}
+.t-item.pilot .t-label{margin-right:4px}
+.t-lq{display:inline-flex;align-items:flex-end;gap:2px;margin-left:6px}
+.t-lq span{width:3px;background:var(--card);border-radius:1px;display:inline-block}
+.t-lq span.on{background:var(--yellow)}
+.t-lq span:nth-child(1){height:6px}
+.t-lq span:nth-child(2){height:9px}
+.t-lq span:nth-child(3){height:12px}
+.t-lq span:nth-child(4){height:15px}
+.t-lq span:nth-child(5){height:18px}
+
+/* ============================= HERO ============================= */
+.hero{padding:84px 0 96px;border-bottom:4px solid var(--ink)}
+.hero .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:44px;align-items:center}
+.hero h1{
+  font-family:var(--head);font-size:clamp(3.4rem,10vw,6.6rem);line-height:.9;
+  color:var(--ink);margin-bottom:8px;letter-spacing:.01em;
+}
+.hero h1 .puh{color:var(--yellow)}
+.hero h1 .sand{color:var(--ink)}
+.hero-tagline{
+  font-family:var(--head);font-size:clamp(1.4rem,3vw,1.9rem);color:var(--ink);
+  margin-bottom:24px;line-height:1.25;
+}
+.hero-tagline .hl-y{color:var(--yellow)}
+.hero-intro{color:#3d2a18;max-width:560px;font-size:17.5px;margin-bottom:34px}
+.hero-intro strong{color:var(--ink)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-block;font-family:var(--head);font-size:1.25rem;letter-spacing:.04em;
+  padding:14px 38px;border-radius:999px;
+  transition:transform .15s,box-shadow .15s,background .15s;
+}
+.btn-y{background:var(--yellow);color:var(--ink);border:2px solid var(--ink);box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+/* Parts hub button — identical styling to the quick-links chips */
+.btn-hub{font-size:1.2rem;letter-spacing:.03em;padding:16px 26px;border:2px solid var(--ink);border-radius:999px;background:var(--card);box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+.btn-hub:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
+.btn-y:hover{background:var(--card);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
+.btn-o{background:var(--card);color:var(--ink);border:2px solid var(--ink);border-radius:999px;font-size:1.2rem;letter-spacing:.03em;padding:16px 26px;box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+.btn-o:hover{background:var(--card);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
+/* hero side: emblem panel */
+.hero-visual{
+  background:var(--card);border:2px solid var(--ink);
+  box-shadow:8px 8px 0 rgba(35,16,0,.35);
+  padding:34px 28px;position:relative;border-radius:18px;
+}
+.hero-visual .emblem{
+  width:200px;height:200px;margin:8px auto 22px;border-radius:50%;
+  border:4px solid var(--yellow);overflow:hidden;background:var(--card2);
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-visual .emblem img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-visual .emblem-name{font-family:var(--head);font-size:1.6rem;color:var(--ink);text-align:center;margin:-14px 0 26px;letter-spacing:.02em}
+.hero-visual .hv-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:9px 0;border-bottom:1px solid var(--border);font-size:15.5px;
+}
+.hero-visual .hv-row:last-child{border-bottom:none}
+.hero-visual .hv-row .k{color:var(--muted2);text-transform:uppercase;font-size:12.5px;letter-spacing:.1em}
+.hero-visual .hv-row .v{color:var(--ink);font-weight:600}
+.hero-visual .hv-row .v.t{color:var(--teal-deep)}
+
+/* ============================= METRICS ============================= */
+.metrics{padding:70px 0 80px;background:var(--card2);border-top:2px solid var(--ink)}
+.metrics .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:-52px}
+.metric{
+  background:var(--card);padding:26px 20px 22px;position:relative;
+  border:2px solid var(--ink);border-radius:14px;
+  box-shadow:6px 6px 0 rgba(35,16,0,.25);
+  transition:transform .2s,box-shadow .2s;
+}
+.metric:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 rgba(35,16,0,.35)}
+.metric .m-label{font-size:12.5px;letter-spacing:.12em;color:var(--muted2);text-transform:uppercase;margin-top:10px}
+.metric .m-value{font-family:var(--head);font-size:3.2rem;line-height:1;color:var(--ink);text-align:left;padding-left:10px;border-bottom:none}
+.metric .m-value .u{font-size:1.15rem;color:var(--teal-deep);margin-left:14px}
+.metric .m-note{font-size:13px;color:var(--muted);margin-top:2px}
+.metric-link{display:block;color:inherit;text-decoration:none}
+.metric-link:hover .m-value{color:var(--teal-deep)}
+.metric.accent .m-value{color:var(--ink)}
+.metric.accent{background:var(--yellow)}
+.metric.accent .m-label,.metric.accent .m-note{color:#5c4a10}
+
+/* ============================= SECTIONS ============================= */
+section{padding:76px 0}
+.sec-head{margin-bottom:40px}
+.story-sec{background:var(--card2);border-bottom:2px solid var(--ink);padding-top:0}
+
+.sec-head h2{
+  font-family:var(--head);font-size:clamp(2.2rem,5.5vw,3.2rem);line-height:1.05;
+  color:var(--ink);
+}
+.sec-head h2 em{font-style:normal;color:var(--ink)}
+.sec-sub{color:#3d2a18;max-width:680px;font-size:16.5px}
+
+/* ============================= STORY ============================= */
+
+.story-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:30px;align-items:stretch}
+.story-card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:34px}
+.story-card h3{font-family:var(--head);font-size:1.9rem;color:var(--ink);margin-bottom:18px}
+.story-card p,.fact-card p{color:#3d2a18;margin-bottom:16px;font-size:16.5px}
+.story-card p:last-child{margin-bottom:0}
+.story-card p strong{color:var(--ink)}
+.story-card p .hl-y{color:var(--orange);font-weight:700}
+.story-card p .hl-t{color:var(--teal-deep);font-weight:700}
+.fact-card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:34px}
+.fact-card h3{font-family:var(--head);font-size:1.9rem;color:var(--ink);margin-bottom:18px}
+
+/* ============================= PODIUM ============================= */
+#highlights{background:var(--card2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+#podiums{background:transparent}
+.podium-box{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 rgba(35,16,0,.25);padding:44px 34px;display:flex;gap:44px;flex-wrap:wrap;align-items:center;justify-content:center}
+.podium-bars{display:flex;gap:30px;align-items:flex-end}
+.pbar-col{display:flex;flex-direction:column;align-items:center;gap:10px;width:92px}
+.pbar{width:100%;height:0}
+.pbar.p1{background:#d4a017}
+.pbar.p2{background:#b8bcc0}
+.pbar.p3{background:#b06b3a}
+.pbar-count{font-family:var(--head);font-size:2.6rem;line-height:.9;color:var(--ink)}
+.pbar-label{font-size:13.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.podium-total{text-align:center}
+.podium-total .num{font-family:var(--head);font-size:6.5rem;line-height:.85;color:var(--ink)}
+.podium-total .label{font-size:14px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted2);font-weight:600;margin-top:6px}
+
+/* ============================= HIGHLIGHTS ============================= */
+.timeline{max-width:820px;margin:0 auto;border-left:4px solid var(--ink);padding-left:32px}
+.timeline-item{position:relative;margin-bottom:26px;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:20px 26px}
+.timeline-item::before{
+  content:"";position:absolute;left:-41px;top:24px;width:14px;height:14px;
+  background:var(--ink);outline:3px solid var(--yellow);transform:rotate(45deg);
+}
+.timeline-item .year{font-family:var(--head);font-size:1.7rem;color:var(--ink);display:block;margin-bottom:4px;line-height:1.1}
+.timeline-item p{color:#3d2a18;font-size:16px}
+.timeline-item p strong{color:var(--ink)}
+.timeline-item p .hl-y{color:var(--orange);font-weight:700}
+
+/* ============================= RACE LOG ============================= */
+.racelog{}
+.band{background:var(--card2);border-top:2px solid var(--ink);border-bottom:0}
+.band2{background:var(--card2)}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.chip{
+  font-family:var(--head);font-size:1.2rem;letter-spacing:.03em;
+  padding:10px 26px;border:2px solid var(--ink);border-radius:999px;background:var(--card);
+  color:var(--ink);cursor:pointer;transition:all .15s;
+}
+.chip:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
+.chip.active{background:var(--yellow);box-shadow:4px 4px 0 var(--ink)}
+.chip.active:hover{background:var(--card)}
+.season-note{font-size:14px;color:var(--muted2);margin-bottom:16px}
+.log-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border:2px solid var(--ink);border-radius:14px;overflow:hidden}
+.log-table th{
+  font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);
+  text-align:left;padding:14px 18px;border-bottom:3px solid var(--ink);background:var(--card2);
+}
+.log-table td{padding:14px 18px;border-bottom:1px solid var(--border);font-size:15.5px;color:#3d2a18}
+.log-table tr:last-child td{border-bottom:none}
+.log-table .ev{color:var(--ink);font-weight:600}
+.log-table .flag{color:var(--muted2);font-size:13px;margin-left:6px}
+.res{display:inline-block;font-family:var(--head);min-width:58px;text-align:center;padding:4px 12px;font-size:1.05rem;line-height:1.5}
+.res.r-1{background:var(--yellow);color:var(--ink);border:2px solid var(--yellow);border-radius:999px}
+.res.r-2{background:var(--teal-deep);color:#fff;border:2px solid var(--teal-deep);border-radius:999px}
+.res.r-3{background:var(--orange);color:#fff;border:2px solid var(--orange);border-radius:999px}
+.res.other{color:var(--muted2);border:1.5px solid var(--ink);border-radius:999px}
+.res.tq{background:var(--card);color:var(--ink);border:2px solid var(--ink);border-radius:999px}
+.res-wrap{display:inline-flex;gap:6px;flex-wrap:wrap}
+.q-tag{color:var(--teal-deep);font-weight:700;font-size:14px}
+
+/* ============================= SPONSORS ============================= */
+.sponsor-strip{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-bottom:36px}
+.sp{
+  font-family:var(--head);font-size:1.25rem;letter-spacing:.03em;color:var(--muted2);
+  border:2px solid var(--ink);border-radius:999px;padding:16px 26px;background:var(--card);
+  transition:all .2s;
+  box-shadow:4px 4px 0 rgba(35,16,0,.25);
+  min-width:var(--spw,0px);
+  display:inline-flex;align-items:center;justify-content:center;
+  white-space:nowrap;
+  box-sizing:border-box;
+}
+.sp:hover{color:var(--ink);transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(35,16,0,.35)}
+
+/* ---------- PUH Brand Card ---------- */
+.p-link{
+  display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--yellow);text-decoration:none;margin-top:auto;text-align:left;padding-left:14px;
+}
+.p-link:hover{color:#fff;text-decoration:underline}
+.sp{ text-decoration:none; }
+.puh-card{background:var(--ink);border-radius:18px;padding:38px 34px;margin-top:36px}
+.puh-card h3{font-family:var(--head);font-size:2.2rem;color:var(--yellow);margin:0 0 8px 0}
+.puh-desc{font-size:16.5px;line-height:1.6;color:#e8ddd2;max-width:720px;margin-bottom:28px}
+.puh-desc strong{color:#fff}
+.puh-products{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.puh-prod{background:rgba(255,255,255,.06);border:2px solid rgba(253,212,48,.55);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:6px;flex:1 1 0}
+.puh-prod .p-name{font-family:var(--head);font-size:1.35rem;color:#fff}
+.puh-prod .p-spec{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--yellow)}
+.puh-prod p{font-size:14px;line-height:1.5;color:#cfc4b6;margin:4px 0 0 0}
+.puh-prod.puh-soon{border-style:dashed;background:rgba(255,255,255,.03)}
+.puh-prod.puh-soon .p-spec{color:var(--teal)}
+
+/* ============================= SOCIAL ============================= */
+.social-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.soc{
+  min-width:170px;display:inline-flex;align-items:center;gap:12px;
+  border:2px solid var(--ink);border-radius:999px;background:var(--card);padding:16px 26px;
+  color:var(--ink);transition:all .2s;
+  box-shadow:4px 4px 0 rgba(35,16,0,.25);
+}
+.soc svg{width:26px;height:26px;fill:var(--teal-deep);flex-shrink:0}
+.soc .soc-name{font-family:var(--head);font-size:1.25rem;color:var(--ink)}
+.soc:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(35,16,0,.4)}
+.soc:hover svg{fill:var(--orange)}
+
+/* ============================= FOOTER ============================= */
+footer{border-top:3px solid var(--yellow);background:var(--ink);padding:38px 0;text-align:center;font-size:14px;color:#c9b39a}
+footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
+
+/* ============================= RESPONSIVE ============================= */
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr}
+  .hero-visual{max-width:460px;margin:0 auto}
+  .story-grid{grid-template-columns:1fr}
+  .telemetry .wrap{gap:14px 20px}
+}
+@media (max-width:520px){
+  .telemetry .wrap{gap:10px 16px}
+  .t-value{font-size:13px}
+  .t-label{font-size:12px}
+  section{padding:58px 0}
+  .podium-box{padding:30px 18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+  html{scroll-behavior:auto}
+}
+
+/* ============================= LINKS PAGE ============================= */
+.links-sec{padding:64px 0}
+.links-sec .sec-head{margin-bottom:28px}
+.link-list{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.link-btn{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  font-family:var(--head);font-size:1.25rem;letter-spacing:.03em;
+  padding:16px 26px;border:2px solid var(--ink);border-radius:999px;background:var(--card);
+  color:var(--ink);box-shadow:4px 4px 0 rgba(35,16,0,.25);transition:all .2s;white-space:nowrap;
+}
+.link-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(35,16,0,.4)}
+.link-btn .lb-sub{font-size:13px;color:var(--muted2);font-family:var(--body);letter-spacing:0}
+</style>
+</head>
+<body>
+
+<!-- ============================= TELEMETRY BAR ============================= -->
+<div class="telemetry">
+  <div class="wrap" id="t-wrap">
+    <!-- EDIT: the 5 vital telemetry items -->
+    <span class="t-item t-therm-item"><span class="t-therm" title="Battery"><span class="fill"></span><span class="bulb"></span>
+        <span class="ticks"><span></span><span></span><span></span><span></span><span></span></span></span></span>
+    <span class="t-item" data-drop="1"><span class="t-label">Status:</span> <span class="t-value" id="t-status">Racing</span></span>
+    <span class="t-item t-lq-group" data-keep="1"><span class="t-value" style="color:var(--yellow);font-weight:700;letter-spacing:.08em;margin-right:14px;font-size:11px">REC</span><span class="t-lq" title="Link quality"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="t-lq"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></span>
+  </div>
+</div>
+
+<main>
+<section class="links-sec">
+  <div class="wrap" style="text-align:center">
+    <div class="sec-head">
+      <h2>PUH <em>Links</em></h2>
+      <p class="sec-sub" style="margin-left:auto;margin-right:auto">All my parts, print files and channels in one place.</p>
+    </div>
+    <div class="link-list">
+      <!-- EDIT: the 6 concept link buttons -->
+      <a class="link-btn" href="https://www.printables.com/model/889628-drippuh" target="_blank" rel="noopener">Drippuh - 3D print files <span class="lb-sub">(Printables)</span></a>
+      <a class="link-btn" href="https://droneshopfpv.com" target="_blank" rel="noopener">Drippuh frame <span class="lb-sub">(Droneshop)</span></a>
+      <a class="link-btn" href="https://www.printables.com/@SanderPuh" target="_blank" rel="noopener">All PUH print files <span class="lb-sub">(Printables)</span></a>
+      <a class="link-btn" href="#sponsors">PUH products</a>
+      <a class="link-btn" href="https://www.youtube.com/@SanderPuhFPV" target="_blank" rel="noopener">YouTube <span class="lb-sub">(@SanderPuhFPV)</span></a>
+      <a class="link-btn" href="https://www.instagram.com/sanderpuhfpv" target="_blank" rel="noopener">Instagram <span class="lb-sub">(@sanderpuhfpv)</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="band2" style="padding-top:0">
+  <div class="wrap" style="text-align:center">
+    <div class="sec-head">
+      <h2>Pilot <em>Channels &amp; Contact</em></h2>
+      <p class="sec-sub" style="margin-left:auto;margin-right:auto">Where my racing content is found - race footage, build sessions, and everything in between.</p>
+    </div>
+    <div class="social-row">
+      <a class="soc" href="https://www.youtube.com/@SanderPuhFPV" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
+        <span class="soc-name">YouTube</span>
+      </a>
+      <a class="soc" href="https://www.instagram.com/sanderpuhfpv" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2a3.8 3.8 0 0 1-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.8 3.8 0 0 1-1.4-.9c-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.6A6.2 6.2 0 1 0 18.2 12 6.2 6.2 0 0 0 12 5.8zm0 10.2A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.4-11.8a1.4 1.4 0 1 0 1.4 1.4 1.4 1.4 0 0 0-1.4-1.4z"/></svg>
+        <span class="soc-name">Instagram</span>
+      </a>
+      <a class="soc" href="https://discord.com/users/SanderPuh" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.9 3l-.2.4a18 18 0 0 1 4 2A13.3 13.3 0 0 0 12 4.1 13.3 13.3 0 0 0 4.3 5.4a18 18 0 0 1 4-2L8.1 3a19.8 19.8 0 0 0-4.4 1.4C1.7 8.6 1.1 12.7 1.4 16.7A19.9 19.9 0 0 0 7 19.8l1.1-1.8a12 12 0 0 1-1.9-.9l.5-.4a14 14 0 0 0 10.6 0l.5.4a12 12 0 0 1-1.9.9l1.1 1.8a19.9 19.9 0 0 0 5.6-3.1c.4-4.6-.7-8.6-3.3-12.3zM8.7 14.3c-1.1 0-2-1-2-2.3s.9-2.3 2-2.3 2 1 2 2.3-.9 2.3-2 2.3zm6.6 0c-1.1 0-2-1-2-2.3s.9-2.3 2-2.3 2 1 2 2.3-.9 2.3-2 2.3z"/></svg>
+        <span class="soc-name">Discord</span>
+      </a>
+      <a class="soc" href="https://www.facebook.com/bennie.west.96" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.5 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+        <span class="soc-name">Facebook</span>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 SANDERPUH FPV</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var statuses = ["Racing", "Building", "Designing", "Training", "Sleeping", "Charging LiPos", "Soldering", "Rebuilding whoop", "Bench testing", "Buying props", "Ordering new motors", "Searching lost quad", "Tuning PIDs"];
+    var st = statuses[Math.floor(Math.random() * statuses.length)];
+    var el = document.getElementById("hv-status");
+    if (el) el.textContent = st;
+    var tl = document.getElementById("t-status");
+    if (tl) tl.textContent = st;
+  })();
+
+  // Randomize thermometer fill: 25/50/75/100%, red at 100%
+  (function(){
+    var t = document.querySelector(".telemetry .t-therm");
+    if (!t) return;
+    var fill = t.querySelector(".fill"), bulb = t.querySelector(".bulb");
+    var opts = [25, 50, 75, 100];
+    var pct = opts[Math.floor(Math.random() * opts.length)];
+    var h = (pct / 100) * 20;
+    fill.style.height = h + "px";
+    fill.style.bottom = "4px";
+    var red = (pct === 100);
+    fill.style.background = red ? "#e0402a" : "";
+    bulb.style.background = red ? "#e0402a" : "";
+  })();
+
+  // Randomize link quality bars: each of the 4 clusters gets 3-5 bars filled
+  (function(){
+    var groups = document.querySelectorAll(".telemetry .t-lq");
+    groups.forEach(function(g){
+      var bars = g.children;
+      var filled = 3 + Math.floor(Math.random() * 3);
+      for (var i = 0; i < bars.length; i++) {
+        if (i < filled) bars[i].className = "on";
+        else bars[i].className = "";
+      }
+    });
+  })();
+
+  // Telemetry: drop items when space runs out
+  (function(){
+    var wrap = document.getElementById("t-wrap");
+    if (!wrap) return;
+    var items = wrap.querySelectorAll(".t-item");
+    var droppable = Array.prototype.slice.call(items).filter(function(i){
+      return i.hasAttribute("data-drop");
+    }).sort(function(a,b){
+      return +b.getAttribute("data-drop") - +a.getAttribute("data-drop");
+    });
+    function fit(){
+      droppable.forEach(function(i){ i.classList.remove("t-drop"); });
+      if (wrap.scrollWidth <= wrap.clientWidth) return;
+      for (var k = 0; k < droppable.length; k++) {
+        droppable[k].classList.add("t-drop");
+        if (wrap.scrollWidth <= wrap.clientWidth) return;
+      }
+    }
+    fit();
+    window.addEventListener("resize", fit);
+  })();
+
+  // contact buttons share one width = widest
+  function spEqual(){
+    const btns=[...document.querySelectorAll('.soc')];
+    if(!btns.length) return;
+    btns.forEach(b=>b.style.minWidth='0px');
+    const w=Math.max(...btns.map(b=>b.getBoundingClientRect().width));
+    btns.forEach(b=>b.style.minWidth=w+'px');
+  }
+  function runEqual(){spEqual();}
+  runEqual();
+  addEventListener('resize',runEqual);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(runEqual);
+</script>
+</body>
+</html>
