@@ -63,9 +63,9 @@ a{color:inherit;text-decoration:none}
 .t-item.t-drop{display:none}
 .t-item.t-lq-group{gap:3px}
 .t-therm{position:relative;display:inline-block;width:19px;height:26px;align-self:center}
-.t-therm::before{content:"";position:absolute;left:3px;top:0;width:5px;height:16px;border-radius:2.5px;background:var(--card);z-index:1}
+.t-therm::before{content:"";position:absolute;left:3px;top:0;width:5px;height:20px;border-radius:2.5px;background:var(--card);z-index:1}
 .t-therm::after{content:"";position:absolute;left:1px;bottom:0;width:9px;height:9px;border-radius:50%;background:var(--card);z-index:0}
-.t-therm .fill{position:absolute;left:3px;bottom:2px;width:5px;height:11px;border-radius:2.5px;background:var(--yellow);z-index:2}
+.t-therm .fill{position:absolute;left:4px;bottom:4px;width:3px;border-radius:2px;background:var(--yellow);z-index:2}
 .t-therm .bulb{position:absolute;left:2.5px;bottom:1px;width:6px;height:6px;border-radius:50%;background:var(--yellow);z-index:3}
 .t-therm .ticks{position:absolute;left:9px;top:2.5px;height:15.5px;display:flex;flex-direction:column;justify-content:space-between}
 .t-therm .ticks span{display:block;width:4px;height:2px;background:var(--card);border-radius:1px;margin-left:-1px}
@@ -87,25 +87,6 @@ a{color:inherit;text-decoration:none}
 /* ============================= HERO ============================= */
 .hero{padding:84px 0 96px;border-bottom:4px solid var(--ink)}
 .hero .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:44px;align-items:center}
-.hero-kicker{
-  display:inline-flex;align-items:center;gap:10px;
-  font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
-  border:1.5px solid var(--ink);padding:8px 16px;margin-bottom:26px;
-}
-.hero-kicker::before{
-  content:"";
-  color:var(--orange);
-  font-weight:700;
-  font-size:12px;
-  letter-spacing:.08em;
-  display:inline-flex;
-  align-items:center;
-  gap:4px;
-  -webkit-text-stroke: 0.6px var(--ink);
-  text-shadow: 
-    0 0 1px var(--ink),
-    0 0 0.5px var(--ink);
-}
 .hero h1{
   font-family:var(--head);font-size:clamp(3.4rem,10vw,6.6rem);line-height:.9;
   color:var(--ink);margin-bottom:8px;letter-spacing:.01em;
@@ -125,10 +106,13 @@ a{color:inherit;text-decoration:none}
   padding:14px 38px;border-radius:999px;
   transition:transform .15s,box-shadow .15s,background .15s;
 }
-.btn-y{background:var(--yellow);color:var(--ink);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
-.btn-y:hover{background:var(--card);transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
-.btn-o{background:transparent;color:var(--ink);border:2px solid var(--ink)}
-.btn-o:hover{background:var(--card2);transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
+.btn-y{background:var(--yellow);color:var(--ink);border:2px solid var(--ink);box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+/* Parts hub button — identical styling to the quick-links chips */
+.btn-hub{font-size:1.2rem;letter-spacing:.03em;padding:16px 26px;border:2px solid var(--ink);border-radius:999px;background:var(--card);box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+.btn-hub:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
+.btn-y:hover{background:var(--card);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
+.btn-o{background:var(--card);color:var(--ink);border:2px solid var(--ink);border-radius:999px;font-size:1.2rem;letter-spacing:.03em;padding:16px 26px;box-shadow:4px 4px 0 rgba(35,16,0,.25)}
+.btn-o:hover{background:var(--card);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(35,16,0,.4)}
 /* hero side: emblem panel */
 .hero-visual{
   background:var(--card);border:2px solid var(--ink);
@@ -259,11 +243,16 @@ section{padding:76px 0}
 /* ============================= SPONSORS ============================= */
 .sponsor-strip{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-bottom:36px}
 .sp{
-  font-family:var(--head);font-size:1.45rem;letter-spacing:.03em;color:var(--muted2);
-  border:2px solid var(--ink);border-radius:14px;padding:20px 34px;background:var(--card);
+  font-family:var(--head);font-size:1.25rem;letter-spacing:.03em;color:var(--muted2);
+  border:2px solid var(--ink);border-radius:999px;padding:16px 26px;background:var(--card);
   transition:all .2s;
+  box-shadow:4px 4px 0 rgba(35,16,0,.25);
+  min-width:var(--spw,0px);
+  display:inline-flex;align-items:center;justify-content:center;
+  white-space:nowrap;
+  box-sizing:border-box;
 }
-.sp:hover{color:var(--ink);transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(35,16,0,.4)}
+.sp:hover{color:var(--ink);transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(35,16,0,.35)}
 
 /* ---------- PUH Brand Card ---------- */
 .p-link{
@@ -290,6 +279,7 @@ section{padding:76px 0}
   min-width:170px;display:inline-flex;align-items:center;gap:12px;
   border:2px solid var(--ink);border-radius:999px;background:var(--card);padding:16px 26px;
   color:var(--ink);transition:all .2s;
+  box-shadow:4px 4px 0 rgba(35,16,0,.25);
 }
 .soc svg{width:26px;height:26px;fill:var(--teal-deep);flex-shrink:0}
 .soc .soc-name{font-family:var(--head);font-size:1.25rem;color:var(--ink)}
@@ -338,8 +328,9 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 <!-- ============================= HERO ============================= -->
 <header class="hero">
   <div class="wrap">
+  </div>
+  <div class="wrap">
     <div>
-      <span class="hero-kicker">Dutch FPV Racing Pilot · Mechanical Engineer</span>
       <h1><span class="sand">SANDER</span><span class="puh">PUH</span></h1>
       <p class="hero-tagline">Aggressive off the line.<br><span class="hl-y">Smooth, consistent, always hungry for one more lap.</span></p>
       <!-- EDIT: hero intro — 2–3 sentences for sponsors -->
@@ -352,6 +343,7 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
       <div class="hero-cta">
         <a class="btn btn-y" href="#results">View race log</a>
         <a class="btn btn-o" href="#contact">Get in touch</a>
+        <a class="btn btn-hub" href="/links"><strong>Parts hub</strong> - print files, frame &amp; gear</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -689,6 +681,20 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
 })();
 </script>
 <script>
+// sponsor + contact buttons share one width = widest of both groups
+function spEqual(){
+  const btns=[...document.querySelectorAll('.sp,.soc')];
+  if(!btns.length) return;
+  btns.forEach(b=>b.style.minWidth='0px');
+  const w=Math.max(...btns.map(b=>b.getBoundingClientRect().width));
+  btns.forEach(b=>b.style.minWidth=w+'px');
+}
+function runEqual(){spEqual();}
+runEqual();
+addEventListener('resize',runEqual);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(runEqual);
+</script>
+<script>
   (function(){
     var statuses = ["Racing", "Building", "Designing", "Training", "Sleeping", "Charging LiPos", "Soldering", "Rebuilding whoop", "Bench testing", "Buying props", "Ordering new motors", "Searching lost quad", "Tuning PIDs"];
     var st = statuses[Math.floor(Math.random() * statuses.length)];
@@ -696,6 +702,21 @@ footer .edit-note{margin-top:10px;font-size:12.5px;color:#8f7a5f}
     if (el) el.textContent = st;
     var tl = document.getElementById("t-status");
     if (tl) tl.textContent = st;
+  })();
+
+  // Randomize thermometer fill: 25/50/75/100%, red at 100%
+  (function(){
+    var t = document.querySelector(".telemetry .t-therm");
+    if (!t) return;
+    var fill = t.querySelector(".fill"), bulb = t.querySelector(".bulb");
+    var opts = [25, 50, 75, 100];
+    var pct = opts[Math.floor(Math.random() * opts.length)];
+    var h = (pct / 100) * 20; // full column reaches the tube top, 1px white edge remains on each side
+    fill.style.height = h + "px";
+    fill.style.bottom = "4px"; // starts inside the bulb so it always reads as connected
+    var red = (pct === 100);
+    fill.style.background = red ? "#e0402a" : "";
+    bulb.style.background = red ? "#e0402a" : "";
   })();
 
   // Randomize link quality bars: each of the 4 clusters gets 3-5 bars filled
