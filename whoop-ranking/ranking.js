@@ -44,18 +44,20 @@ function parseResults(doc) {
     table.querySelectorAll("tbody tr").forEach((tr) => {
         const posEl = tr.querySelector(".results-pos");
         const linkEl = tr.querySelector(".result-pilot__name a");
-        if (!posEl || !linkEl) return;
+        if (!posEl) return;
         // 'small' name = the pilot's real name, used as the stable key and
         // shown in the ranking table.
         const smallEl = tr.querySelector(".result-pilot small");
-        const name = (smallEl ? smallEl.textContent : linkEl.textContent).trim();
+        const name = (smallEl ? smallEl.textContent : (linkEl ? linkEl : tr.querySelector(".result-pilot__name")).textContent).trim();
         const pos = parseInt(posEl.textContent.trim(), 10);
         if (isNaN(pos) || !name) return;
         pilots.push({
             name: name,
             pos: pos,
-            // per-entry link, e.g. https://fpvscores.com/events/1Rm0iap4Um/results/reefpv
-            url: linkEl.getAttribute("href") ? "https://fpvscores.com" + linkEl.getAttribute("href") : null
+            // pilot profile link: the per-entry slug is also the /u/ username,
+            // e.g. /events/1Rm0iap4Um/results/reefpv -> https://fpvscores.com/u/reefpv
+            // some rows have no link at all (no FPVScores account) -> slug stays null
+            slug: linkEl && linkEl.getAttribute("href") ? linkEl.getAttribute("href").split("/").pop() : null
         });
         total++;
     });
@@ -98,13 +100,13 @@ function buildTable(results) {
     });
 
     // --- collect pilot scores keyed by real (small) name ---
-    const pilots = new Map(); // name -> { name, url, scores: [{points, raceIdx}] }
+    const pilots = new Map(); // name -> { name, slug, scores: [{points, raceIdx}] }
     results.forEach((r, i) => {
         r.pilots.forEach((p) => {
-            if (!pilots.has(p.name)) pilots.set(p.name, { name: p.name, url: null, scores: [] });
+            if (!pilots.has(p.name)) pilots.set(p.name, { name: p.name, slug: null, scores: [] });
             const entry = pilots.get(p.name);
-            if (!entry.url && p.url) entry.url = p.url;
-            entry.scores.push({ points: p.points, raceIdx: i });
+            if (!entry.slug && p.slug) entry.slug = p.slug;
+            entry.scores.push({ points: p.points, raceIdx: i, slug: p.slug });
         });
     });
 
@@ -120,15 +122,17 @@ function buildTable(results) {
     });
 
     // --- totals ---
+    // Total = average of the 3 lowest race scores, so it can never exceed 100
+    // (a race's max score is 100 for last place; a missed event also counts 100).
     const entries = [...pilots.values()].map((p) => {
         const sorted = [...p.scores].sort((a, b) => a.points - b.points);
         const counted = sorted.slice(0, SCORED_RACES);
         return {
             name: p.name,
-            url: p.url,
+            slug: p.slug,
             scores: p.scores,
             countedSet: new Set(counted),
-            total: counted.reduce((s, c) => s + c.points, 0)
+            total: counted.reduce((s, c) => s + c.points, 0) / (counted.length || 1)
         };
     });
 
@@ -144,8 +148,8 @@ function buildTable(results) {
         const posClass = idx === 0 ? "pos r-1" : idx === 1 ? "pos r-2" : idx === 2 ? "pos r-3" : "pos other";
         let html = '<td class="rank-cell"><span class="' + posClass + '">' + (idx + 1) + "</span></td>";
 
-        const nameHtml = entry.url
-            ? '<a href="' + escapeHtml(entry.url) + '" target="_blank" rel="noopener">' + escapeHtml(entry.name) + "</a>"
+        const nameHtml = entry.slug
+            ? '<a href="https://fpvscores.com/u/' + encodeURIComponent(entry.slug) + '" target="_blank" rel="noopener">' + escapeHtml(entry.name) + "</a>"
             : escapeHtml(entry.name);
         html += '<td class="pilot">' + nameHtml + "</td>";
         html += '<td class="num">' + fmt(entry.total) + "</td>";
@@ -157,8 +161,16 @@ function buildTable(results) {
                 html += '<td class="num missed" title="No entry on FPVScores — counts as 100">100</td>';
             } else if (s) {
                 const dropped = !entry.countedSet.has(s);
-                html += '<td class="num' + (dropped ? " dropped" : "") + '" title="' +
-                    (dropped ? "Dropped score" : "") + '">' + fmt(s.points) + "</td>";
+                const scoreTxt = fmt(s.points);
+                const title = (dropped ? "Dropped score" : "");
+                if (s.slug) {
+                    const href = "https://fpvscores.com/events/" + results[r].uid + "/results/" + encodeURIComponent(s.slug);
+                    html += '<td class="num' + (dropped ? " dropped" : "") + '"><a href="' + href + '" target="_blank" rel="noopener"' +
+                        (title ? ' title="' + title + '"' : '') + ">" + scoreTxt + "</a></td>";
+                } else {
+                    html += '<td class="num' + (dropped ? " dropped" : "") + '"' +
+                        (title ? ' title="' + title + '"' : '') + ">" + scoreTxt + "</td>";
+                }
             } else {
                 html += '<td class="num missed">–</td>';
             }
@@ -170,7 +182,7 @@ function buildTable(results) {
     const status = document.getElementById("status");
     const failed = results.filter((r) => !r.ok);
     const loaded = results.length - failed.length;
-    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded. Total = sum of the " +
+    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded. Total = average of the " +
         SCORED_RACES + " lowest race scores.";
     if (failed.length) {
         msg += " Could not load: " + failed.map((r) => r.uid).join(", ");
