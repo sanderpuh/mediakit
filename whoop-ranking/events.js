@@ -1,15 +1,17 @@
-// FPVScores Ranking — event UIDs
+// Whoop Ranking — race configuration
 //
-// Add or edit event UIDs here. Each UID comes from an FPVScores results URL,
-// e.g. https://fpvscores.com/events/1Rm0iap4Um/results  ->  "1Rm0iap4Um"
+// One entry per race column. The number of entries = number of race columns.
 //
-// The first 5 events fill the Race 1–5 columns. Extra events beyond 5 are
-// still scored and can replace earlier races in the "three lowest" total,
-// but they only display in the first five columns. If you want more race
-// columns, add <th> and <td> entries in index.html.
+// - uid: the FPVScores event UID, taken from the results URL,
+//   e.g. https://fpvscores.com/events/1Rm0iap4Um/results  ->  "1Rm0iap4Um"
+// - If uid is "" (or missing), the race counts for every pilot as 100 points
+//   (a placeholder race with no results to fetch).
+//
+// Total = sum of the SCORED_RACES lowest race scores (see ranking.js).
 
-const EVENT_UIDS = [
-    "1Rm0iap4Um",
-    "y8txSgByb0",
-    "4847rP2PKc"
+const RACES = [
+    { uid: "4847rP2PKc" },
+    { uid: "y8txSgByb0" },
+    { uid: "1Rm0iap4Um" },
+    { uid: "" },  // Race 4 — no UID yet: 100 points for everyone
 ];
