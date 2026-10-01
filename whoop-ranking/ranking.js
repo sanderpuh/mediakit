@@ -1,4 +1,4 @@
-// Whoop Ranking — fetches results from fpvscores.com and builds the table.
+// Competition Ranking - fetches results from fpvscores.com and builds the table.
 //
 // The competition is chosen with the dropdown on the page (default from
 // events.js: COMPETITION). All past and upcoming events of the competition
@@ -8,10 +8,9 @@
 // Everything is cached in localStorage, so a page reload reuses the scraped
 // data. The Refresh button clears the cache and re-scrapes FPVScores.
 //
-// Points per event: (position * 100) / totalPilots — lower is better.
+// Points per event: (position * 100) / totalPilots - lower is better.
 // Total score: the sum of the SCORED_RACES lowest points scores.
 const SCORED_RACES = 3; // how many lowest scores count towards the total
-const MAX_RACES = 8;    // competitions with more races are hidden from the dropdown
 
 // The browser can't call fpvscores.com directly (CORS), so requests go through
 // a proxy that fetches the page server-side. X-Return-Format: html makes
@@ -69,7 +68,7 @@ function parseResults(doc) {    // Use the first populated results table (the pa
             // national flag image (flagcdn URL), may be null
             flag: (tr.querySelector(".result-pilot__name img.flag-img") || {}).getAttribute ? tr.querySelector(".result-pilot__name img.flag-img").getAttribute("src") : null,
             pos: pos,
-            // callsign (the big name on the row) — used to match against the
+            // callsign (the big name on the row) - used to match against the
             // /results page when the row has no link
             cs: ((linkEl || tr.querySelector(".result-pilot__name strong") || tr.querySelector(".result-pilot__name")).textContent || "").trim(),
             // pilot profile link: the per-entry slug is also the /u/ username,
@@ -80,12 +79,12 @@ function parseResults(doc) {    // Use the first populated results table (the pa
         });
         total++;
     });
-    // Points: (position * 100) / total pilots — lower is better
+    // Points: (position * 100) / total pilots - lower is better
     pilots.forEach((p) => { p.points = (p.pos * 100) / (total || 1); });
     return { pilots: pilots, title: pageTitle(doc) };
 }
 
-// Some pilots have no FPVScores account, so their /ranking row has no link —
+// Some pilots have no FPVScores account, so their /ranking row has no link -
 // but the /results page gives every pilot a per-event entry id (pilot-NNNNN).
 // Build a lookup by real name and callsign so we can link their scores too.
 // These ids are event-scoped, NOT usernames, so they're not used for /u/ links.
@@ -124,10 +123,11 @@ function buildTable(results) {
 
     // --- race header row ---
     const headRow = document.getElementById("race-header-row");
-    headRow.innerHTML = "";
+    // Remove only previously generated race headers, keep the fixed cells.
+    headRow.querySelectorAll("th.race-th").forEach((th) => th.remove());
     results.forEach((r, i) => {
         const th = document.createElement("th");
-        th.className = "num";
+        th.className = "num race-th";
         if (r.ok) {
             const a = document.createElement("a");
             a.href = "https://fpvscores.com/events/" + r.uid + "/ranking";
@@ -138,7 +138,7 @@ function buildTable(results) {
             th.appendChild(a);
         } else {
             th.textContent = "Race " + (i + 1);
-            th.title = r.placeholder ? "Upcoming event — counts as 100 points" : "Not loaded — counts as 100 points";
+            th.title = r.placeholder ? "Upcoming event - counts as 100 points" : "Not loaded - counts as 100 points";
         }
         headRow.appendChild(th);
     });
@@ -209,7 +209,7 @@ function buildTable(results) {
         results.forEach((r, rIdx) => {
             const s = entry.scores.find((sc) => sc.raceIdx === rIdx);
             if (s && s.missed) {
-                html += '<td class="num missed" title="No entry on FPVScores — counts as 100">100</td>';
+                html += '<td class="num missed" title="No entry on FPVScores - counts as 100">100</td>';
             } else if (s) {
                 const dropped = !entry.countedSet.has(s);
                 const scoreTxt = fmt(s.points);
@@ -262,7 +262,8 @@ function parseCompetitions(doc) {
         const m = (meta.textContent.match(/(\d+)\s+events?/) || []);
         if (m[1]) races = parseInt(m[1], 10);
         const name = (card.querySelector("h3") || {}).textContent || slug;
-        if (races > MAX_RACES) return; // skip competitions with more than 8 races
+        const bl = (typeof BLACKLIST !== "undefined") ? BLACKLIST : [];
+        if (bl.some((b) => slug === b || name.trim().toLowerCase() === String(b).toLowerCase())) return;
         list.push({ slug: slug, name: name.trim(), races: races });
     });
     // de-dupe by slug, keep order
@@ -375,11 +376,13 @@ function setupControls() {
     const btn = document.getElementById("refresh-btn");
     const status = document.getElementById("status");
 
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
         const slug = select.value;
         if (!slug) return;
         cacheDel(compKey(slug));
-        run(true);
+        cacheDel("wr:comps"); // also re-fetch the competition list (picks up blacklist changes)
+        select.innerHTML = "";
+        if (setupControlsCache) await setupControlsCache.fill();
     });
 
     select.addEventListener("change", () => {
@@ -401,7 +404,9 @@ function setupControls() {
                     select.appendChild(o);
                 });
                 const saved = cacheGet("wr:sel");
-                if (saved && comps.some((c) => c.slug === saved)) select.value = saved;
+                const def = (saved && comps.some((c) => c.slug === saved)) ? saved
+                          : (comps.some((c) => c.slug === COMPETITION) ? COMPETITION : null);
+                if (def) select.value = def;
                 return select.value;
             } catch (e) {
                 console.error(e);
