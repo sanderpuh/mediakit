@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#7fb7be">
+<meta name="description" content="Whoop season ranking — live scores from FPVScores.com.">
+<title>Whoop Ranking — SanderPuh</title>
+<link rel="icon" type="image/png" href="../icon.png">
+<link rel="apple-touch-icon" href="../icon.png">
+<style>
+/* ============================================================
+   WHOOP RANKING — matches SANDERPUH site style (v5)
+   Palette: #7fb7be (teal) · #fdc430 (yellow) · #e7860a (orange)
+            #231000 (ink) · #eff0ec (card)
+   Headers: Pronave (from parent folder). Body: system font.
+   ============================================================ */
+@font-face{
+  font-family:'Pronave';
+  src:url('../Pronave.ttf') format('truetype');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --bg:#7fb7be;
+  --teal:#7fb7be;
+  --teal-deep:#647577;
+  --yellow:#fdc430;
+  --orange:#e7860a;
+  --ink:#231000;
+  --card:#eff0ec;
+  --card2:#e0e2d9;
+  --muted:#54685e;
+  --muted2:#676b5f;
+  --border:rgba(35,16,0,.18);
+  --body:'-apple-system',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --head:'Pronave',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65}
+::selection{background:var(--yellow);color:#231000}
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+
+/* ===== top bar, like the site's telemetry bar ===== */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--ink);
+  border-bottom:3px solid var(--yellow);
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:12px;padding-bottom:12px}
+.topbar .brand{font-family:var(--head);font-size:1.25rem;color:var(--yellow);letter-spacing:.02em;text-decoration:none}
+.topbar .brand .puh{color:var(--card)}
+.topbar .back{font-family:var(--head);font-size:1rem;color:var(--card);text-decoration:none;letter-spacing:.03em}
+.topbar .back:hover{color:var(--yellow)}
+
+/* ===== hero ===== */
+.hero{padding:56px 0 40px}
+.hero h1{
+  font-family:var(--head);font-size:clamp(2.6rem,7vw,4.6rem);line-height:.95;
+  color:var(--ink);margin-bottom:6px;
+}
+.hero h1 .hl-y{color:var(--yellow)}
+.hero-tagline{
+  font-family:var(--head);font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--ink);
+  margin-bottom:18px;
+}
+#status{color:#3d2a18;font-size:15px;min-height:1.3em;margin-bottom:18px}
+#status.err{color:var(--ink);font-weight:600}
+
+/* ===== table, like the site's log-table ===== */
+.table-wrap{overflow-x:auto;padding-bottom:56px}
+.rank-table{
+  width:100%;min-width:760px;
+  border-collapse:separate;border-spacing:0;
+  background:var(--card);border:2px solid var(--ink);border-radius:14px;overflow:hidden;
+}
+.rank-table th{
+  font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);
+  text-align:left;padding:14px 16px;border-bottom:3px solid var(--ink);background:var(--card2);
+  white-space:nowrap;
+}
+.rank-table td{padding:13px 16px;border-bottom:1px solid var(--border);font-size:15.5px;color:#3d2a18;white-space:nowrap}
+.rank-table tr:last-child td{border-bottom:none}
+.rank-table tr:hover td{background:var(--card2)}
+.rank-table th.sep,.rank-table td.sep{border-left:2px solid var(--border)}
+th.num,td.num{text-align:right}
+td.pilot{color:var(--ink);font-weight:600}
+td.score{font-family:var(--head);font-size:1.1rem;color:var(--ink)}
+td.num.missed{color:var(--muted2);font-weight:400}
+td.num .dropped{color:var(--muted2);text-decoration:line-through}
+
+/* ===== rank pills, like the site's .res badges ===== */
+.pos{display:inline-block;font-family:var(--head);min-width:46px;text-align:center;padding:4px 12px;font-size:1.05rem;line-height:1.5;border-radius:999px}
+.pos.r-1{background:var(--yellow);color:var(--ink);border:2px solid var(--ink)}
+.pos.r-2{background:var(--teal-deep);color:#fff;border:2px solid var(--ink)}
+.pos.r-3{background:var(--orange);color:#fff;border:2px solid var(--ink)}
+.pos.other{color:var(--muted2);border:1.5px solid var(--ink)}
+
+/* ===== footer note ===== */
+.note{font-size:14px;color:var(--muted2);padding-bottom:48px}
+</style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="wrap">
+            <a class="brand" href="/">SANDER<span class="puh">PUH</span> · WHOOP RANKING</a>
+            <a class="back" href="/">← BACK TO SITE</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="wrap">
+            <h1>WHOOP <span class="hl-y">RANKING</span></h1>
+            <p class="hero-tagline">Season standings — live from FPVScores</p>
+            <div id="status">Loading…</div>
+        </div>
+    </section>
+
+    <div class="wrap table-wrap">
+        <table class="rank-table">
+            <thead>
+                <tr>
+                    <th>Season Rank</th>
+                    <th>Pilot Name</th>
+                    <th class="num">Total Score</th>
+                    <th class="sep"></th>
+                    <th class="num">Race 1</th>
+                    <th class="num">Race 2</th>
+                    <th class="num">Race 3</th>
+                    <th class="num">Race 4</th>
+                    <th class="num">Race 5</th>
+                </tr>
+            </thead>
+            <tbody id="ranking-body"></tbody>
+        </table>
+    </div>
+
+    <div class="wrap note">
+        Total = sum of each pilot's lowest race scores (one drop per event when more than the drop count is flown).
+        Scores are fetched live from fpvscores.com.
+    </div>
+
+    <script src="events.js"></script>
+    <script src="ranking.js"></script>
+</body>
+</html>
