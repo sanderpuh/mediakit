@@ -205,7 +205,7 @@ function buildTable(results, mode) {
             flag: p.flag,
             cs: p.cs,
             scores: p.scores,
-            countedSet: new Set(counted),
+            countedIdx: new Set(counted.map((c) => c.raceIdx)),
             total: counted.reduce((s, c) => s + c.points, 0),
             bestRace: scores.reduce((m, s) => Math.max(m, s.points), 0)
         };
@@ -240,21 +240,22 @@ function buildTable(results, mode) {
 
         results.forEach((r, rIdx) => {
             const s = entry.scores.find((sc) => sc.raceIdx === rIdx);
+            const dropped = s ? !entry.countedIdx.has(rIdx) : false;
+            const title = dropped ? "Dropped score" : "";
+            const cls = "num" + (dropped ? " dropped" : "");
             if (s && s.placeholder) {
-                // Upcoming event: PDRNL counts it as 100, DDR skips it entirely.
-                html += '<td class="num missed" title="Upcoming event - ' + (ddr ? "counts as 1 point" : "counts as 100 points") + '">' + (ddr ? "1" : "100") + "</td>";
+                // Upcoming event: PDRNL counts it as 100, DDR counts it as 1 (everyone P16 or lower gets 1).
+                html += '<td class="' + cls + '" title="Upcoming event - ' + (ddr ? "counts as 1 point" : "counts as 100 points") + (title ? "; " + title : "") + '">' + (ddr ? "1" : "100") + "</td>";
             } else if (s && s.missed) {
-                html += '<td class="num missed" title="No entry on FPVScores - counts as last place">' + (ddr ? "1" : "100") + "</td>";
+                html += '<td class="' + cls + '" title="No entry on FPVScores - counts as last place' + (title ? "; " + title : "") + '">' + (ddr ? "1" : "100") + "</td>";
             } else if (s) {
-                const dropped = !entry.countedSet.has(s);
                 const scoreTxt = fmt(ddr ? s.points : s.pdrnl);
-                const title = (dropped ? "Dropped score" : "");
                 if (s.slug) {
                     const href = "https://fpvscores.com/events/" + r.uid + "/results/" + encodeURIComponent(s.slug);
-                    html += '<td class="num' + (dropped ? " dropped" : "") + '"><a href="' + href + '" target="_blank" rel="noopener"' +
+                    html += '<td class="' + cls + '"><a href="' + href + '" target="_blank" rel="noopener"' +
                         (title ? ' title="' + title + '"' : '') + ">" + scoreTxt + "</a></td>";
                 } else {
-                    html += '<td class="num' + (dropped ? " dropped" : "") + '"' +
+                    html += '<td class="' + cls + '"' +
                         (title ? ' title="' + title + '"' : '') + ">" + scoreTxt + "</td>";
                 }
             } else {
