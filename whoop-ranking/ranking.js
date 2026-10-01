@@ -108,8 +108,6 @@ function buildTable(results) {
 
     // --- race header row ---
     const headRow = document.getElementById("race-header-row");
-    headRow.innerHTML =
-        '<th class="rank-cell"></th><th></th><th class="num"></th><th class="sep"></th>';
     results.forEach((r, i) => {
         const th = document.createElement("th");
         th.className = "num";
@@ -187,7 +185,7 @@ function buildTable(results) {
         const subHtml = entry.cs && entry.cs !== entry.name
             ? '<span class="pilot-sub">' + escapeHtml(entry.cs) + "</span>"
             : "";
-        html += '<td class="pilot">' + nameHtml + subHtml + (entry.flag ? ' <img class="flag-img" src="' + escapeHtml(entry.flag) + '" alt="" width="16" height="12" loading="lazy">' : "") + "</td>";
+        html += '<td class="pilot">' + nameHtml + (entry.flag ? ' <img class="flag-img" src="' + escapeHtml(entry.flag) + '" alt="" width="16" height="12" loading="lazy">' : "") + subHtml + "</td>";
         html += '<td class="num">' + fmt(entry.total) + "</td>";
         html += '<td class="sep"></td>';
 
