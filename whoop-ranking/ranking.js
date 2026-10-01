@@ -1,12 +1,17 @@
 // Whoop Ranking — fetches results from fpvscores.com and builds the table.
 //
-// Race configuration lives in events.js (RACES). Each entry may hold a UID or
-// an empty string; an empty UID counts as a placeholder race worth 100 points
-// for every pilot.
+// The competition is chosen with the dropdown on the page (default from
+// events.js: COMPETITION). All past and upcoming events of the competition
+// become race columns, oldest first. Upcoming events count as 100 points for
+// every pilot until their results exist.
+//
+// Everything is cached in localStorage, so a page reload reuses the scraped
+// data. The Refresh button clears the cache and re-scrapes FPVScores.
 //
 // Points per event: (position * 100) / totalPilots — lower is better.
 // Total score: the sum of the SCORED_RACES lowest points scores.
 const SCORED_RACES = 3; // how many lowest scores count towards the total
+const MAX_RACES = 8;    // competitions with more races are hidden from the dropdown
 
 // The browser can't call fpvscores.com directly (CORS), so requests go through
 // a proxy that fetches the page server-side. X-Return-Format: html makes
@@ -28,6 +33,17 @@ async function fetchPage(target) {
     }
     throw lastErr;
 }
+
+// --- localStorage cache -----------------------------------------------------
+// wr:comps      -> { ts, list: [{slug,name,category,races}] }   competitions list
+// wr:comp:slug  -> { ts, events: [{uid,title,date}], rankings: {uid: parsed} }
+// wr:sel        -> last selected competition slug
+const COMP_TTL = 12 * 60 * 60 * 1000; // competitions list re-fetch after 12h
+
+function cacheGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; } }
+function cacheSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+function cacheDel(key) { try { localStorage.removeItem(key); } catch (e) {} }
+const compKey = (slug) => "wr:comp:" + slug;
 
 function parseResults(doc) {    // Use the first populated results table (the page's default class view).
     let table = null;
@@ -108,6 +124,7 @@ function buildTable(results) {
 
     // --- race header row ---
     const headRow = document.getElementById("race-header-row");
+    headRow.innerHTML = "";
     results.forEach((r, i) => {
         const th = document.createElement("th");
         th.className = "num";
@@ -121,7 +138,7 @@ function buildTable(results) {
             th.appendChild(a);
         } else {
             th.textContent = "Race " + (i + 1);
-            th.title = "No FPVScores UID set — counts as 100 points";
+            th.title = r.placeholder ? "Upcoming event — counts as 100 points" : "Not loaded — counts as 100 points";
         }
         headRow.appendChild(th);
     });
@@ -141,8 +158,8 @@ function buildTable(results) {
 
     // --- missing entries: every pilot not listed in a loaded event scores
     //     100 points (last place) for that race ---
-    RACES.forEach((race, i) => {
-        if (!results[i].ok) return; // failed fetches keep a dash
+    results.forEach((r, i) => {
+        if (!r.ok) return; // failed fetches keep a dash
         for (const entry of pilots.values()) {
             if (!entry.scores.some((s) => s.raceIdx === i)) {
                 entry.scores.push({ points: 100, raceIdx: i, missed: true });
@@ -189,8 +206,8 @@ function buildTable(results) {
         html += '<td class="num">' + fmt(entry.total) + "</td>";
         html += '<td class="sep"></td>';
 
-        RACES.forEach((race, r) => {
-            const s = entry.scores.find((sc) => sc.raceIdx === r);
+        results.forEach((r, rIdx) => {
+            const s = entry.scores.find((sc) => sc.raceIdx === rIdx);
             if (s && s.missed) {
                 html += '<td class="num missed" title="No entry on FPVScores — counts as 100">100</td>';
             } else if (s) {
@@ -198,7 +215,7 @@ function buildTable(results) {
                 const scoreTxt = fmt(s.points);
                 const title = (dropped ? "Dropped score" : "");
                 if (s.slug) {
-                    const href = "https://fpvscores.com/events/" + results[r].uid + "/results/" + encodeURIComponent(s.slug);
+                    const href = "https://fpvscores.com/events/" + r.uid + "/results/" + encodeURIComponent(s.slug);
                     html += '<td class="num' + (dropped ? " dropped" : "") + '"><a href="' + href + '" target="_blank" rel="noopener"' +
                         (title ? ' title="' + title + '"' : '') + ">" + scoreTxt + "</a></td>";
                 } else {
@@ -229,24 +246,106 @@ function escapeHtml(s) {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-(async function main() {
+// --- competition page parsing ----------------------------------------------
+// /competitions/ card: <a href="/competitions/slug"> <h3>Name</h3> ...
+// <span>5 events</span> ...
+function parseCompetitions(doc) {
+    const list = [];
+    doc.querySelectorAll("a[href^='/competitions/'], a[href^=\"https://fpvscores.com/competitions/\"]").forEach((a) => {
+        const href = a.getAttribute("href");
+        const slug = href.replace(/^.*\/competitions\//, "").replace(/\/$/, "");
+        if (!slug || slug === "logo") return;
+        const card = a.closest("[data-comp-card]") || a;
+        const meta = card.querySelector(".comp-card__meta");
+        if (!meta) return;
+        let races = Infinity;
+        const m = (meta.textContent.match(/(\d+)\s+events?/) || []);
+        if (m[1]) races = parseInt(m[1], 10);
+        const name = (card.querySelector("h3") || {}).textContent || slug;
+        if (races > MAX_RACES) return; // skip competitions with more than 8 races
+        list.push({ slug: slug, name: name.trim(), races: races });
+    });
+    // de-dupe by slug, keep order
+    const seen = new Set();
+    return list.filter((c) => !seen.has(c.slug) && seen.add(c.slug));
+}
+
+// Competition page: .event-row anchors in the past and upcoming lists.
+// Each holds the event uid, title and a date like "14 Nov 2026".
+const MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+function parseCompEvents(doc) {
+    const events = [];
+    doc.querySelectorAll("a.event-row").forEach((a) => {
+        const m = (a.getAttribute("href") || "").match(/\/events\/([A-Za-z0-9]+)/);
+        if (!m) return;
+        const title = (a.querySelector(".event-row__title") || a).textContent.trim().replace(/\s+/g, " ");
+        const dm = a.textContent.match(/(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})/);
+        let date = null;
+        if (dm && MONTHS[dm[2]] !== undefined) {
+            date = new Date(Date.UTC(+dm[3], MONTHS[dm[2]], +dm[1])).toISOString().slice(0, 10);
+        }
+        events.push({ uid: m[1], title: title, date: date });
+    });
+    // oldest first; events without a date go last, keeping page order
+    return events.sort((a, b) => {
+        if (a.date && b.date) return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+        if (a.date) return -1;
+        if (b.date) return 1;
+        return 0;
+    });
+}
+
+async function getCompetitions() {
+    let cached = cacheGet("wr:comps");
+    if (cached && Date.now() - cached.ts < COMP_TTL && cached.list.length) return cached.list;
+    const doc = await fetchPage("https://fpvscores.com/competitions/");
+    const list = parseCompetitions(doc);
+    if (list.length) cacheSet("wr:comps", { ts: Date.now(), list: list });
+    return list.length ? list : (cached ? cached.list : []);
+}
+
+// Load one competition: events list + per-event rankings, via cache when
+// available. force=true (Refresh button) ignores the cache entirely.
+async function loadCompetition(slug, force) {
+    const status = document.getElementById("status");
+    let cache = force ? null : cacheGet(compKey(slug));
+    if (!cache) cache = { ts: 0, events: [], rankings: {} };
+
+    let events = cache.events;
+    if (!events.length || force) {
+        status.textContent = "Loading competition " + slug + "…";
+        try {
+            events = parseCompEvents(await fetchPage("https://fpvscores.com/competitions/" + slug));
+        } catch (e) {
+            if (!events.length) throw e; // nothing cached either -> give up
+            events = cache.events; // fall back to cached event list
+        }
+    }
+    if (!events.length) throw new Error("no events found for " + slug);
+
     const results = [];
-    for (const race of RACES) {
-        const status = document.getElementById("status");
-        if (!race.uid) {
-            // Placeholder race: no fetch needed.
-            results.push({ uid: "", title: "", pilots: [], ok: true, placeholder: true });
+    const today = new Date().toISOString().slice(0, 10);
+    for (const ev of events) {
+        const cachedRank = cache.rankings && cache.rankings[ev.uid];
+        const isPast = !ev.date || ev.date <= today; // no date -> treat as past
+        if (cachedRank && !force) {
+            results.push(cachedRank);
             continue;
         }
-        status.textContent = "Loading event " + race.uid + "…";
+        if (!isPast) {
+            // Upcoming event: no results yet -> 100 points for everyone.
+            results.push({ uid: ev.uid, title: ev.title, pilots: [], ok: true, placeholder: true });
+            continue;
+        }
+        status.textContent = "Loading event " + ev.title + "…";
         try {
-            const parsed = parseResults(await fetchPage("https://fpvscores.com/events/" + race.uid + "/ranking"));
+            const parsed = parseResults(await fetchPage("https://fpvscores.com/events/" + ev.uid + "/ranking"));
             if (!parsed.pilots.length) throw new Error("no results found");
             // Fill in entry ids for pilots without a /ranking link: match them
             // against the /results page by real name, then callsign.
             if (parsed.pilots.some((p) => !p.slug)) {
                 try {
-                    const map = await fetchSlugMap(race.uid);
+                    const map = await fetchSlugMap(ev.uid);
                     parsed.pilots.forEach((p) => {
                         if (!p.slug) {
                             p.slug = map[p.name] || map[p.cs] || null;
@@ -254,13 +353,92 @@ function escapeHtml(s) {
                             if (!p.flag) p.flag = map["flag:" + p.name] || map["flag:" + p.cs] || null;
                         }
                     });
-                } catch (e) { console.error("Slug map failed for " + race.uid, e); }
+                } catch (e) { console.error("Slug map failed for " + ev.uid, e); }
             }
-            results.push({ uid: race.uid, title: parsed.title, pilots: parsed.pilots, ok: true });
+            const stored = { uid: ev.uid, title: parsed.title || ev.title, pilots: parsed.pilots, ok: true };
+            cache.rankings[ev.uid] = stored;
+            results.push(stored);
         } catch (e) {
-            console.error("Failed to load " + race.uid, e);
-            results.push({ uid: race.uid, title: "", pilots: [], ok: false });
+            console.error("Failed to load " + ev.uid, e);
+            results.push({ uid: ev.uid, title: ev.title, pilots: [], ok: false });
         }
     }
-    buildTable(results);
+
+    cache.ts = Date.now();
+    cache.events = events;
+    cacheSet(compKey(slug), cache);
+    return { events: events, results: results };
+}
+
+function setupControls() {
+    const select = document.getElementById("comp-select");
+    const btn = document.getElementById("refresh-btn");
+    const status = document.getElementById("status");
+
+    btn.addEventListener("click", () => {
+        const slug = select.value;
+        if (!slug) return;
+        cacheDel(compKey(slug));
+        run(true);
+    });
+
+    select.addEventListener("change", () => {
+        if (!select.value) return;
+        cacheSet("wr:sel", select.value);
+        run(false);
+    });
+
+    return {
+        fill: async () => {
+            status.textContent = "Loading competitions…";
+            try {
+                const comps = await getCompetitions();
+                select.innerHTML = "";
+                comps.forEach((c) => {
+                    const o = document.createElement("option");
+                    o.value = c.slug;
+                    o.textContent = c.name + " (" + c.races + " races)";
+                    select.appendChild(o);
+                });
+                const saved = cacheGet("wr:sel");
+                if (saved && comps.some((c) => c.slug === saved)) select.value = saved;
+                return select.value;
+            } catch (e) {
+                console.error(e);
+                status.textContent = "Could not load the competition list.";
+                status.classList.add("err");
+                return null;
+            }
+        },
+        busy: (b) => { btn.disabled = b; select.disabled = b; }
+    };
+}
+
+async function run(force) {
+    const slug = document.getElementById("comp-select").value;
+    if (!slug) return;
+    const status = document.getElementById("status");
+    document.getElementById("refresh-btn").disabled = true;
+    status.classList.remove("err");
+    try {
+        const { results } = await loadCompetition(slug, force);
+        buildTable(results);
+        if (results.length && !results.some((r) => r.ok && !r.placeholder && r.pilots.length)) {
+            status.textContent = "No race results for this competition yet.";
+        }
+    } catch (e) {
+        console.error(e);
+        status.textContent = "Could not load " + slug + ".";
+        status.classList.add("err");
+    }
+    document.getElementById("refresh-btn").disabled = false;
+}
+
+
+(async function main() {
+    const controls = await setupControls();
+    setupControlsCache = controls;
+    if (!controls) return; // no competitions -> nothing to do
+    await controls.fill();
+    await run(false);
 })();
