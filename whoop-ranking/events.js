@@ -17,4 +17,4 @@ const COMPETITION = "ddr-whoop-league";
 const BLACKLIST = [
     "multigp-global-qualifiers-2026",
     "fai-wdc-2026",
-];
+]; 
