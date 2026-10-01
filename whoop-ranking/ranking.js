@@ -107,12 +107,13 @@ function buildTable(results) {
         });
     });
 
-    // --- placeholder races (no UID): 100 points for every pilot ---
+    // --- missing entries: every pilot not listed in a loaded event scores
+    //     100 points (last place) for that race ---
     RACES.forEach((race, i) => {
-        if (race.uid) return;
+        if (!results[i].ok) return; // failed fetches keep a dash
         for (const entry of pilots.values()) {
             if (!entry.scores.some((s) => s.raceIdx === i)) {
-                entry.scores.push({ points: 100, raceIdx: i });
+                entry.scores.push({ points: 100, raceIdx: i, missed: true });
             }
         }
     });
@@ -151,7 +152,9 @@ function buildTable(results) {
 
         RACES.forEach((race, r) => {
             const s = entry.scores.find((sc) => sc.raceIdx === r);
-            if (s) {
+            if (s && s.missed) {
+                html += '<td class="num missed" title="No entry on FPVScores — counts as 100">100</td>';
+            } else if (s) {
                 const dropped = !entry.countedSet.has(s);
                 html += '<td class="num' + (dropped ? " dropped" : "") + '" title="' +
                     (dropped ? "Dropped score" : "") + '">' + fmt(s.points) + "</td>";
