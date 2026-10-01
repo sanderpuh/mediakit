@@ -77,7 +77,8 @@ function buildTable(results) {
 
     // --- race header row ---
     const headRow = document.getElementById("race-header-row");
-    headRow.innerHTML = "";
+    headRow.innerHTML =
+        '<th class="rank-cell"></th><th></th><th class="num"></th><th class="sep"></th>';
     results.forEach((r, i) => {
         const th = document.createElement("th");
         th.className = "num";
