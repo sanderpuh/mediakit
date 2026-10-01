@@ -1,4 +1,4 @@
-// Competition Ranking - fetches results from fpvscores.com and builds the table.
+// Whoop Ranking - fetches results from fpvscores.com and builds the table.
 //
 // The competition is chosen with the dropdown on the page (default from
 // events.js: COMPETITION). All past and upcoming events of the competition
@@ -237,7 +237,6 @@ function buildTable(results) {
         SCORED_RACES + " lowest race scores.";
     if (failed.length) {
         msg += " Could not load: " + failed.map((r) => r.uid).join(", ");
-        status.style.color = "#e07a5f";
     }
     status.textContent = msg;
 }
