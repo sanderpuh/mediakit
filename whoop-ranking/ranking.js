@@ -6,7 +6,6 @@
 //
 // Points per event: (position * 100) / totalPilots — lower is better.
 // Total score: the sum of the SCORED_RACES lowest points scores.
-
 const SCORED_RACES = 3; // how many lowest scores count towards the total
 
 // The browser can't call fpvscores.com directly (CORS), so requests go through
@@ -16,8 +15,7 @@ const PROXIES = [
     (t) => "https://r.jina.ai/" + t
 ];
 
-async function fetchResults(uid) {
-    const target = "https://fpvscores.com/events/" + uid + "/ranking";
+async function fetchPage(target) {
     let lastErr = null;
     for (const proxy of PROXIES) {
         try {
@@ -31,8 +29,7 @@ async function fetchResults(uid) {
     throw lastErr;
 }
 
-function parseResults(doc) {
-    // Use the first populated results table (the page's default class view).
+function parseResults(doc) {    // Use the first populated results table (the page's default class view).
     let table = null;
     for (const t of doc.querySelectorAll("table.results-table")) {
         if (t.querySelector("tbody tr")) { table = t; break; }
@@ -53,10 +50,16 @@ function parseResults(doc) {
         if (isNaN(pos) || !name) return;
         pilots.push({
             name: name,
+            // national flag image (flagcdn URL), may be null
+            flag: (tr.querySelector(".result-pilot__name img.flag-img") || {}).getAttribute ? tr.querySelector(".result-pilot__name img.flag-img").getAttribute("src") : null,
             pos: pos,
+            // callsign (the big name on the row) — used to match against the
+            // /results page when the row has no link
+            cs: ((linkEl || tr.querySelector(".result-pilot__name strong") || tr.querySelector(".result-pilot__name")).textContent || "").trim(),
             // pilot profile link: the per-entry slug is also the /u/ username,
             // e.g. /events/1Rm0iap4Um/results/reefpv -> https://fpvscores.com/u/reefpv
-            // some rows have no link at all (no FPVScores account) -> slug stays null
+            // some rows have no link at all (no FPVScores account) -> slug stays null;
+            // those get an event entry id (pilot-NNNNN) from the /results page below
             slug: linkEl && linkEl.getAttribute("href") ? linkEl.getAttribute("href").split("/").pop() : null
         });
         total++;
@@ -64,6 +67,32 @@ function parseResults(doc) {
     // Points: (position * 100) / total pilots — lower is better
     pilots.forEach((p) => { p.points = (p.pos * 100) / (total || 1); });
     return { pilots: pilots, title: pageTitle(doc) };
+}
+
+// Some pilots have no FPVScores account, so their /ranking row has no link —
+// but the /results page gives every pilot a per-event entry id (pilot-NNNNN).
+// Build a lookup by real name and callsign so we can link their scores too.
+// These ids are event-scoped, NOT usernames, so they're not used for /u/ links.
+async function fetchSlugMap(uid) {
+    const target = "https://fpvscores.com/events/" + uid + "/results";
+    const doc = await fetchPage(target);
+    const map = {};
+    doc.querySelectorAll(".result-pilot").forEach((el) => {
+        const a = el.querySelector(".result-pilot__name a");
+        if (!a) return;
+        const slug = (a.getAttribute("href") || "").split("/").pop();
+        if (!slug) return;
+        const flag = el.querySelector("img.flag-img");
+        const flagSrc = flag ? flag.getAttribute("src") : null;
+        const small = el.querySelector("small");
+        if (small) map[small.textContent.trim()] = slug;
+        map[(a.textContent || "").trim()] = slug;
+        if (flagSrc) {
+            if (small) map["flag:" + small.textContent.trim()] = flagSrc;
+            map["flag:" + (a.textContent || "").trim()] = flagSrc;
+        }
+    });
+    return map;
 }
 
 function pageTitle(doc) {
@@ -103,9 +132,11 @@ function buildTable(results) {
     const pilots = new Map(); // name -> { name, slug, scores: [{points, raceIdx}] }
     results.forEach((r, i) => {
         r.pilots.forEach((p) => {
-            if (!pilots.has(p.name)) pilots.set(p.name, { name: p.name, slug: null, scores: [] });
+            if (!pilots.has(p.name)) pilots.set(p.name, { name: p.name, slug: null, slugIsUser: true, flag: null, cs: "", scores: [] });
             const entry = pilots.get(p.name);
-            if (!entry.slug && p.slug) entry.slug = p.slug;
+            if (!entry.slug && p.slug) { entry.slug = p.slug; entry.slugIsUser = p.slugIsUser !== false; }
+            if (!entry.flag && p.flag) entry.flag = p.flag;
+            if (!entry.cs && p.cs) entry.cs = p.cs;
             entry.scores.push({ points: p.points, raceIdx: i, slug: p.slug });
         });
     });
@@ -122,17 +153,19 @@ function buildTable(results) {
     });
 
     // --- totals ---
-    // Total = average of the 3 lowest race scores, so it can never exceed 100
-    // (a race's max score is 100 for last place; a missed event also counts 100).
+    // Total = the sum of the SCORED_RACES lowest race scores.
     const entries = [...pilots.values()].map((p) => {
         const sorted = [...p.scores].sort((a, b) => a.points - b.points);
         const counted = sorted.slice(0, SCORED_RACES);
         return {
             name: p.name,
             slug: p.slug,
+            slugIsUser: p.slugIsUser,
+            flag: p.flag,
+            cs: p.cs,
             scores: p.scores,
             countedSet: new Set(counted),
-            total: counted.reduce((s, c) => s + c.points, 0) / (counted.length || 1)
+            total: counted.reduce((s, c) => s + c.points, 0)
         };
     });
 
@@ -148,10 +181,13 @@ function buildTable(results) {
         const posClass = idx === 0 ? "pos r-1" : idx === 1 ? "pos r-2" : idx === 2 ? "pos r-3" : "pos other";
         let html = '<td class="rank-cell"><span class="' + posClass + '">' + (idx + 1) + "</span></td>";
 
-        const nameHtml = entry.slug
+        const nameHtml = entry.slug && entry.slugIsUser
             ? '<a href="https://fpvscores.com/u/' + encodeURIComponent(entry.slug) + '" target="_blank" rel="noopener">' + escapeHtml(entry.name) + "</a>"
             : escapeHtml(entry.name);
-        html += '<td class="pilot">' + nameHtml + "</td>";
+        const subHtml = entry.cs && entry.cs !== entry.name
+            ? '<span class="pilot-sub">' + escapeHtml(entry.cs) + "</span>"
+            : "";
+        html += '<td class="pilot">' + nameHtml + subHtml + (entry.flag ? ' <img class="flag-img" src="' + escapeHtml(entry.flag) + '" alt="" width="16" height="12" loading="lazy">' : "") + "</td>";
         html += '<td class="num">' + fmt(entry.total) + "</td>";
         html += '<td class="sep"></td>';
 
@@ -182,7 +218,7 @@ function buildTable(results) {
     const status = document.getElementById("status");
     const failed = results.filter((r) => !r.ok);
     const loaded = results.length - failed.length;
-    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded. Total = average of the " +
+    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded. Total = sum of the " +
         SCORED_RACES + " lowest race scores.";
     if (failed.length) {
         msg += " Could not load: " + failed.map((r) => r.uid).join(", ");
@@ -206,8 +242,22 @@ function escapeHtml(s) {
         }
         status.textContent = "Loading event " + race.uid + "…";
         try {
-            const parsed = parseResults(await fetchResults(race.uid));
+            const parsed = parseResults(await fetchPage("https://fpvscores.com/events/" + race.uid + "/ranking"));
             if (!parsed.pilots.length) throw new Error("no results found");
+            // Fill in entry ids for pilots without a /ranking link: match them
+            // against the /results page by real name, then callsign.
+            if (parsed.pilots.some((p) => !p.slug)) {
+                try {
+                    const map = await fetchSlugMap(race.uid);
+                    parsed.pilots.forEach((p) => {
+                        if (!p.slug) {
+                            p.slug = map[p.name] || map[p.cs] || null;
+                            if (p.slug) p.slugIsUser = false;
+                            if (!p.flag) p.flag = map["flag:" + p.name] || map["flag:" + p.cs] || null;
+                        }
+                    });
+                } catch (e) { console.error("Slug map failed for " + race.uid, e); }
+            }
             results.push({ uid: race.uid, title: parsed.title, pilots: parsed.pilots, ok: true });
         } catch (e) {
             console.error("Failed to load " + race.uid, e);
