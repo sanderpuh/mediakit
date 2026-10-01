@@ -12,6 +12,25 @@
 // Total score: the sum of the SCORED_RACES lowest points scores.
 const SCORED_RACES = 3; // how many lowest scores count towards the total
 
+// --- Ranking systems ---
+// "pdrnl": score = (position * 100) / pilots; total = sum of the SCORED_RACES
+//          lowest scores; lower total is better.
+// "ddr":   top 16 get 16 down to 1 point, everyone else gets 1 point; total =
+//          sum of the SCORED_RACES highest scores; higher total is better.
+//          Ties: first by best single-race result. The DDR rules also name the
+//          fastest lap time as a second criterion, but lap times are not on the
+//          FPVScores ranking pages, so ties beyond best result keep their order.
+const RANKING_MODES = {
+    pdrnl: { label: "PDRNL" },
+    ddr:   { label: "DDR" }
+};
+const DEFAULT_MODE = "ddr";
+
+function ddrPoints(pos) { return pos <= 16 ? 17 - pos : 1; }
+function pdrnlPoints(pos, fieldSize) {
+    return Math.round(pos * 100 / fieldSize * 10) / 10;
+}
+
 // The browser can't call fpvscores.com directly (CORS), so requests go through
 // a proxy that fetches the page server-side. X-Return-Format: html makes
 // r.jina.ai return the raw page instead of extracted markdown.
@@ -118,7 +137,8 @@ function pageTitle(doc) {
     return (parts.length > 1 ? parts[1] : parts[0]).trim();
 }
 
-function buildTable(results) {
+function buildTable(results, mode) {
+    mode = RANKING_MODES[mode] ? mode : DEFAULT_MODE;
     const body = document.getElementById("ranking-body");
 
     // --- race header row ---
@@ -138,7 +158,7 @@ function buildTable(results) {
             th.appendChild(a);
         } else {
             th.textContent = "Race " + (i + 1);
-            th.title = r.placeholder ? "Upcoming event - counts as 100 points" : "Not loaded - counts as 100 points";
+            th.title = r.placeholder ? "Upcoming event - counts as 100 points (DDR: 1 point)" : "Not loaded - counts as 100 points (DDR: 1 point)";
         }
         headRow.appendChild(th);
     });
@@ -152,25 +172,31 @@ function buildTable(results) {
             if (!entry.slug && p.slug) { entry.slug = p.slug; entry.slugIsUser = p.slugIsUser !== false; }
             if (!entry.flag && p.flag) entry.flag = p.flag;
             if (!entry.cs && p.cs) entry.cs = p.cs;
-            entry.scores.push({ points: p.points, raceIdx: i, slug: p.slug });
+            entry.scores.push({ points: ddrPoints(p.pos), pdrnl: pdrnlPoints(p.pos, r.pilots.length), raceIdx: i, slug: p.slug });
         });
     });
 
     // --- missing entries: every pilot not listed in a loaded event scores
-    //     100 points (last place) for that race ---
+    //     last-place points (100 in PDRNL, 1 in DDR) for that race ---
     results.forEach((r, i) => {
         if (!r.ok) return; // failed fetches keep a dash
         for (const entry of pilots.values()) {
             if (!entry.scores.some((s) => s.raceIdx === i)) {
-                entry.scores.push({ points: 100, raceIdx: i, missed: true });
+                entry.scores.push({ points: 1, pdrnl: 100, raceIdx: i, missed: true, placeholder: r.placeholder });
             }
         }
     });
 
     // --- totals ---
-    // Total = the sum of the SCORED_RACES lowest race scores.
+    // pdrnl: sum of the SCORED_RACES LOWEST scores (lower is better).
+    // ddr:   sum of the SCORED_RACES HIGHEST scores (higher is better).
+    const ddr = mode === "ddr";
     const entries = [...pilots.values()].map((p) => {
-        const sorted = [...p.scores].sort((a, b) => a.points - b.points);
+        const val = (s) => ddr ? s.points : s.pdrnl;
+        // DDR: upcoming races count as 1 point too (everyone P16 or lower gets 1).
+        const scores = p.scores.map((s) =>
+            ({ points: val(s), raceIdx: s.raceIdx, missed: s.missed, placeholder: s.placeholder }));
+        const sorted = [...scores].sort((a, b) => ddr ? b.points - a.points : a.points - b.points);
         const counted = sorted.slice(0, SCORED_RACES);
         return {
             name: p.name,
@@ -180,11 +206,17 @@ function buildTable(results) {
             cs: p.cs,
             scores: p.scores,
             countedSet: new Set(counted),
-            total: counted.reduce((s, c) => s + c.points, 0)
+            total: counted.reduce((s, c) => s + c.points, 0),
+            bestRace: scores.reduce((m, s) => Math.max(m, s.points), 0)
         };
     });
 
-    entries.sort((a, b) => a.total - b.total);
+    if (ddr) {
+        // Most points first; ties broken by best single-race result.
+        entries.sort((a, b) => b.total - a.total || b.bestRace - a.bestRace);
+    } else {
+        entries.sort((a, b) => a.total - b.total);
+    }
 
     // --- render rows ---
     body.innerHTML = "";
@@ -208,11 +240,14 @@ function buildTable(results) {
 
         results.forEach((r, rIdx) => {
             const s = entry.scores.find((sc) => sc.raceIdx === rIdx);
-            if (s && s.missed) {
-                html += '<td class="num missed" title="No entry on FPVScores - counts as 100">100</td>';
+            if (s && s.placeholder) {
+                // Upcoming event: PDRNL counts it as 100, DDR skips it entirely.
+                html += '<td class="num missed" title="Upcoming event - ' + (ddr ? "counts as 1 point" : "counts as 100 points") + '">' + (ddr ? "1" : "100") + "</td>";
+            } else if (s && s.missed) {
+                html += '<td class="num missed" title="No entry on FPVScores - counts as last place">' + (ddr ? "1" : "100") + "</td>";
             } else if (s) {
                 const dropped = !entry.countedSet.has(s);
-                const scoreTxt = fmt(s.points);
+                const scoreTxt = fmt(ddr ? s.points : s.pdrnl);
                 const title = (dropped ? "Dropped score" : "");
                 if (s.slug) {
                     const href = "https://fpvscores.com/events/" + r.uid + "/results/" + encodeURIComponent(s.slug);
@@ -234,7 +269,7 @@ function buildTable(results) {
     const failed = results.filter((r) => !r.ok);
     const loaded = results.length - failed.length;
     let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded. Total = sum of the " +
-        SCORED_RACES + " lowest race scores.";
+        SCORED_RACES + " best race scores (" + RANKING_MODES[mode].label + ").";
     if (failed.length) {
         msg += " Could not load: " + failed.map((r) => r.uid).join(", ");
     }
@@ -378,10 +413,7 @@ function setupControls() {
     btn.addEventListener("click", async () => {
         const slug = select.value;
         if (!slug) return;
-        cacheDel(compKey(slug));
-        cacheDel("wr:comps"); // also re-fetch the competition list (picks up blacklist changes)
-        select.innerHTML = "";
-        if (setupControlsCache) await setupControlsCache.fill();
+        await run(true);
     });
 
     select.addEventListener("change", () => {
@@ -426,7 +458,8 @@ async function run(force) {
     status.classList.remove("err");
     try {
         const { results } = await loadCompetition(slug, force);
-        buildTable(results);
+        currentResults = results;
+        buildTable(results, currentMode());
         if (results.length && !results.some((r) => r.ok && !r.placeholder && r.pilots.length)) {
             status.textContent = "No race results for this competition yet.";
         }
@@ -439,10 +472,34 @@ async function run(force) {
 }
 
 
+// --- ranking mode selection ---
+let currentResults = null;
+const MODE_KEY = "wr:mode";
+
+function currentMode() {
+    const m = localStorage.getItem(MODE_KEY);
+    return RANKING_MODES[m] ? m : DEFAULT_MODE;
+}
+
+function setupModeSelect() {
+    const modeSel = document.getElementById("mode-select");
+    if (!modeSel) return null;
+    modeSel.innerHTML = Object.keys(RANKING_MODES).map((m) =>
+        '<option value="' + m + '">' + RANKING_MODES[m].label + "</option>").join("");
+    modeSel.value = currentMode();
+    modeSel.addEventListener("change", () => {
+        localStorage.setItem(MODE_KEY, modeSel.value);
+        if (currentResults) buildTable(currentResults, currentMode());
+    });
+    return modeSel;
+}
+
 (async function main() {
+    cacheDel("wr:comps"); // page reload: always refresh the competition list
     const controls = await setupControls();
     setupControlsCache = controls;
     if (!controls) return; // no competitions -> nothing to do
+    setupModeSelect();
     await controls.fill();
     await run(false);
 })();
