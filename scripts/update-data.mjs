@@ -138,7 +138,9 @@ async function discoverCompetitions() {
     if (slug === "logo" || slug === "card" || seen.has(slug)) continue;
     seen.add(slug);
     const block = m[2];
-    out.push(slug);
+    const nm = block.match(/<h3[^>]*>([\s\S]*?)<\/h3>/);
+    const name = nm ? clean(nm[1]) : slug;
+    out.push({ slug, name });
   }
   return out;
 }
@@ -253,17 +255,21 @@ async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   let slugs = COMPETITIONS;
   if (!slugs.length) {
-    slugs = (await discoverCompetitions()).filter(c => !BLACKLIST.includes(c)).map(c => c);
+    slugs = (await discoverCompetitions()).filter(c => !BLACKLIST.includes(c.slug));
     if (!slugs.length) { console.error('No competitions discovered on ' + BASE + '/competitions'); process.exit(1); }
     console.log(`discovered ${slugs.length} competitions (blacklist: ${BLACKLIST.join(', ')})`);
   }
   let failed = 0;
-  for (const slug of slugs) {
+  const index = [];
+  for (const comp of slugs) {
+    const slug = typeof comp === 'string' ? comp : comp.slug;
+    const name = typeof comp === 'string' ? slug : (comp.name || slug);
     try {
       const data = await exportCompetition(slug);
-    await mergeManualEvents(slug, data.events);
+      await mergeManualEvents(slug, data.events);
       const file = `${OUT_DIR}/${slug}.json`;
       await writeFile(file, JSON.stringify(data, null, 2) + '\n');
+      index.push({ slug, name, events: data.events.length });
       console.log(`wrote ${file}`);
     } catch (e) {
       console.error(`FAILED ${slug}: ${e.message}`);
@@ -271,6 +277,10 @@ async function main() {
     }
     await sleep(PAUSE_MS);
   }
+  // index.json lists every exported competition: the ranking page uses it to
+  // fill the dropdown (manual-events.json is not listed and never served).
+  await writeFile(`${OUT_DIR}/index.json`, JSON.stringify(index, null, 2) + '\n');
+  console.log(`wrote ${OUT_DIR}/index.json`);
   if (failed) process.exit(1); // non-zero exit keeps the commit step from running on partial data
 }
 
