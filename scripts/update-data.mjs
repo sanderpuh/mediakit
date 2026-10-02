@@ -144,37 +144,40 @@ async function discoverCompetitions() {
 }
 
 // Manual events: races that exist offline but not on FPVScores (e.g. a
-// championship final). Merged into the exported events after scraping. Pilots
-// MUST already exist in the scraped data (matched by callsign, case-insensitive);
+// championship final). They live in data/manual-events.json (a single file,
+// keyed by competition slug) so you can add them without touching the script;
+// the next run merges them into the exported JSON automatically. Pilots MUST
+// already exist in the scraped data (matched by callsign, case-insensitive);
 // unknown callsigns are a hard error so nothing new can slip in. Fields per
 // pilot: cs (required, must match a scraped pilot) and pos. name, flag, slug
-// and url are copied from the matched pilot; fieldSize is set to the pilot count.
-// Set date to null when unknown: it sorts after any dated event.
-const MANUAL_EVENTS = {
-  'dutch-nationals': [
-    {
-      uid: 'nk-drone-racing-2026-finals',
-      title: 'NK Drone Racing 2026 - Finals',
-      date: null,
-      upcoming: false,
-      url: null,
-      pilots: [
-        { cs: 'Keepy', pos: 1 },
-        { cs: 'SanderPuh', pos: 2 },
-        { cs: 'Crash', pos: 3 },
-        { cs: 'Lil Rippuh FPV', pos: 4 },
-        { cs: 'mano', pos: 5 },
-        { cs: 'Captain M', pos: 6 },
-        { cs: 'Whatsnext', pos: 7 },
-      ],
-    },
-  ],
-};
+// and url are copied from the matched pilot; fieldSize is set to the pilot
+// count. Set date to null when unknown: it sorts after any dated event.
+//
+// Example data/manual-events.json:
+// {
+//   "dutch-nationals": [
+//     { "uid": "nk-drone-racing-2026-finals",
+//       "title": "NK Drone Racing 2026 - Finals",
+//       "date": null, "url": null,
+//       "pilots": [
+//         { "cs": "Keepy", "pos": 1 },
+//         { "cs": "SanderPuh", "pos": 2 }
+//       ] }
+//   ]
+// }
+const MANUAL_EVENTS_FILE = `${OUT_DIR}/manual-events.json`;
 
-// Merge MANUAL_EVENTS[slug] into the scraped events, validating every pilot
-// against the union of scraped pilot callsigns.
-function mergeManualEvents(slug, events) {
-  const manual = MANUAL_EVENTS[slug] || [];
+// Merge manual events for slug into the scraped events, validating every
+// pilot against the union of scraped pilot callsigns.
+async function mergeManualEvents(slug, events) {
+  let manual = [];
+  try {
+    const all = JSON.parse(await readFile(MANUAL_EVENTS_FILE, 'utf8'));
+    manual = all[slug] || [];
+  } catch (e) {
+    if (e.code !== 'ENOENT') throw e;
+    return events; // no manual-events file: nothing to merge
+  }
   const known = new Map();
   for (const ev of events) {
     for (const p of ev.pilots) known.set(p.cs.toLowerCase(), p);
@@ -258,7 +261,7 @@ async function main() {
   for (const slug of slugs) {
     try {
       const data = await exportCompetition(slug);
-    mergeManualEvents(slug, data.events);
+    await mergeManualEvents(slug, data.events);
       const file = `${OUT_DIR}/${slug}.json`;
       await writeFile(file, JSON.stringify(data, null, 2) + '\n');
       console.log(`wrote ${file}`);
