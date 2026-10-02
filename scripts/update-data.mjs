@@ -6,6 +6,7 @@
 //   COMPETITIONS  comma-separated competition slugs (optional: overrides discovery)
 //   BLACKLIST     comma-separated slugs to skip (optional: extends DEFAULT_BLACKLIST)
 //   OUT_DIR       output folder for the JSON files (default 'data')
+//   FULL_SCRAPE   set to '1' to re-fetch every event, ignoring freshness
 //
 // Output: one file per competition, data/<slug>.json, shaped so the ranking
 // page can consume it directly. Every object carries its source URL so all
@@ -26,6 +27,40 @@ const COMPETITIONS = (process.env.COMPETITIONS || '')
 
 const UA = 'SanderPuh-ranking-export/1.0 (+https://github.com/)  personal non-commercial use';
 const PAUSE_MS = 1500; // polite delay between requests to fpvscores.com
+
+// Incremental updates: an event already present in the existing JSON is only
+// re-fetched when it is upcoming (results may appear any moment) or less than
+// a week old (results may still be corrected). Anything older and finished is
+// frozen at what is on disk. Set FULL_SCRAPE=1 to bypass this and fetch all.
+const FULL_SCRAPE = process.env.FULL_SCRAPE === '1';
+const REFETCH_DAYS = 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+async function loadExisting(slug) {
+  try {
+    const raw = JSON.parse(await readFile(`${OUT_DIR}/${slug}.json`, 'utf8'));
+    return raw && Array.isArray(raw.events) ? raw : null;
+  } catch {
+    return null;
+  }
+}
+
+// Map an existing event to the freshly discovered one. Manual events (no uid)
+// never match and are always merged again below.
+function findExisting(events, uid) {
+  return events.find(e => e.uid === uid && e.ok !== false) || null;
+}
+
+function needsRefetch(existing, discovered) {
+  if (FULL_SCRAPE) return true;
+  if (discovered.upcoming) return true;                 // race may have just run
+  if (!existing || !existing.ok || !existing.pilots.length) return true;
+  if (existing.date) {
+    const age = Date.now() - Date.parse(existing.date + 'T00:00:00Z');
+    if (age < REFETCH_DAYS * DAY_MS) return true;       // recently finished
+  }
+  return false;                                          // old and finished: keep cached
+}
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -213,19 +248,39 @@ async function exportCompetition(slug) {
   if (!events.length) throw new Error(`No events found for ${slug}`);
   console.log(`${slug}: ${events.length} events`);
 
+  const existingData = await loadExisting(slug);
+  const existingEvents = existingData ? existingData.events : [];
   const exported = [];
   for (const ev of events) {
+    const prior = findExisting(existingEvents, ev.uid);
     // results page carries the final standings; skip if the event has none yet
     const resultsUrl = `${BASE}/events/${ev.uid}/results`;
+    if (prior && !needsRefetch(prior, ev)) {
+      console.log(`  ${ev.uid}: cached (finished ${prior.date})`);
+      exported.push({ ...ev, url: prior.url || resultsUrl, date: prior.date || ev.date, upcoming: ev.upcoming, ok: true, pilots: prior.pilots });
+      continue;
+    }
     let html;
     try {
       html = await fetchText(resultsUrl);
     } catch (e) {
+      // Network failure: fall back to the cached copy if we have one.
+      if (prior) {
+        console.warn(`  ${ev.uid}: fetch failed, kept cached copy`);
+        exported.push({ ...ev, url: prior.url || resultsUrl, date: prior.date || ev.date, upcoming: ev.upcoming, ok: true, pilots: prior.pilots });
+        continue;
+      }
       console.warn(`  skip ${ev.uid}: ${e.message}`);
       exported.push({ ...ev, url: resultsUrl, ok: false, pilots: [] });
       continue;
     }
     const pilots = parseResults(html);
+    if (!pilots.length && prior && prior.pilots.length) {
+      // Empty results page but we have data: keep the cached copy.
+      console.log(`  ${ev.uid}: empty results page, kept cached copy`);
+      exported.push({ ...ev, url: prior.url || resultsUrl, date: prior.date || ev.date, upcoming: ev.upcoming, ok: true, pilots: prior.pilots });
+      continue;
+    }
     const total = pilots.length;
     // No points stored in the JSON: the website calculates them from pos
     // (DDR: top 16 get 16..1, below that 1; PDRNL: pos*100/fieldSize).
