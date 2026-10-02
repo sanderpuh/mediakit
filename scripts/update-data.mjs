@@ -289,9 +289,7 @@ async function exportCompetition(slug) {
     }
     const total = pilots.length;
     // No points stored in the JSON: the website calculates them from pos
-    // (DDR: top 16 get 16..1, below that 1; PDRNL: pos*100/fieldSize).
-    // fieldSize is kept so PDRNL can be recomputed client-side.
-    pilots.forEach(p => { p.fieldSize = total; });
+    // (DDR: top 16 get 16..1, below that 1.)
     exported.push({
       ...ev,
       url: fetchedUrl,
