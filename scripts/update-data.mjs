@@ -188,14 +188,16 @@ async function discoverCompetitions() {
 // unknown callsigns are a hard error so nothing new can slip in. Fields per
 // pilot: cs (required, must match a scraped pilot) and pos. name, flag, slug
 // and url are copied from the matched pilot; fieldSize is set to the pilot
-// count. Set date to null when unknown: it sorts after any dated event.
+// count. Set date to null when unknown: it sorts after any dated event. Set
+// "final": true on a championship final: the website scores it with a 1.2x
+// points multiplier.
 //
 // Example data/manual-events.json:
 // {
 //   "dutch-nationals": [
 //     { "uid": "nk-drone-racing-2026-finals",
 //       "title": "NK Drone Racing 2026 - Finals",
-//       "date": null, "url": null,
+//       "date": null, "url": null, "final": false,
 //       "pilots": [
 //         { "cs": "Keepy", "pos": 1 },
 //         { "cs": "SanderPuh", "pos": 2 }
@@ -231,6 +233,7 @@ async function mergeManualEvents(slug, events) {
       date: me.date || null,
       upcoming: false,
       url: me.url || null,
+      final: me.final === true,
       ok: true,
       pilots,
     });
@@ -253,18 +256,21 @@ async function exportCompetition(slug) {
   const exported = [];
   for (const ev of events) {
     const prior = findExisting(existingEvents, ev.uid);
-    // results page carries the final standings; skip if the event has none yet
-    const resultsUrl = `${BASE}/events/${ev.uid}/results`;
+    const resultsUrl = `${BASE}/events/${ev.uid}/ranking`;
+    // A 404 here means the ranking is not published yet — the race hasn't
+    // run. No fallback needed.
     if (prior && !needsRefetch(prior, ev)) {
       console.log(`  ${ev.uid}: cached (finished ${prior.date})`);
       exported.push({ ...ev, url: prior.url || resultsUrl, date: prior.date || ev.date, upcoming: ev.upcoming, ok: true, pilots: prior.pilots });
       continue;
     }
     let html;
+    let fetchedUrl = resultsUrl;
     try {
       html = await fetchText(resultsUrl);
     } catch (e) {
-      // Network failure: fall back to the cached copy if we have one.
+      // Not published yet (race hasn't run) or network failure: fall back
+      // to the cached copy if we have one.
       if (prior) {
         console.warn(`  ${ev.uid}: fetch failed, kept cached copy`);
         exported.push({ ...ev, url: prior.url || resultsUrl, date: prior.date || ev.date, upcoming: ev.upcoming, ok: true, pilots: prior.pilots });
@@ -288,7 +294,7 @@ async function exportCompetition(slug) {
     pilots.forEach(p => { p.fieldSize = total; });
     exported.push({
       ...ev,
-      url: resultsUrl,
+      url: fetchedUrl,
       date: ev.date,
       upcoming: ev.upcoming,
       ok: total > 0,
