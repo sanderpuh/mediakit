@@ -143,6 +143,62 @@ async function discoverCompetitions() {
   return out;
 }
 
+// Manual events: races that exist offline but not on FPVScores (e.g. a
+// championship final). Merged into the exported events after scraping. Pilots
+// MUST already exist in the scraped data (matched by callsign, case-insensitive);
+// unknown callsigns are a hard error so nothing new can slip in. Fields per
+// pilot: cs (required, must match a scraped pilot) and pos. name, flag, slug
+// and url are copied from the matched pilot; fieldSize is set to the pilot count.
+// Set date to null when unknown: it sorts after any dated event.
+const MANUAL_EVENTS = {
+  'dutch-nationals': [
+    {
+      uid: 'nk-drone-racing-2026-finals',
+      title: 'NK Drone Racing 2026 - Finals',
+      date: null,
+      upcoming: false,
+      url: null,
+      pilots: [
+        { cs: 'Keepy', pos: 1 },
+        { cs: 'SanderPuh', pos: 2 },
+        { cs: 'Crash', pos: 3 },
+        { cs: 'Lil Rippuh FPV', pos: 4 },
+        { cs: 'mano', pos: 5 },
+        { cs: 'Captain M', pos: 6 },
+        { cs: 'Whatsnext', pos: 7 },
+      ],
+    },
+  ],
+};
+
+// Merge MANUAL_EVENTS[slug] into the scraped events, validating every pilot
+// against the union of scraped pilot callsigns.
+function mergeManualEvents(slug, events) {
+  const manual = MANUAL_EVENTS[slug] || [];
+  const known = new Map();
+  for (const ev of events) {
+    for (const p of ev.pilots) known.set(p.cs.toLowerCase(), p);
+  }
+  for (const me of manual) {
+    const pilots = me.pilots.map((mp) => {
+      const match = known.get(mp.cs.toLowerCase());
+      if (!match) throw new Error(`manual event "${me.title}": callsign "${mp.cs}" not found in scraped pilots of ${slug}`);
+      return { name: match.name, cs: match.cs, pos: mp.pos, flag: match.flag, slug: match.slug, url: match.url, fieldSize: me.pilots.length };
+    });
+    events.push({
+      uid: me.uid,
+      title: me.title,
+      date: me.date || null,
+      upcoming: false,
+      url: me.url || null,
+      ok: true,
+      pilots,
+    });
+    console.log(`  merged manual event: ${me.title} (${pilots.length} pilots)`);
+  }
+  return events;
+}
+
 // --- main -------------------------------------------------------------------
 
 async function exportCompetition(slug) {
@@ -202,6 +258,7 @@ async function main() {
   for (const slug of slugs) {
     try {
       const data = await exportCompetition(slug);
+    mergeManualEvents(slug, data.events);
       const file = `${OUT_DIR}/${slug}.json`;
       await writeFile(file, JSON.stringify(data, null, 2) + '\n');
       console.log(`wrote ${file}`);
