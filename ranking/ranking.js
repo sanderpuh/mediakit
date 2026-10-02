@@ -73,13 +73,12 @@ function buildTable(results) {
     });
 
     // --- missing entries: every pilot not listed in a loaded event scores
-    //     last-place points (1 in DDR) for that race ---
+    //     no points for that race (shown as DNF) ---
     results.forEach((r, i) => {
-        if (!r.ok) return; // failed fetches keep a dash (defensive; JSON is pre-validated)
+        if (r.placeholder) return; // upcoming events already score for everyone below
         for (const entry of pilots.values()) {
             if (!entry.scores.some((s) => s.raceIdx === i)) {
-                const mult = r.final ? FINAL_MULT : 1;
-                entry.scores.push({ points: 1 * mult, raceIdx: i, missed: true, placeholder: r.placeholder });
+                entry.scores.push({ points: 0, raceIdx: i, missed: true, placeholder: r.placeholder });
             }
         }
     });
@@ -135,7 +134,7 @@ function buildTable(results) {
                 // Upcoming event counts as 1 point (everyone P16 or lower gets 1).
                 html += '<td class="' + cls + '" title="Upcoming event - counts as 1 point' + (title ? "; " + title : "") + '">1</td>';
             } else if (s && s.missed) {
-                html += '<td class="' + cls + '" title="No entry on FPVScores - counts as last place' + (title ? "; " + title : "") + '">1</td>';
+                html += '<td class="' + cls + '" title="DNF - no entry on FPVScores, no points' + (title ? "; " + title : "") + '">DNF</td>';
             } else if (s) {
                 const scoreTxt = fmt(s.points);
                 const podium = (s.pos && s.pos <= 3)
