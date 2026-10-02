@@ -53,7 +53,7 @@ function buildTable(results) {
         } else {
             th.textContent = "Race " + (i + 1) + (r.final ? " F" : "");
             th.title = (r.final ? "Final - points x" + FINAL_MULT + ". " : "") +
-                (r.placeholder ? "Upcoming event - counts as 1 point" : "Not loaded - counts as last place");
+                (r.placeholder ? "Upcoming event - counts as 1 point" : "No results loaded - DNF, no points");
         }
         headRow.appendChild(th);
     });
