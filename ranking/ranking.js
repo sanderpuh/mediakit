@@ -79,7 +79,9 @@ function buildTable(results) {
         if (r.placeholder) return; // upcoming events already score for everyone below
         for (const entry of pilots.values()) {
             if (!entry.scores.some((s) => s.raceIdx === i)) {
-                entry.scores.push({ points: 0, raceIdx: i, missed: true, placeholder: r.placeholder });
+                // race ran but pilot didn't enter: DNF, no points.
+                // race hasn't run (empty/unpublished ranking page): DNS, no points.
+                entry.scores.push({ points: 0, raceIdx: i, missed: true, dns: !r.ok, placeholder: r.placeholder });
             }
         }
     });
@@ -135,7 +137,11 @@ function buildTable(results) {
                 // Upcoming event counts as 1 point (everyone P16 or lower gets 1).
                 html += '<td class="' + cls + '" title="Upcoming event - counts as 1 point' + (title ? "; " + title : "") + '">1</td>';
             } else if (s && s.missed) {
-                html += '<td class="' + cls + '" title="DNF - no entry on FPVScores, no points' + (title ? "; " + title : "") + '">DNF</td>';
+                if (s.dns) {
+                    html += '<td class="' + cls + '" title="DNS - race not run yet, no points' + (title ? "; " + title : "") + '">DNS</td>';
+                } else {
+                    html += '<td class="' + cls + '" title="DNF - no entry on FPVScores, no points' + (title ? "; " + title : "") + '">DNF</td>';
+                }
             } else if (s) {
                 const scoreTxt = fmt(s.points);
                 const podium = (s.pos && s.pos <= 3)
@@ -151,7 +157,8 @@ function buildTable(results) {
                         (title ? ' title="' + title + '"' : '') + ">" + podium + "</td>";
                 }
             } else {
-                html += '<td class="num missed">–</td>';
+                // No score at all for this race (e.g. race not run yet): DNS, 0 points.
+                html += '<td class="num missed" title="DNS - race not run yet, no points">DNS</td>';
             }
         });
         tr.innerHTML = html;
