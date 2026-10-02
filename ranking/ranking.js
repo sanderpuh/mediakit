@@ -5,24 +5,21 @@
 // events.js: COMPETITION; the list comes from data/index.json, so
 // data/manual-events.json is never offered). All past and upcoming events of
 // the competition become race columns, oldest first. Upcoming events count as
-// 100 points (PDRNL) or 1 point (DDR) until their results exist.
+// 1 point (DDR) until their results exist.
 //
-// Each competition's JSON is cached in localStorage, so a page reload renders
-// instantly. The Refresh button re-fetches the JSON file.
+// The JSON files are fetched fresh on every page load; the export script and
+// GitHub Actions keep them up to date, so no client-side cache is needed.
 const SCORED_RACES = 3; // how many lowest scores count towards the total
+const FINAL_MULT = 1.2; // championship finals carry extra weight ("final": true in data/manual-events.json)
 
-// --- Ranking systems ---
-// "pdrnl": score = (position * 100) / pilots; total = sum of the SCORED_RACES
-//          lowest scores; lower total is better.
+// --- Ranking system ---
 // "ddr":   top 16 get 16 down to 1 point, everyone else gets 1 point; total =
 //          sum of the SCORED_RACES highest scores; higher total is better.
 //          Ties: first by best single-race result. The DDR rules also name the
 //          fastest lap time as a second criterion, but lap times are not on the
 //          FPVScores ranking pages, so ties beyond best result keep their order.
-const RANKING_MODES = {
-    pdrnl: { label: "PDRNL" },
-    ddr:   { label: "DDR" }
-};
+// A PDRNL formula (position * 100 / pilots, sum of the best SCORED_RACES
+// scores) was removed; DDR scoring is always used.
 const DEFAULT_MODE = "ddr";
 
 function ddrPoints(pos) { return pos <= 16 ? 17 - pos : 1; }
@@ -35,24 +32,13 @@ function pdrnlPoints(pos, fieldSize) {
 // merges them into the competition files and only lists real competitions in
 // index.json.
 async function fetchJSON(file) {
-    const res = await fetch(DATA_BASE + file, { cache: "no-cache" });
+    const res = await fetch(DATA_BASE + file);
     if (!res.ok) throw new Error("HTTP " + res.status + " for " + file);
     return res.json();
 }
 
-// --- localStorage cache -----------------------------------------------------
-// wr:comps      -> { ts, list: [{slug,name,category,races}] }   competitions list
-// wr:comp:slug  -> { ts, events: [{uid,title,date}], rankings: {uid: parsed} }
-// wr:sel        -> last selected competition slug
-const COMP_TTL = 12 * 60 * 60 * 1000; // competitions list re-fetch after 12h
-
-function cacheGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; } }
-function cacheSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
-function cacheDel(key) { try { localStorage.removeItem(key); } catch (e) {} }
-const compKey = (slug) => "wr:comp:" + slug;
-
 function buildTable(results, mode) {
-    mode = RANKING_MODES[mode] ? mode : DEFAULT_MODE;
+    if (mode !== "ddr") mode = DEFAULT_MODE;
     const body = document.getElementById("ranking-body");
 
     // --- race header row ---
@@ -64,20 +50,21 @@ function buildTable(results, mode) {
         th.className = "num race-th";
         if (r.url) {
             const a = document.createElement("a");
-            a.href = r.url.replace(/\/results$/, "") + "/ranking";
+            a.href = r.url;
             a.target = "_blank";
             a.rel = "noopener";
             a.title = r.title || "Race on FPVScores";
-            a.textContent = "Race " + (i + 1);
+            a.textContent = "Race " + (i + 1) + (r.final ? " F" : "");
             th.appendChild(a);
         } else {
-            th.textContent = "Race " + (i + 1);
-            th.title = r.placeholder ? "Upcoming event - counts as 100 points (DDR: 1 point)" : "Not loaded - counts as 100 points (DDR: 1 point)";
+            th.textContent = "Race " + (i + 1) + (r.final ? " F" : "");
+            th.title = (r.final ? "Final - points x" + FINAL_MULT + ". " : "") +
+                (r.placeholder ? "Upcoming event - counts as 1 point" : "Not loaded - counts as last place");
         }
         headRow.appendChild(th);
     });
 
-    // --- collect pilot scores keyed by real (small) name ---
+// --- collect pilot scores keyed by real (small) name ---
     const pilots = new Map(); // name -> { name, url, scores: [{points, raceIdx}] }
     results.forEach((r, i) => {
         r.pilots.forEach((p) => {
@@ -86,7 +73,8 @@ function buildTable(results, mode) {
             if (!entry.url && p.url) entry.url = p.url;
             if (!entry.flag && p.flag) entry.flag = p.flag;
             if (!entry.cs && p.cs) entry.cs = p.cs;
-            entry.scores.push({ points: ddrPoints(p.pos), pdrnl: pdrnlPoints(p.pos, p.fieldSize || r.pilots.length), raceIdx: i, pos: p.pos, slug: p.slug });
+            const mult = r.final ? FINAL_MULT : 1;
+            entry.scores.push({ points: ddrPoints(p.pos) * mult, pdrnl: pdrnlPoints(p.pos, p.fieldSize || r.pilots.length) * mult, raceIdx: i, pos: p.pos, slug: p.slug, final: r.final });
         });
     });
 
@@ -96,7 +84,8 @@ function buildTable(results, mode) {
         if (!r.ok) return; // failed fetches keep a dash (defensive; JSON is pre-validated)
         for (const entry of pilots.values()) {
             if (!entry.scores.some((s) => s.raceIdx === i)) {
-                entry.scores.push({ points: 1, pdrnl: 100, raceIdx: i, missed: true, placeholder: r.placeholder });
+                const mult = r.final ? FINAL_MULT : 1;
+                entry.scores.push({ points: 1 * mult, pdrnl: 100 * mult, raceIdx: i, missed: true, placeholder: r.placeholder });
             }
         }
     });
@@ -186,7 +175,7 @@ function buildTable(results, mode) {
     const failed = results.filter((r) => !r.ok);
     const loaded = results.length - failed.length;
     let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded, total = sum of the " +
-        SCORED_RACES + " best race scores (" + RANKING_MODES[mode].label + ").";
+        SCORED_RACES + " best race scores.";
     if (failed.length) {
         msg += " Could not load: " + failed.map((r) => r.uid).join(", ");
     }
@@ -207,17 +196,13 @@ async function getCompetitions() {
 
 // Load one competition from data/<slug>.json, via localStorage cache when
 // available. force=true (Refresh button) re-fetches the JSON file.
-async function loadCompetition(slug, force) {
+async function loadCompetition(slug) {
     const status = document.getElementById("status");
-    let cache = force ? null : cacheGet(compKey(slug));
-    if (!cache) {
-        status.textContent = "Loading " + slug + "…";
-        cache = { ts: Date.now(), data: await fetchJSON(slug + ".json") };
-        cacheSet(compKey(slug), cache);
-    }
+    status.textContent = "Loading " + slug + "…";
+    const data = await fetchJSON(slug + ".json");
 
     const today = new Date().toISOString().slice(0, 10);
-    const events = cache.data.events || [];
+    const events = data.events || [];
     const results = events.map((ev) => {
         const pilots = ev.pilots || [];
         return {
@@ -226,6 +211,7 @@ async function loadCompetition(slug, force) {
             url: ev.url || null,           // fpvscores results URL, null for manual events
             ok: pilots.length > 0,
             placeholder: !!(ev.upcoming || (ev.date && ev.date > today)),
+            final: ev.final === true,
             pilots: pilots
         };
     });
@@ -234,19 +220,12 @@ async function loadCompetition(slug, force) {
 
 function setupControls() {
     const select = document.getElementById("comp-select");
-    const btn = document.getElementById("refresh-btn");
     const status = document.getElementById("status");
-
-    btn.addEventListener("click", async () => {
-        const slug = select.value;
-        if (!slug) return;
-        await run(true);
-    });
 
     select.addEventListener("change", () => {
         if (!select.value) return;
-        cacheSet("wr:sel", select.value);
-        run(false);
+        try { localStorage.setItem("wr:sel", select.value); } catch (e) {}
+        run();
     });
 
     return {
@@ -261,7 +240,7 @@ function setupControls() {
                     o.textContent = c.name + " (" + (c.events != null ? c.events : c.races) + " races)";
                     select.appendChild(o);
                 });
-                const saved = cacheGet("wr:sel");
+                const saved = (() => { try { return localStorage.getItem("wr:sel"); } catch (e) { return null; } })();
                 const def = (saved && comps.some((c) => c.slug === saved)) ? saved
                           : (comps.some((c) => c.slug === COMPETITION) ? COMPETITION : null);
                 if (def) select.value = def;
@@ -273,20 +252,18 @@ function setupControls() {
                 return null;
             }
         },
-        busy: (b) => { btn.disabled = b; select.disabled = b; }
+        busy: (b) => { select.disabled = b; }
     };
 }
 
-async function run(force) {
+async function run() {
     const slug = document.getElementById("comp-select").value;
     if (!slug) return;
     const status = document.getElementById("status");
-    document.getElementById("refresh-btn").disabled = true;
     status.classList.remove("err");
     try {
-        const { results } = await loadCompetition(slug, force);
-        currentResults = results;
-        buildTable(results, currentMode());
+        const { results } = await loadCompetition(slug);
+        buildTable(results, DEFAULT_MODE);
         if (results.length && !results.some((r) => r.ok && !r.placeholder && r.pilots.length)) {
             status.textContent = "No race results for this competition yet.";
         }
@@ -295,38 +272,13 @@ async function run(force) {
         status.textContent = "Could not load " + slug + ".";
         status.classList.add("err");
     }
-    document.getElementById("refresh-btn").disabled = false;
 }
 
 
-// --- ranking mode selection ---
-let currentResults = null;
-const MODE_KEY = "wr:mode";
-
-function currentMode() {
-    const m = localStorage.getItem(MODE_KEY);
-    return RANKING_MODES[m] ? m : DEFAULT_MODE;
-}
-
-function setupModeSelect() {
-    const modeSel = document.getElementById("mode-select");
-    if (!modeSel) return null;
-    modeSel.innerHTML = Object.keys(RANKING_MODES).map((m) =>
-        '<option value="' + m + '">' + RANKING_MODES[m].label + "</option>").join("");
-    modeSel.value = currentMode();
-    modeSel.addEventListener("change", () => {
-        localStorage.setItem(MODE_KEY, modeSel.value);
-        if (currentResults) buildTable(currentResults, currentMode());
-    });
-    return modeSel;
-}
 
 (async function main() {
-    cacheDel("wr:comps"); // page reload: always refresh the competition list
     const controls = await setupControls();
-    setupControlsCache = controls;
     if (!controls) return; // no competitions -> nothing to do
-    setupModeSelect();
     await controls.fill();
-    await run(false);
+    await run();
 })();
