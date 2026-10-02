@@ -18,14 +18,9 @@ const FINAL_MULT = 1.2; // championship finals carry extra weight ("final": true
 //          Ties: first by best single-race result. The DDR rules also name the
 //          fastest lap time as a second criterion, but lap times are not on the
 //          FPVScores ranking pages, so ties beyond best result keep their order.
-// A PDRNL formula (position * 100 / pilots, sum of the best SCORED_RACES
-// scores) was removed; DDR scoring is always used.
-const DEFAULT_MODE = "ddr";
+// (A PDRNL formula was removed; DDR scoring is always used.)
 
 function ddrPoints(pos) { return pos <= 16 ? 17 - pos : 1; }
-function pdrnlPoints(pos, fieldSize) {
-    return Math.round(pos * 100 / fieldSize * 10) / 10;
-}
 
 // Data lives at DATA_BASE (events.js): index.json for the dropdown, one
 // <slug>.json per competition. Manual events never appear: the export script
@@ -37,8 +32,7 @@ async function fetchJSON(file) {
     return res.json();
 }
 
-function buildTable(results, mode) {
-    if (mode !== "ddr") mode = DEFAULT_MODE;
+function buildTable(results) {
     const body = document.getElementById("ranking-body");
 
     // --- race header row ---
@@ -74,32 +68,28 @@ function buildTable(results, mode) {
             if (!entry.flag && p.flag) entry.flag = p.flag;
             if (!entry.cs && p.cs) entry.cs = p.cs;
             const mult = r.final ? FINAL_MULT : 1;
-            entry.scores.push({ points: ddrPoints(p.pos) * mult, pdrnl: pdrnlPoints(p.pos, p.fieldSize || r.pilots.length) * mult, raceIdx: i, pos: p.pos, slug: p.slug, final: r.final });
+            entry.scores.push({ points: ddrPoints(p.pos) * mult, raceIdx: i, pos: p.pos, slug: p.slug, final: r.final });
         });
     });
 
     // --- missing entries: every pilot not listed in a loaded event scores
-    //     last-place points (100 in PDRNL, 1 in DDR) for that race ---
+    //     last-place points (1 in DDR) for that race ---
     results.forEach((r, i) => {
         if (!r.ok) return; // failed fetches keep a dash (defensive; JSON is pre-validated)
         for (const entry of pilots.values()) {
             if (!entry.scores.some((s) => s.raceIdx === i)) {
                 const mult = r.final ? FINAL_MULT : 1;
-                entry.scores.push({ points: 1 * mult, pdrnl: 100 * mult, raceIdx: i, missed: true, placeholder: r.placeholder });
+                entry.scores.push({ points: 1 * mult, raceIdx: i, missed: true, placeholder: r.placeholder });
             }
         }
     });
 
     // --- totals ---
-    // pdrnl: sum of the SCORED_RACES LOWEST scores (lower is better).
-    // ddr:   sum of the SCORED_RACES HIGHEST scores (higher is better).
-    const ddr = mode === "ddr";
+    // sum of the SCORED_RACES HIGHEST scores (higher is better).
     const entries = [...pilots.values()].map((p) => {
-        const val = (s) => ddr ? s.points : s.pdrnl;
-        // DDR: upcoming races count as 1 point too (everyone P16 or lower gets 1).
         const scores = p.scores.map((s) =>
-            ({ points: val(s), raceIdx: s.raceIdx, missed: s.missed, placeholder: s.placeholder }));
-        const sorted = [...scores].sort((a, b) => ddr ? b.points - a.points : a.points - b.points);
+            ({ points: s.points, raceIdx: s.raceIdx, missed: s.missed, placeholder: s.placeholder }));
+        const sorted = [...scores].sort((a, b) => b.points - a.points);
         const counted = sorted.slice(0, SCORED_RACES);
         return {
             name: p.name,
@@ -113,12 +103,8 @@ function buildTable(results, mode) {
         };
     });
 
-    if (ddr) {
-        // Most points first; ties broken by best single-race result.
-        entries.sort((a, b) => b.total - a.total || b.bestRace - a.bestRace);
-    } else {
-        entries.sort((a, b) => a.total - b.total);
-    }
+    // Most points first; ties broken by best single-race result.
+    entries.sort((a, b) => b.total - a.total || b.bestRace - a.bestRace);
 
     // --- render rows ---
     body.innerHTML = "";
@@ -146,12 +132,12 @@ function buildTable(results, mode) {
             const title = dropped ? "Dropped score" : "";
             const cls = "num" + (dropped ? " dropped" : "");
             if (s && s.placeholder) {
-                // Upcoming event: PDRNL counts it as 100, DDR counts it as 1 (everyone P16 or lower gets 1).
-                html += '<td class="' + cls + '" title="Upcoming event - ' + (ddr ? "counts as 1 point" : "counts as 100 points") + (title ? "; " + title : "") + '">' + (ddr ? "1" : "100") + "</td>";
+                // Upcoming event counts as 1 point (everyone P16 or lower gets 1).
+                html += '<td class="' + cls + '" title="Upcoming event - counts as 1 point' + (title ? "; " + title : "") + '">1</td>';
             } else if (s && s.missed) {
-                html += '<td class="' + cls + '" title="No entry on FPVScores - counts as last place' + (title ? "; " + title : "") + '">' + (ddr ? "1" : "100") + "</td>";
+                html += '<td class="' + cls + '" title="No entry on FPVScores - counts as last place' + (title ? "; " + title : "") + '">1</td>';
             } else if (s) {
-                const scoreTxt = fmt(ddr ? s.points : s.pdrnl);
+                const scoreTxt = fmt(s.points);
                 const podium = (s.pos && s.pos <= 3)
                     ? '<span class="podium p' + s.pos + '">' + scoreTxt + "</span>"
                     : '<span class="score-txt">' + scoreTxt + "</span>";
@@ -263,7 +249,7 @@ async function run() {
     status.classList.remove("err");
     try {
         const { results } = await loadCompetition(slug);
-        buildTable(results, DEFAULT_MODE);
+        buildTable(results);
         if (results.length && !results.some((r) => r.ok && !r.placeholder && r.pilots.length)) {
             status.textContent = "No race results for this competition yet.";
         }
