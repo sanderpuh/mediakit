@@ -1,4 +1,4 @@
-// Whoop Ranking - fetches results from fpvscores.com and builds the table.
+// Ranking, fetches results from fpvscores.com and builds the table.
 //
 // The competition is chosen with the dropdown on the page (default from
 // events.js: COMPETITION). All past and upcoming events of the competition
