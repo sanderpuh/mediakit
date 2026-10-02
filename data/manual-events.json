@@ -1,0 +1,40 @@
+{
+  "dutch-nationals": [
+    {
+      "uid": "nk-drone-racing-2026-finals",
+      "title": "NK Drone Racing 2026 - Finals",
+      "date": null,
+      "url": null,
+      "pilots": [
+        {
+          "cs": "Keepy",
+          "pos": 1
+        },
+        {
+          "cs": "SanderPuh",
+          "pos": 2
+        },
+        {
+          "cs": "Crash",
+          "pos": 3
+        },
+        {
+          "cs": "Lil Rippuh FPV",
+          "pos": 4
+        },
+        {
+          "cs": "mano",
+          "pos": 5
+        },
+        {
+          "cs": "Captain M",
+          "pos": 6
+        },
+        {
+          "cs": "Whatsnext",
+          "pos": 7
+        }
+      ]
+    }
+  ]
+}
