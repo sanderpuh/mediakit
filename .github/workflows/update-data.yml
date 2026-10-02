@@ -14,7 +14,7 @@
 # Requirements:
 #   - The repo needs Actions enabled, and this workflow needs write access:
 #     Settings > Actions > General > Workflow permissions > "Read and write".
-#   - Node 20 or newer on the runner (below, via actions/setup-node).
+#   - Node 24 on the runner (below, via actions/setup-node).
 #   - OUT_DIR below must match where the ranking page loads its JSON from.
 #   - The script auto-discovers all competitions on fpvscores.com/competitions;
 #     blacklist lives in scripts/update-data.mjs (DEFAULT_BLACKLIST).
@@ -35,16 +35,16 @@ concurrency:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Fetch and export data from FPVScores
         env:
@@ -55,7 +55,7 @@ jobs:
 
       - name: Commit data if changed
         id: commit
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: 'Update FPVScores race data [skip ci]'
           file_pattern: 'data/*.json'
