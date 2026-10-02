@@ -42,16 +42,17 @@ function buildTable(results) {
     results.forEach((r, i) => {
         const th = document.createElement("th");
         th.className = "num race-th";
+        const label = r.final ? "Finals" : "Race " + (i + 1);
         if (r.url) {
             const a = document.createElement("a");
             a.href = r.url;
             a.target = "_blank";
             a.rel = "noopener";
-            a.title = r.title || "Race on FPVScores";
-            a.textContent = "Race " + (i + 1) + (r.final ? " F" : "");
+            a.title = (r.final ? "Final - points x" + FINAL_MULT + ". " : "") + (r.title || "Race on FPVScores");
+            a.textContent = label;
             th.appendChild(a);
         } else {
-            th.textContent = "Race " + (i + 1) + (r.final ? " F" : "");
+            th.textContent = label;
             th.title = (r.final ? "Final - points x" + FINAL_MULT + ". " : "") +
                 (r.placeholder ? "Upcoming event - counts as 1 point" : "No results loaded - DNF, no points");
         }
@@ -129,7 +130,7 @@ function buildTable(results) {
             const s = entry.scores.find((sc) => sc.raceIdx === rIdx);
             const dropped = s ? !entry.countedIdx.has(rIdx) : false;
             const title = dropped ? "Dropped score" : "";
-            const cls = "num" + (dropped ? " dropped" : "");
+            const cls = "num" + (dropped ? " dropped" : "") + (s && s.missed ? " missed" : "");
             if (s && s.placeholder) {
                 // Upcoming event counts as 1 point (everyone P16 or lower gets 1).
                 html += '<td class="' + cls + '" title="Upcoming event - counts as 1 point' + (title ? "; " + title : "") + '">1</td>';
