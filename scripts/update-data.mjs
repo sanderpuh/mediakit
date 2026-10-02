@@ -3,7 +3,8 @@
 // Called by .github/workflows/update-data.yml. Zero dependencies: Node 20+.
 //
 // Env:
-//   COMPETITIONS  comma-separated competition slugs (default below)
+//   COMPETITIONS  comma-separated competition slugs (optional: overrides discovery)
+//   BLACKLIST     comma-separated slugs to skip (optional: extends DEFAULT_BLACKLIST)
 //   OUT_DIR       output folder for the JSON files (default 'data')
 //
 // Output: one file per competition, data/<slug>.json, shaped so the ranking
@@ -13,9 +14,14 @@
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 
 const BASE = 'https://fpvscores.com';
-const DEFAULT_COMPETITIONS = 'ddr-whoop-league,belgian-championship-f9u,dutch-nationals-2026';
 const OUT_DIR = process.env.OUT_DIR || 'data';
-const COMPETITIONS = (process.env.COMPETITIONS || DEFAULT_COMPETITIONS)
+// Competitions never to export or rank: big one-off events, etc.
+const DEFAULT_BLACKLIST = ['fai-wdc-2026', 'multigp-global-qualifiers-2026'];
+const BLACKLIST = [...DEFAULT_BLACKLIST,
+  ...(process.env.BLACKLIST || '').split(',').map(s => s.trim()).filter(Boolean)];
+// If COMPETITIONS is set, export exactly those; otherwise discover all
+// competitions listed on fpvscores.com/competitions and drop blacklisted ones.
+const COMPETITIONS = (process.env.COMPETITIONS || '')
   .split(',').map(s => s.trim()).filter(Boolean);
 
 const UA = 'SanderPuh-ranking-export/1.0 (+https://github.com/)  personal non-commercial use';
@@ -118,6 +124,25 @@ function parseEvents(html) {
   });
 }
 
+// Discover every competition listed on fpvscores.com/competitions.
+// Card markup: <div class="comp-card" ...><h3>Name</h3><div class="comp-card__meta">.. 12 events ..</div>
+// with the whole card linking to /competitions/<slug>.
+async function discoverCompetitions() {
+  const html = await fetchText(BASE + "/competitions/");
+  const out = [];
+  const seen = new Set();
+  const cardRe = /<a[^>]*href="\/competitions\/([a-z0-9-]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+  let m;
+  while ((m = cardRe.exec(html))) {
+    const slug = m[1];
+    if (slug === "logo" || slug === "card" || seen.has(slug)) continue;
+    seen.add(slug);
+    const block = m[2];
+    out.push(slug);
+  }
+  return out;
+}
+
 // --- main -------------------------------------------------------------------
 
 async function exportCompetition(slug) {
@@ -164,10 +189,15 @@ async function exportCompetition(slug) {
 }
 
 async function main() {
-  if (!COMPETITIONS.length) { console.error('COMPETITIONS is empty'); process.exit(1); }
   await mkdir(OUT_DIR, { recursive: true });
+  let slugs = COMPETITIONS;
+  if (!slugs.length) {
+    slugs = (await discoverCompetitions()).filter(c => !BLACKLIST.includes(c)).map(c => c);
+    if (!slugs.length) { console.error('No competitions discovered on ' + BASE + '/competitions'); process.exit(1); }
+    console.log(`discovered ${slugs.length} competitions (blacklist: ${BLACKLIST.join(', ')})`);
+  }
   let failed = 0;
-  for (const slug of COMPETITIONS) {
+  for (const slug of slugs) {
     try {
       const data = await exportCompetition(slug);
       const file = `${OUT_DIR}/${slug}.json`;
