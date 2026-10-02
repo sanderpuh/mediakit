@@ -12,7 +12,7 @@ const DATA_BASE = "../data/";
 
 // Default competition in the dropdown (the index.json slug), used when the
 // visitor has no saved selection.
-const COMPETITION = "ddr-whoop-league";
+const COMPETITION = "dutch-nationals";
 
 // The dropdown lists exactly what index.json contains: the competition JSON
 // files the export script wrote. data/manual-events.json is not in the index
