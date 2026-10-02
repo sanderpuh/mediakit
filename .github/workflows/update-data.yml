@@ -10,6 +10,11 @@
 # Triggers:
 #   - Nightly at 02:00 UTC (cron schedules on GitHub can drift a few minutes).
 #   - Manually, via "Run workflow" in the GitHub Actions tab.
+#     Tick "Full scrape" to re-fetch every event, ignoring cached results.
+#
+# Incremental updates: the script keeps an event cached once its results are a
+# week old, so a normal run only fetches the competition overview pages plus
+# any upcoming/recent events. Use the full scrape for corrections.
 #
 # Requirements:
 #   - The repo needs Actions enabled, and this workflow needs write access:
@@ -24,7 +29,13 @@ name: Update FPVScores data
 on:
   schedule:
     - cron: '0 2 * * *'   # daily 02:00 UTC
-  workflow_dispatch: {}    # manual "Run workflow" button
+  workflow_dispatch:
+    inputs:
+      full_scrape:
+        description: 'Full scrape: re-fetch every event, ignoring cached results'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
@@ -49,6 +60,7 @@ jobs:
       - name: Fetch and export data from FPVScores
         env:
           OUT_DIR: 'data'
+          FULL_SCRAPE: ${{ inputs.full_scrape && '1' || '0' }}
           # Optional: leave COMPETITIONS unset to auto-discover all competitions
           # on fpvscores.com/competitions, minus the script's blacklist.
         run: node scripts/update-data.mjs
