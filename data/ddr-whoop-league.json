@@ -1,0 +1,52 @@
+{
+  "competition": "ddr-whoop-league",
+  "generatedAt": "2026-10-02T20:16:21.713Z",
+  "source": "https://fpvscores.com/competitions/ddr-whoop-league",
+  "events": [
+    {
+      "uid": "2QXCWHQob8",
+      "title": "WhoopStorm – Whoop League 26/27 Gymzaal Kanunnik Faberstraat",
+      "date": "2026-11-14",
+      "upcoming": true,
+      "url": "https://fpvscores.com/events/2QXCWHQob8/results",
+      "ok": false,
+      "pilots": []
+    },
+    {
+      "uid": "mSxxyVObbO",
+      "title": "Turbo Takeoff – Whoop League 26/27 Gymzaal Kanunnik Faberstraat",
+      "date": "2026-12-12",
+      "upcoming": true,
+      "url": "https://fpvscores.com/events/mSxxyVObbO/results",
+      "ok": false,
+      "pilots": []
+    },
+    {
+      "uid": "2Y5v1S2B3r",
+      "title": "Velocity Vortex – Whoop League 26/27 Gymzaal Kanunnik Faberstraat",
+      "date": "2027-01-23",
+      "upcoming": true,
+      "url": "https://fpvscores.com/events/2Y5v1S2B3r/results",
+      "ok": false,
+      "pilots": []
+    },
+    {
+      "uid": "ISbf5ifePU",
+      "title": "Frostbite Flyers – Whoop League 26/27 Gymzaal Kanunnik Faberstraat",
+      "date": "2027-02-20",
+      "upcoming": true,
+      "url": "https://fpvscores.com/events/ISbf5ifePU/results",
+      "ok": false,
+      "pilots": []
+    },
+    {
+      "uid": "JDeiyyjE3C",
+      "title": "Neon Finale – Whoop League 26/27 Gymzaal Kanunnik Faberstraat",
+      "date": "2027-03-20",
+      "upcoming": true,
+      "url": "https://fpvscores.com/events/JDeiyyjE3C/results",
+      "ok": false,
+      "pilots": []
+    }
+  ]
+}
