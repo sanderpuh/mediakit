@@ -1,0 +1,70 @@
+# GitHub Actions workflow: refresh FPVScores race data for the ranking page.
+#
+# What it does:
+#   1. Runs the export script (scripts/update-data.mjs), which scrapes the
+#      competitions listed in competitions.json and writes one JSON file per
+#      competition into data/.
+#   2. Commits only if the JSON actually changed (no empty commits).
+#   3. The push triggers GitHub Pages to rebuild and serve the fresh data.
+#
+# Triggers:
+#   - Nightly at 02:00 UTC (cron schedules on GitHub can drift a few minutes).
+#   - Manually, via "Run workflow" in the GitHub Actions tab.
+#
+# Requirements:
+#   - The repo needs Actions enabled, and this workflow needs write access:
+#     Settings > Actions > General > Workflow permissions > "Read and write".
+#   - Node 20 or newer on the runner (below, via actions/setup-node).
+#   - Adjust COMPETITIONS / OUT_DIR / script paths to match the repo layout.
+
+name: Update FPVScores data
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # daily 02:00 UTC
+  workflow_dispatch: {}    # manual "Run workflow" button
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch and export data from FPVScores
+        env:
+          COMPETITIONS: 'ddr-whoop-league,belgian-championship-f9u,dutch-nationals-2026'
+          OUT_DIR: 'data'
+        run: node scripts/update-data.mjs
+
+      - name: Commit data if changed
+        id: commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Update FPVScores race data [skip ci]'
+          file_pattern: 'data/*.json'
+          # The action commits only when files actually changed, so quiet
+          # nights produce no commits.
+          skip_fetch: true
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ -n "${{ steps.commit.outputs.commit_hash }}" ]; then
+            echo "Data updated: commit ${{ steps.commit.outputs.commit_hash }}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No changes since last run" >> "$GITHUB_STEP_SUMMARY"
+          fi
