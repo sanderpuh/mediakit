@@ -1,6 +1,6 @@
 {
   "competition": "dutch-nationals",
-  "generatedAt": "2026-10-02T20:21:42.651Z",
+  "generatedAt": "2026-10-02T20:33:37.812Z",
   "source": "https://fpvscores.com/competitions/dutch-nationals",
   "events": [
     {
@@ -561,6 +561,79 @@
           "slug": "pilot-25360",
           "url": null,
           "fieldSize": 21
+        }
+      ]
+    },
+    {
+      "uid": "nk-drone-racing-2026-finals",
+      "title": "NK Drone Racing 2026 - Finals",
+      "date": null,
+      "upcoming": false,
+      "url": null,
+      "ok": true,
+      "pilots": [
+        {
+          "name": "Jordy Peek",
+          "cs": "Keepy",
+          "pos": 1,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "keepy",
+          "url": "https://fpvscores.com/u/keepy",
+          "fieldSize": 7
+        },
+        {
+          "name": "Sander Puttenstein",
+          "cs": "SanderPuh",
+          "pos": 2,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "sanderpuh",
+          "url": "https://fpvscores.com/u/sanderpuh",
+          "fieldSize": 7
+        },
+        {
+          "name": "Andrzej Krasny",
+          "cs": "Crash",
+          "pos": 3,
+          "flag": "https://flagcdn.com/40x30/pl.webp",
+          "slug": "crashalot",
+          "url": "https://fpvscores.com/u/crashalot",
+          "fieldSize": 7
+        },
+        {
+          "name": "Thijs Berenstein",
+          "cs": "Lil rippuh FPV",
+          "pos": 4,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "lil-rippuh-fpv",
+          "url": "https://fpvscores.com/u/lil-rippuh-fpv",
+          "fieldSize": 7
+        },
+        {
+          "name": "Manolito Snell",
+          "cs": "mano",
+          "pos": 5,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "mano",
+          "url": "https://fpvscores.com/u/mano",
+          "fieldSize": 7
+        },
+        {
+          "name": "Marijn Koesen",
+          "cs": "Captain M",
+          "pos": 6,
+          "flag": null,
+          "slug": "captainm",
+          "url": "https://fpvscores.com/u/captainm",
+          "fieldSize": 7
+        },
+        {
+          "name": "Roland van Helden",
+          "cs": "Whatsnext",
+          "pos": 7,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "whatsnext",
+          "url": "https://fpvscores.com/u/whatsnext",
+          "fieldSize": 7
         }
       ]
     }
