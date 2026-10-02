@@ -55,7 +55,7 @@ jobs:
 
       - name: Commit data if changed
         id: commit
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'Update FPVScores race data [skip ci]'
           file_pattern: 'data/*.json'
