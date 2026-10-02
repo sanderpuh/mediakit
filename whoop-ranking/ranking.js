@@ -172,7 +172,7 @@ function buildTable(results, mode) {
             if (!entry.slug && p.slug) { entry.slug = p.slug; entry.slugIsUser = p.slugIsUser !== false; }
             if (!entry.flag && p.flag) entry.flag = p.flag;
             if (!entry.cs && p.cs) entry.cs = p.cs;
-            entry.scores.push({ points: ddrPoints(p.pos), pdrnl: pdrnlPoints(p.pos, r.pilots.length), raceIdx: i, slug: p.slug });
+            entry.scores.push({ points: ddrPoints(p.pos), pdrnl: pdrnlPoints(p.pos, r.pilots.length), raceIdx: i, pos: p.pos, slug: p.slug });
         });
     });
 
@@ -235,7 +235,7 @@ function buildTable(results, mode) {
             ? '<span class="pilot-sub">' + escapeHtml(entry.cs) + "</span>"
             : "";
         html += '<td class="pilot">' + nameHtml + (entry.flag ? ' <img class="flag-img" src="' + escapeHtml(entry.flag) + '" alt="" width="16" height="12" loading="lazy">' : "") + subHtml + "</td>";
-        html += '<td class="num">' + fmt(entry.total) + "</td>";
+        html += '<td class="num total-cell">' + fmt(entry.total) + "</td>";
         html += '<td class="sep"></td>';
 
         results.forEach((r, rIdx) => {
@@ -250,13 +250,16 @@ function buildTable(results, mode) {
                 html += '<td class="' + cls + '" title="No entry on FPVScores - counts as last place' + (title ? "; " + title : "") + '">' + (ddr ? "1" : "100") + "</td>";
             } else if (s) {
                 const scoreTxt = fmt(ddr ? s.points : s.pdrnl);
+                const podium = (s.pos && s.pos <= 3)
+                    ? '<span class="podium p' + s.pos + '">' + scoreTxt + "</span>"
+                    : '<span class="score-txt">' + scoreTxt + "</span>";
                 if (s.slug) {
                     const href = "https://fpvscores.com/events/" + r.uid + "/results/" + encodeURIComponent(s.slug);
                     html += '<td class="' + cls + '"><a href="' + href + '" target="_blank" rel="noopener"' +
-                        (title ? ' title="' + title + '"' : '') + ">" + scoreTxt + "</a></td>";
+                        (title ? ' title="' + title + '"' : '') + ">" + podium + "</a></td>";
                 } else {
                     html += '<td class="' + cls + '"' +
-                        (title ? ' title="' + title + '"' : '') + ">" + scoreTxt + "</td>";
+                        (title ? ' title="' + title + '"' : '') + ">" + podium + "</td>";
                 }
             } else {
                 html += '<td class="num missed">–</td>';
@@ -269,7 +272,7 @@ function buildTable(results, mode) {
     const status = document.getElementById("status");
     const failed = results.filter((r) => !r.ok);
     const loaded = results.length - failed.length;
-    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded. Total = sum of the " +
+    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded, total = sum of the " +
         SCORED_RACES + " best race scores (" + RANKING_MODES[mode].label + ").";
     if (failed.length) {
         msg += " Could not load: " + failed.map((r) => r.uid).join(", ");
