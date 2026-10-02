@@ -1,6 +1,6 @@
 {
   "competition": "dutch-nationals",
-  "generatedAt": "2026-10-02T21:29:42.727Z",
+  "generatedAt": "2026-10-02T21:41:06.188Z",
   "source": "https://fpvscores.com/competitions/dutch-nationals",
   "events": [
     {
@@ -502,7 +502,7 @@
       "title": "NK Drone Racing 2026 - Finals",
       "date": "2026-09-06",
       "upcoming": false,
-      "url": null,
+      "url": "https://fpvscores.com/events/1Rm0iap4Um/results?class=4&type=race_time",
       "final": true,
       "ok": true,
       "pilots": [
