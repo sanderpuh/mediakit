@@ -176,7 +176,7 @@ td.num.dropped .podium{border-style:dashed}
             <p class="hero-tagline">Season standings - live from FPVScores</p>
             <div class="controls">
                 <select id="comp-select"></select>
-                <button type="button" id="refresh-btn" title="Re-scrape all events from FPVScores">&#8635; Reload races from competition</button>
+                <button type="button" id="refresh-btn" title="Re-download the JSON data">&#8635; Reload races from competition</button>
                 <span class="controls-spacer"></span>
             </div>
             <div id="status">Loading…</div>
@@ -200,8 +200,8 @@ td.num.dropped .podium{border-style:dashed}
 
     <div class="wrap note">
         A missed event counts as last place.
-        Two ranking formulas are available: DDR (default) and PDRNL. Scores are fetched live from
-        fpvscores.com and cached in your browser, use Reload races from competition to re-scrape.
+        Two ranking formulas are available: DDR (default) and PDRNL.
+        static JSON files generated daily by GitHub Actions and cached in your browser; use Reload races from competition to re-download.
         <div class="mode-row">
             <select id="mode-select" title="Ranking formula"></select>
         </div>
