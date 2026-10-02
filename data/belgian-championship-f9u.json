@@ -1,6 +1,6 @@
 {
   "competition": "belgian-championship-f9u",
-  "generatedAt": "2026-10-02T20:16:51.758Z",
+  "generatedAt": "2026-10-02T20:21:34.580Z",
   "source": "https://fpvscores.com/competitions/belgian-championship-f9u",
   "events": [
     {
@@ -18,7 +18,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "levio",
           "url": "https://fpvscores.com/u/levio",
-          "points": 11.11111111111111
+          "fieldSize": 9
         },
         {
           "name": "Tristan Goin",
@@ -27,7 +27,7 @@
           "flag": "https://flagcdn.com/40x30/fr.webp",
           "slug": "pilot-21750",
           "url": null,
-          "points": 22.22222222222222
+          "fieldSize": 9
         },
         {
           "name": "Noa Lovius",
@@ -36,7 +36,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-21744",
           "url": null,
-          "points": 33.333333333333336
+          "fieldSize": 9
         },
         {
           "name": "Jules",
@@ -45,7 +45,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-21714",
           "url": null,
-          "points": 44.44444444444444
+          "fieldSize": 9
         },
         {
           "name": "Mathieu",
@@ -54,7 +54,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-21732",
           "url": null,
-          "points": 55.55555555555556
+          "fieldSize": 9
         },
         {
           "name": "Thomas Moretti",
@@ -63,7 +63,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-21745",
           "url": null,
-          "points": 66.66666666666667
+          "fieldSize": 9
         },
         {
           "name": "Tommie",
@@ -72,7 +72,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-21739",
           "url": null,
-          "points": 77.77777777777777
+          "fieldSize": 9
         },
         {
           "name": "Rudi Vanhengel",
@@ -81,7 +81,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "gatecrasher",
           "url": "https://fpvscores.com/u/gatecrasher",
-          "points": 88.88888888888889
+          "fieldSize": 9
         },
         {
           "name": "Leonard Van Stee",
@@ -90,7 +90,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "vtchain",
           "url": "https://fpvscores.com/u/vtchain",
-          "points": 100
+          "fieldSize": 9
         }
       ]
     },
@@ -109,7 +109,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "dronedfpv",
           "url": "https://fpvscores.com/u/dronedfpv",
-          "points": 7.142857142857143
+          "fieldSize": 14
         },
         {
           "name": "Noa Lovius",
@@ -118,7 +118,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-22701",
           "url": null,
-          "points": 14.285714285714286
+          "fieldSize": 14
         },
         {
           "name": "Sander Puttenstein",
@@ -127,7 +127,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "sanderpuh",
           "url": "https://fpvscores.com/u/sanderpuh",
-          "points": 21.428571428571427
+          "fieldSize": 14
         },
         {
           "name": "Andrzej",
@@ -136,7 +136,7 @@
           "flag": "https://flagcdn.com/40x30/pl.webp",
           "slug": "crashalot",
           "url": "https://fpvscores.com/u/crashalot",
-          "points": 28.571428571428573
+          "fieldSize": 14
         },
         {
           "name": "Manual",
@@ -145,7 +145,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "manual",
           "url": "https://fpvscores.com/u/manual",
-          "points": 35.714285714285715
+          "fieldSize": 14
         },
         {
           "name": "Roeland",
@@ -154,7 +154,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "rollingfpv",
           "url": "https://fpvscores.com/u/rollingfpv",
-          "points": 42.857142857142854
+          "fieldSize": 14
         },
         {
           "name": "Manolito",
@@ -163,7 +163,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "mano",
           "url": "https://fpvscores.com/u/mano",
-          "points": 50
+          "fieldSize": 14
         },
         {
           "name": "Thomas Moretti",
@@ -172,7 +172,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-22702",
           "url": null,
-          "points": 57.142857142857146
+          "fieldSize": 14
         },
         {
           "name": "Adrien Agoston",
@@ -181,7 +181,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-22709",
           "url": null,
-          "points": 64.28571428571429
+          "fieldSize": 14
         },
         {
           "name": "Michel Hallet",
@@ -190,7 +190,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-22698",
           "url": null,
-          "points": 71.42857142857143
+          "fieldSize": 14
         },
         {
           "name": "Yassin Munoz",
@@ -199,7 +199,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-22704",
           "url": null,
-          "points": 78.57142857142857
+          "fieldSize": 14
         },
         {
           "name": "Tommie",
@@ -208,7 +208,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-22696",
           "url": null,
-          "points": 85.71428571428571
+          "fieldSize": 14
         },
         {
           "name": "Roland Helden",
@@ -217,7 +217,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "whatsnext",
           "url": "https://fpvscores.com/u/whatsnext",
-          "points": 92.85714285714286
+          "fieldSize": 14
         },
         {
           "name": "Bert de Rooij",
@@ -226,7 +226,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "lbb",
           "url": "https://fpvscores.com/u/lbb",
-          "points": 100
+          "fieldSize": 14
         }
       ]
     },
@@ -245,7 +245,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "levio",
           "url": "https://fpvscores.com/u/levio",
-          "points": 5.882352941176471
+          "fieldSize": 17
         },
         {
           "name": "Tore",
@@ -254,7 +254,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "thorrfpv",
           "url": "https://fpvscores.com/u/thorrfpv",
-          "points": 11.764705882352942
+          "fieldSize": 17
         },
         {
           "name": "Dennis Mennema",
@@ -263,7 +263,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "dronedfpv",
           "url": "https://fpvscores.com/u/dronedfpv",
-          "points": 17.647058823529413
+          "fieldSize": 17
         },
         {
           "name": "Noa Lovius",
@@ -272,7 +272,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23588",
           "url": null,
-          "points": 23.529411764705884
+          "fieldSize": 17
         },
         {
           "name": "Jules",
@@ -281,7 +281,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23558",
           "url": null,
-          "points": 29.41176470588235
+          "fieldSize": 17
         },
         {
           "name": "Jordy",
@@ -290,7 +290,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "keepy",
           "url": "https://fpvscores.com/u/keepy",
-          "points": 35.294117647058826
+          "fieldSize": 17
         },
         {
           "name": "Manual",
@@ -299,7 +299,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "manual",
           "url": "https://fpvscores.com/u/manual",
-          "points": 41.1764705882353
+          "fieldSize": 17
         },
         {
           "name": "Nicolas H",
@@ -308,7 +308,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23590",
           "url": null,
-          "points": 47.05882352941177
+          "fieldSize": 17
         },
         {
           "name": "Roeland",
@@ -317,7 +317,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "rollingfpv",
           "url": "https://fpvscores.com/u/rollingfpv",
-          "points": 52.94117647058823
+          "fieldSize": 17
         },
         {
           "name": "Manolito",
@@ -326,7 +326,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "mano",
           "url": "https://fpvscores.com/u/mano",
-          "points": 58.8235294117647
+          "fieldSize": 17
         },
         {
           "name": "Sander",
@@ -335,7 +335,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23565",
           "url": null,
-          "points": 64.70588235294117
+          "fieldSize": 17
         },
         {
           "name": "Yassin Munoz",
@@ -344,7 +344,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23591",
           "url": null,
-          "points": 70.58823529411765
+          "fieldSize": 17
         },
         {
           "name": "Adrien Agoston",
@@ -353,7 +353,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23596",
           "url": null,
-          "points": 76.47058823529412
+          "fieldSize": 17
         },
         {
           "name": "Rudi Vanhengel",
@@ -362,7 +362,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "gatecrasher",
           "url": "https://fpvscores.com/u/gatecrasher",
-          "points": 82.3529411764706
+          "fieldSize": 17
         },
         {
           "name": "Adrien Mertens",
@@ -371,7 +371,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23608",
           "url": null,
-          "points": 88.23529411764706
+          "fieldSize": 17
         },
         {
           "name": "Roland Helden",
@@ -380,7 +380,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "whatsnext",
           "url": "https://fpvscores.com/u/whatsnext",
-          "points": 94.11764705882354
+          "fieldSize": 17
         },
         {
           "name": "Tommie",
@@ -389,7 +389,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-23583",
           "url": null,
-          "points": 100
+          "fieldSize": 17
         }
       ]
     },
@@ -408,7 +408,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25488",
           "url": null,
-          "points": 14.285714285714286
+          "fieldSize": 7
         },
         {
           "name": "Thomas Moretti",
@@ -417,7 +417,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25489",
           "url": null,
-          "points": 28.571428571428573
+          "fieldSize": 7
         },
         {
           "name": "Michel Hallet",
@@ -426,7 +426,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25485",
           "url": null,
-          "points": 42.857142857142854
+          "fieldSize": 7
         },
         {
           "name": "Adrien Agoston",
@@ -435,7 +435,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25496",
           "url": null,
-          "points": 57.142857142857146
+          "fieldSize": 7
         },
         {
           "name": "Yassin Munoz",
@@ -444,7 +444,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25491",
           "url": null,
-          "points": 71.42857142857143
+          "fieldSize": 7
         },
         {
           "name": "Adrien Mertens",
@@ -453,7 +453,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25508",
           "url": null,
-          "points": 85.71428571428571
+          "fieldSize": 7
         },
         {
           "name": "Tommie",
@@ -462,7 +462,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25483",
           "url": null,
-          "points": 100
+          "fieldSize": 7
         }
       ]
     },
@@ -481,7 +481,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "thorrfpv",
           "url": "https://fpvscores.com/u/thorrfpv",
-          "points": 5.555555555555555
+          "fieldSize": 18
         },
         {
           "name": "Reinis Karklins",
@@ -490,7 +490,7 @@
           "flag": "https://flagcdn.com/40x30/lv.webp",
           "slug": "pilot-25704",
           "url": null,
-          "points": 11.11111111111111
+          "fieldSize": 18
         },
         {
           "name": "Noa Lovius",
@@ -499,7 +499,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25736",
           "url": null,
-          "points": 16.666666666666668
+          "fieldSize": 18
         },
         {
           "name": "Jules",
@@ -508,7 +508,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25707",
           "url": null,
-          "points": 22.22222222222222
+          "fieldSize": 18
         },
         {
           "name": "Jordy",
@@ -517,7 +517,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "keepy",
           "url": "https://fpvscores.com/u/keepy",
-          "points": 27.77777777777778
+          "fieldSize": 18
         },
         {
           "name": "Tiemen",
@@ -526,7 +526,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "tblender",
           "url": "https://fpvscores.com/u/tblender",
-          "points": 33.333333333333336
+          "fieldSize": 18
         },
         {
           "name": "Andrzej",
@@ -535,7 +535,7 @@
           "flag": "https://flagcdn.com/40x30/pl.webp",
           "slug": "crashalot",
           "url": "https://fpvscores.com/u/crashalot",
-          "points": 38.888888888888886
+          "fieldSize": 18
         },
         {
           "name": "Manual",
@@ -544,7 +544,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "manual",
           "url": "https://fpvscores.com/u/manual",
-          "points": 44.44444444444444
+          "fieldSize": 18
         },
         {
           "name": "Roeland",
@@ -553,7 +553,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "rollingfpv",
           "url": "https://fpvscores.com/u/rollingfpv",
-          "points": 50
+          "fieldSize": 18
         },
         {
           "name": "Manolito",
@@ -562,7 +562,7 @@
           "flag": "https://flagcdn.com/40x30/nl.webp",
           "slug": "mano",
           "url": "https://fpvscores.com/u/mano",
-          "points": 55.55555555555556
+          "fieldSize": 18
         },
         {
           "name": "Sander",
@@ -571,7 +571,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25714",
           "url": null,
-          "points": 61.111111111111114
+          "fieldSize": 18
         },
         {
           "name": "Mathieu",
@@ -580,7 +580,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25724",
           "url": null,
-          "points": 66.66666666666667
+          "fieldSize": 18
         },
         {
           "name": "Adrien Agoston",
@@ -589,7 +589,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25744",
           "url": null,
-          "points": 72.22222222222223
+          "fieldSize": 18
         },
         {
           "name": "Thomas Moretti",
@@ -598,7 +598,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25737",
           "url": null,
-          "points": 77.77777777777777
+          "fieldSize": 18
         },
         {
           "name": "Thorsten",
@@ -607,7 +607,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25706",
           "url": null,
-          "points": 83.33333333333333
+          "fieldSize": 18
         },
         {
           "name": "Michel Hallet",
@@ -616,7 +616,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25733",
           "url": null,
-          "points": 88.88888888888889
+          "fieldSize": 18
         },
         {
           "name": "Rudi Vanhengel",
@@ -625,7 +625,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "gatecrasher",
           "url": "https://fpvscores.com/u/gatecrasher",
-          "points": 94.44444444444444
+          "fieldSize": 18
         },
         {
           "name": "Tommie",
@@ -634,7 +634,7 @@
           "flag": "https://flagcdn.com/40x30/be.webp",
           "slug": "pilot-25731",
           "url": null,
-          "points": 100
+          "fieldSize": 18
         }
       ]
     },
