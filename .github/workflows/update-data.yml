@@ -15,7 +15,9 @@
 #   - The repo needs Actions enabled, and this workflow needs write access:
 #     Settings > Actions > General > Workflow permissions > "Read and write".
 #   - Node 20 or newer on the runner (below, via actions/setup-node).
-#   - Adjust COMPETITIONS / OUT_DIR / script paths to match the repo layout.
+#   - OUT_DIR below must match where the ranking page loads its JSON from.
+#   - The script auto-discovers all competitions on fpvscores.com/competitions;
+#     blacklist lives in scripts/update-data.mjs (DEFAULT_BLACKLIST).
 
 name: Update FPVScores data
 
@@ -46,8 +48,9 @@ jobs:
 
       - name: Fetch and export data from FPVScores
         env:
-          COMPETITIONS: 'ddr-whoop-league,belgian-championship-f9u,dutch-nationals-2026'
           OUT_DIR: 'data'
+          # Optional: leave COMPETITIONS unset to auto-discover all competitions
+          # on fpvscores.com/competitions, minus the script's blacklist.
         run: node scripts/update-data.mjs
 
       - name: Commit data if changed
