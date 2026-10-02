@@ -142,7 +142,8 @@ function buildTable(results) {
                     ? '<span class="podium p' + s.pos + '">' + scoreTxt + "</span>"
                     : '<span class="score-txt">' + scoreTxt + "</span>";
                 if (s.slug && r.url) {
-                    const href = r.url + "/" + encodeURIComponent(s.slug);
+                    const base = r.url.split("?")[0]; // drop ?class=&type= for pilot pages
+                    const href = base + "/" + encodeURIComponent(s.slug);
                     html += '<td class="' + cls + '"><a href="' + href + '" target="_blank" rel="noopener"' +
                         (title ? ' title="' + title + '"' : '') + ">" + podium + "</a></td>";
                 } else {
