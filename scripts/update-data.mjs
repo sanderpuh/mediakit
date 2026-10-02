@@ -166,8 +166,10 @@ async function exportCompetition(slug) {
     }
     const pilots = parseResults(html);
     const total = pilots.length;
-    // points identical to the browser parser: pos*100/total, lower is better
-    pilots.forEach(p => { p.points = total ? (p.pos * 100) / total : 0; });
+    // No points stored in the JSON: the website calculates them from pos
+    // (DDR: top 16 get 16..1, below that 1; PDRNL: pos*100/fieldSize).
+    // fieldSize is kept so PDRNL can be recomputed client-side.
+    pilots.forEach(p => { p.fieldSize = total; });
     exported.push({
       ...ev,
       url: resultsUrl,
