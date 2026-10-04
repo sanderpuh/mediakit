@@ -1,6 +1,6 @@
 {
   "competition": "belgian-championship-f9u",
-  "generatedAt": "2026-10-03T07:39:30.989Z",
+  "generatedAt": "2026-10-04T07:49:08.671Z",
   "source": "https://fpvscores.com/competitions/belgian-championship-f9u",
   "events": [
     {
@@ -593,7 +593,7 @@
       "uid": "ZHyyFxzqjL",
       "title": "Belgian Championship F9U Heat 9 - OMAC OMAC",
       "date": "2026-10-03",
-      "upcoming": true,
+      "upcoming": false,
       "url": "https://fpvscores.com/events/ZHyyFxzqjL/ranking",
       "ok": false,
       "pilots": []
