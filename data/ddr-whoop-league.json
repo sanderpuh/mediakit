@@ -1,16 +1,257 @@
 {
   "competition": "ddr-whoop-league",
-  "generatedAt": "2026-11-14T08:39:15.762Z",
+  "generatedAt": "2026-11-15T08:52:14.505Z",
   "source": "https://fpvscores.com/competitions/ddr-whoop-league",
   "events": [
     {
       "uid": "2QXCWHQob8",
       "title": "WhoopStorm – Whoop League 26/27 Gymzaal Kanunnik Faberstraat",
       "date": "2026-11-14",
-      "upcoming": true,
+      "upcoming": false,
       "url": "https://fpvscores.com/events/2QXCWHQob8/ranking",
-      "ok": false,
-      "pilots": []
+      "ok": true,
+      "pilots": [
+        {
+          "name": "Andrzej Krasny",
+          "cs": "CrashaLot",
+          "pos": 1,
+          "flag": "https://flagcdn.com/40x30/pl.webp",
+          "slug": "crashalot",
+          "url": "https://fpvscores.com/u/crashalot"
+        },
+        {
+          "name": "Reinis Karklins",
+          "cs": "ReeFPV",
+          "pos": 2,
+          "flag": "https://flagcdn.com/40x30/lv.webp",
+          "slug": "reefpv",
+          "url": "https://fpvscores.com/u/reefpv"
+        },
+        {
+          "name": "Benedikt Heitmann",
+          "cs": "",
+          "pos": 3,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Noah Witzke",
+          "cs": "",
+          "pos": 4,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Christopher Hegner",
+          "cs": "CHRIS",
+          "pos": 5,
+          "flag": "https://flagcdn.com/40x30/de.webp",
+          "slug": "chris",
+          "url": "https://fpvscores.com/u/chris"
+        },
+        {
+          "name": "Joel Silawanebessy",
+          "cs": "Micro FPV",
+          "pos": 6,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "microfpv",
+          "url": "https://fpvscores.com/u/microfpv"
+        },
+        {
+          "name": "Sander Puttenstein",
+          "cs": "SanderPuh",
+          "pos": 7,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "sanderpuh",
+          "url": "https://fpvscores.com/u/sanderpuh"
+        },
+        {
+          "name": "Manolito Snell",
+          "cs": "mano",
+          "pos": 8,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "mano",
+          "url": "https://fpvscores.com/u/mano"
+        },
+        {
+          "name": "Olivier Onstenk",
+          "cs": "BasherFPV",
+          "pos": 9,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "basherfpv",
+          "url": "https://fpvscores.com/u/basherfpv"
+        },
+        {
+          "name": "Chris Thijssen",
+          "cs": "Dreamix",
+          "pos": 10,
+          "flag": null,
+          "slug": "dreamix",
+          "url": "https://fpvscores.com/u/dreamix"
+        },
+        {
+          "name": "Elwin van der Meer",
+          "cs": "StarLite",
+          "pos": 11,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "starlite",
+          "url": "https://fpvscores.com/u/starlite"
+        },
+        {
+          "name": "Emrys Brokking",
+          "cs": "DroneKoorts",
+          "pos": 12,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "dronekoorts",
+          "url": "https://fpvscores.com/u/dronekoorts"
+        },
+        {
+          "name": "Thijs Berenstein",
+          "cs": "Lil rippuh FPV",
+          "pos": 13,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "lil-rippuh-fpv",
+          "url": "https://fpvscores.com/u/lil-rippuh-fpv"
+        },
+        {
+          "name": "Dawid Kapusciak",
+          "cs": "KREMOS",
+          "pos": 14,
+          "flag": "https://flagcdn.com/40x30/pl.webp",
+          "slug": "kremos",
+          "url": "https://fpvscores.com/u/kremos"
+        },
+        {
+          "name": "Leon Stegemann",
+          "cs": "",
+          "pos": 15,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Maarten Ostermann",
+          "cs": "",
+          "pos": 16,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Vincent Veenbrink",
+          "cs": "DutchWolfFPV",
+          "pos": 17,
+          "flag": null,
+          "slug": "dutchwolffpv",
+          "url": "https://fpvscores.com/u/dutchwolffpv"
+        },
+        {
+          "name": "Maarten Duyzers",
+          "cs": "",
+          "pos": 18,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Jaan Lavrysen",
+          "cs": "Bananabeast",
+          "pos": 19,
+          "flag": "https://flagcdn.com/40x30/be.webp",
+          "slug": "bananabeast",
+          "url": "https://fpvscores.com/u/bananabeast"
+        },
+        {
+          "name": "Tim Smeets",
+          "cs": "",
+          "pos": 20,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Wojtek Dobrowolski",
+          "cs": "Wojtek FPV",
+          "pos": 21,
+          "flag": "https://flagcdn.com/40x30/pl.webp",
+          "slug": "wojtekfpv",
+          "url": "https://fpvscores.com/u/wojtekfpv"
+        },
+        {
+          "name": "Chauvaux Chauvaux",
+          "cs": "",
+          "pos": 22,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Michal Zygowski",
+          "cs": "Mee-How",
+          "pos": 23,
+          "flag": "https://flagcdn.com/40x30/pl.webp",
+          "slug": "mee-how",
+          "url": "https://fpvscores.com/u/mee-how"
+        },
+        {
+          "name": "Pascal Appeldoorn",
+          "cs": "",
+          "pos": 24,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Indi von Eijnsbergen",
+          "cs": "IndiFPV",
+          "pos": 25,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "indifpv",
+          "url": "https://fpvscores.com/u/indifpv"
+        },
+        {
+          "name": "Daniel Demeter",
+          "cs": "Dooni",
+          "pos": 26,
+          "flag": "https://flagcdn.com/40x30/hu.webp",
+          "slug": "dooni",
+          "url": "https://fpvscores.com/u/dooni"
+        },
+        {
+          "name": "Werner Lehmann",
+          "cs": "",
+          "pos": 27,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Paul Thorwirth",
+          "cs": "",
+          "pos": 28,
+          "flag": null,
+          "slug": null,
+          "url": null
+        },
+        {
+          "name": "Sander Slikker",
+          "cs": "SLIKFPV",
+          "pos": 29,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": "slikfpv-1",
+          "url": "https://fpvscores.com/u/slikfpv-1"
+        },
+        {
+          "name": "Patrick Litjens",
+          "cs": "",
+          "pos": 30,
+          "flag": "https://flagcdn.com/40x30/nl.webp",
+          "slug": null,
+          "url": null
+        }
+      ]
     },
     {
       "uid": "mSxxyVObbO",
