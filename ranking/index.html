@@ -104,7 +104,27 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17p
 /* ranking-formula dropdown styles removed with the PDRNL option */
 
 /* ===== table, like the site's log-table ===== */
-.table-wrap{overflow-x:auto;padding-bottom:56px}
+.table-wrap{overflow-x:auto;padding-bottom:16px}
+.status-wrap{padding-bottom:16px}
+
+/* ===== how the ranking works ===== */
+.rules{padding:6px 0 56px}
+.rules-card{
+  background:var(--card);border:2px solid var(--ink);border-radius:14px;
+  box-shadow:0 4px 0 rgba(35,16,0,.18);padding:26px 28px;max-width:760px
+}
+.rules h2{
+  font-family:var(--head);font-size:clamp(1.3rem,2.8vw,1.7rem);color:var(--ink);
+  margin:0 0 16px
+}
+.rules h2 .hl-y{color:var(--yellow)}
+.rules dl{margin:0}
+.rules dt{
+  font-family:var(--head);font-size:1.05rem;color:var(--ink);margin:16px 0 4px
+}
+.rules dt:first-child{margin-top:0}
+.rules dd{margin:0;font-size:15px;line-height:1.5;color:#3d2a18}
+.rules .note{margin-top:18px;font-size:13px;color:var(--muted2,#8f7a5f)}
 .rank-table{
   width:100%;min-width:760px;
   border-collapse:separate;border-spacing:0;
@@ -170,7 +190,6 @@ td.num.dropped .podium{border-style:dashed}
             <div class="controls">
                 <select id="comp-select"></select>
             </div>
-            <div id="status">Loading…</div>
         </div>
     </section>
 
@@ -188,6 +207,39 @@ td.num.dropped .podium{border-style:dashed}
             <tbody id="ranking-body"></tbody>
         </table>
     </div>
+
+    <div class="wrap status-wrap">
+        <div id="status">Loading…</div>
+    </div>
+
+    <section class="rules">
+        <div class="wrap">
+            <div class="rules-card">
+                <h2>How the <span class="hl-y">ranking</span> works</h2>
+                <dl>
+                    <dt>Points per race</dt>
+                    <dd>Every ranking event pays out to the top 16: the winner takes 16 points, then one less
+                        per place down the order. Anyone finishing 16th or lower still takes 1 point, so a
+                        full field always scores.</dd>
+
+                    <dt>Counting towards your total</dt>
+                    <dd>Only your three best races count &mdash; weak or missed rounds drop off, so one bad
+                        day does not sink a season. The maximum from the regular season is therefore 48 points.</dd>
+
+                    <dt>The final</dt>
+                    <dd>The 16 highest-ranked pilots qualify for the final, where the points on offer are
+                        multiplied by 1.2. That extra weight gives the deciding race more influence than a
+                        regular round, while a consistent season still earns you the place to be in it.</dd>
+
+                    <dt>Ties</dt>
+                    <dd>Equal totals are ordered exactly as FPVScores orders them. The page shows the
+                        published standings, it does not recalculate tie-breaks.</dd>
+                </dl>
+                <p class="note">Standings are generated automatically from the results published on FPVScores
+                    after every event. Upcoming events show as 1 point until they are raced.</p>
+            </div>
+        </div>
+    </section>
 
 
     <script src="events.js"></script>
