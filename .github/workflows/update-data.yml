@@ -8,7 +8,9 @@
 #   3. The push triggers GitHub Pages to rebuild and serve the fresh data.
 #
 # Triggers:
-#   - Nightly at 02:00 UTC (cron schedules on GitHub can drift a few minutes).
+#   - Mondays at 00:00 UTC — 02:00 in the Netherlands in summer (CEST),
+#     01:00 in winter (CET). GitHub cron is always UTC and can drift a few
+#     minutes.
 #   - Manually, via "Run workflow" in the GitHub Actions tab.
 #     Tick "Full scrape" to re-fetch every event, ignoring cached results.
 #
@@ -29,7 +31,7 @@ name: Update FPVScores data
 
 on:
   schedule:
-    - cron: '0 2 * * *'   # daily 02:00 UTC
+    - cron: '0 0 * * 1'   # Mondays 00:00 UTC = 02:00 Amsterdam (CEST)
   workflow_dispatch:
     inputs:
       full_scrape:
@@ -73,8 +75,8 @@ jobs:
         with:
           commit_message: 'Update FPVScores race data [skip ci]'
           file_pattern: 'data/*.json'
-          # The action commits only when files actually changed, so quiet
-          # nights produce no commits.
+          # The action commits only when files actually changed, so a quiet
+          # week produces no commits.
           skip_fetch: true
 
       - name: Summary
