@@ -109,9 +109,10 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17p
 
 /* ===== how the ranking works ===== */
 .rules{padding:6px 0 56px}
+.rules .wrap{max-width:1100px}
 .rules-card{
   background:var(--card);border:2px solid var(--ink);border-radius:14px;
-  box-shadow:0 4px 0 rgba(35,16,0,.18);padding:26px 28px;max-width:760px
+  box-shadow:0 4px 0 rgba(35,16,0,.18);padding:26px 28px
 }
 .rules h2{
   font-family:var(--head);font-size:clamp(1.3rem,2.8vw,1.7rem);color:var(--ink);
@@ -223,7 +224,7 @@ td.num.dropped .podium{border-style:dashed}
                         full field always scores.</dd>
 
                     <dt>Counting towards your total</dt>
-                    <dd>Only your three best races count &mdash; weak or missed rounds drop off, so one bad
+                    <dd>Only your three best races count, so weak or missed rounds drop off and one bad
                         day does not sink a season. The maximum from the regular season is therefore 48 points.</dd>
 
                     <dt>The final</dt>
@@ -236,7 +237,8 @@ td.num.dropped .podium{border-style:dashed}
                         published standings, it does not recalculate tie-breaks.</dd>
                 </dl>
                 <p class="note">Standings are generated automatically from the results published on FPVScores
-                    after every event. Upcoming events show as 1 point until they are raced.</p>
+                    after every event. Races that have not run yet show as DNS in the table and score no
+                    points until they are raced.</p>
             </div>
         </div>
     </section>
