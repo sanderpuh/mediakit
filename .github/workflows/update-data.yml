@@ -21,8 +21,9 @@
 #     Settings > Actions > General > Workflow permissions > "Read and write".
 #   - Node 24 on the runner (below, via actions/setup-node).
 #   - OUT_DIR below must match where the ranking page loads its JSON from.
-#   - The script auto-discovers all competitions on fpvscores.com/competitions;
-#     blacklist lives in scripts/update-data.mjs (DEFAULT_BLACKLIST).
+#   - The script auto-discovers all competitions on fpvscores.com/competitions
+#     and keeps only the ones on the whitelist (DEFAULT_WHITELIST in
+#     scripts/update-data.mjs, extendable with the WHITELIST env below).
 
 name: Update FPVScores data
 
@@ -61,8 +62,9 @@ jobs:
         env:
           OUT_DIR: 'data'
           FULL_SCRAPE: ${{ inputs.full_scrape && '1' || '0' }}
-          # Optional: leave COMPETITIONS unset to auto-discover all competitions
-          # on fpvscores.com/competitions, minus the script's blacklist.
+          # Whitelist: only these competitions are exported. Defaults to
+          # DEFAULT_WHITELIST in the script; uncomment to add more.
+          # WHITELIST: 'another-competition-slug'
         run: node scripts/update-data.mjs
 
       - name: Commit data if changed
