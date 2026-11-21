@@ -12,9 +12,9 @@ const DATA_BASE = "../data/";
 
 // Default competition in the dropdown (the index.json slug), used when the
 // visitor has no saved selection.
-const COMPETITION = "dutch-nationals";
+const COMPETITION = "ddr-whoop-league";
 
 // The dropdown lists exactly what index.json contains: the competition JSON
 // files the export script wrote. data/manual-events.json is not in the index
-// and is never listed. Blacklisting happens in the export script, so nothing
-// to filter here.
+// and is never listed. The whitelist is applied in the export script, so there
+// is nothing to filter here.
