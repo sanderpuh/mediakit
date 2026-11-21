@@ -126,6 +126,8 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17p
 .rules dt:first-child{margin-top:0}
 .rules dd{margin:0;font-size:15px;line-height:1.5;color:#3d2a18}
 .rules .note{margin-top:18px;font-size:13px;color:var(--muted2,#8f7a5f)}
+.rules .note a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--muted2)}
+.rules .note a:hover{border-bottom-color:var(--ink)}
 .rank-table{
   width:100%;min-width:760px;
   border-collapse:separate;border-spacing:0;
@@ -227,18 +229,16 @@ td.num.dropped .podium{border-style:dashed}
                     <dd>Only your three best races count, so weak or missed rounds drop off and one bad
                         day does not sink a season. The maximum from the regular season is therefore 48 points.</dd>
 
-                    <dt>The final</dt>
-                    <dd>The 16 highest-ranked pilots qualify for the final, where the points on offer are
-                        multiplied by 1.2. That extra weight gives the deciding race more influence than a
-                        regular round, while a consistent season still earns you the place to be in it.</dd>
-
                     <dt>Ties</dt>
                     <dd>Equal totals are ordered exactly as FPVScores orders them. The page shows the
                         published standings, it does not recalculate tie-breaks.</dd>
                 </dl>
                 <p class="note">Standings are generated automatically from the results published on FPVScores
                     after every event. Races that have not run yet show as DNS in the table and score no
-                    points until they are raced.</p>
+                    points until they are raced. This section explains how this page reads that data; the
+                    official Dutch Nationals ranking rules are in the
+                    <a href="https://nkdroneracing.nl/reglement/" target="_blank" rel="noopener">NKDroneracing
+                    rulebook</a>.</p>
             </div>
         </div>
     </section>
