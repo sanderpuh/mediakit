@@ -168,10 +168,27 @@ function buildTable(results) {
     const status = document.getElementById("status");
     const failed = results.filter((r) => !r.ok);
     const loaded = results.length - failed.length;
-    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded, total = sum of the " +
-        SCORED_RACES + " best race scores.";
+    let msg = loaded + " event" + (loaded === 1 ? "" : "s") + " loaded.";
     if (failed.length) {
-        msg += " Could not load: " + failed.map((r) => r.uid).join(", ");
+        // Group the unloaded events by why they have no results, so the line
+        // reads as counts instead of a list of opaque event ids.
+        const upcoming = failed.filter((r) => r.placeholder);
+        const missing = failed.filter((r) => !r.placeholder);
+        const parts = [];
+        if (upcoming.length) {
+            parts.push(upcoming.length + " upcoming event" + (upcoming.length === 1 ? "" : "s") +
+                " - not raced yet");
+        }
+        if (missing.length) {
+            parts.push(missing.length + " event" + (missing.length === 1 ? "" : "s") +
+                " - no results on FPVScores");
+        }
+        msg += " Not counted: " + parts.join("; ") + ".";
+        // Full detail on hover, so the ids remain available without cluttering.
+        status.title = failed.map((r) => (r.title || r.uid) +
+            (r.placeholder ? " (upcoming" + (r.date ? ", " + r.date : "") + ")" : " (no results)")).join("\n");
+    } else {
+        status.removeAttribute("title");
     }
     status.textContent = msg;
 }
@@ -202,6 +219,7 @@ async function loadCompetition(slug) {
         return {
             uid: ev.uid,
             title: ev.title,
+            date: ev.date || null,
             url: ev.url || null,           // fpvscores results URL, null for manual events
             ok: pilots.length > 0,
             placeholder: !!(ev.upcoming || (ev.date && ev.date > today)),
