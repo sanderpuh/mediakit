@@ -4,7 +4,7 @@
 //
 // Env:
 //   COMPETITIONS  comma-separated competition slugs (optional: overrides discovery)
-//   BLACKLIST     comma-separated slugs to skip (optional: extends DEFAULT_BLACKLIST)
+//   WHITELIST     extra slugs to include (optional: extends DEFAULT_WHITELIST)
 //   OUT_DIR       output folder for the JSON files (default 'data')
 //   FULL_SCRAPE   set to '1' to re-fetch every event, ignoring freshness
 //
@@ -16,12 +16,16 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 
 const BASE = 'https://fpvscores.com';
 const OUT_DIR = process.env.OUT_DIR || 'data';
-// Competitions never to export or rank: big one-off events, etc.
-const DEFAULT_BLACKLIST = ['fai-wdc-2026', 'multigp-global-qualifiers-2026'];
-const BLACKLIST = [...DEFAULT_BLACKLIST,
-  ...(process.env.BLACKLIST || '').split(',').map(s => s.trim()).filter(Boolean)];
-// If COMPETITIONS is set, export exactly those; otherwise discover all
-// competitions listed on fpvscores.com/competitions and drop blacklisted ones.
+// Competitions to export and rank. This is a whitelist: anything discovered on
+// fpvscores.com that is not listed here is ignored.
+const DEFAULT_WHITELIST = [
+  'dutch-nationals',
+  'ddr-whoop-league'
+];
+const WHITELIST = [...new Set([...DEFAULT_WHITELIST,
+  ...(process.env.WHITELIST || '').split(',').map(s => s.trim()).filter(Boolean)])];
+// If COMPETITIONS is set, export exactly those; otherwise discover the
+// competitions listed on fpvscores.com/competitions and keep only whitelisted ones.
 const COMPETITIONS = (process.env.COMPETITIONS || '')
   .split(',').map(s => s.trim()).filter(Boolean);
 
@@ -314,9 +318,9 @@ async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   let slugs = COMPETITIONS;
   if (!slugs.length) {
-    slugs = (await discoverCompetitions()).filter(c => !BLACKLIST.includes(c.slug));
-    if (!slugs.length) { console.error('No competitions discovered on ' + BASE + '/competitions'); process.exit(1); }
-    console.log(`discovered ${slugs.length} competitions (blacklist: ${BLACKLIST.join(', ')})`);
+    slugs = (await discoverCompetitions()).filter(c => WHITELIST.includes(c.slug));
+    if (!slugs.length) { console.error('No whitelisted competitions found on ' + BASE + '/competitions (whitelist: ' + WHITELIST.join(', ') + ')'); process.exit(1); }
+    console.log(`discovered ${slugs.length} whitelisted competitions (whitelist: ${WHITELIST.join(', ')})`);
   }
   let failed = 0;
   const index = [];
